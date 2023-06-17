@@ -1,19 +1,24 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import Screen1 from './src/screens/screen1';
-import Screen2 from './src/screens/screen2';
+import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginPage from './src/screens/LoginPage';
+import SurveyPage from './src/screens/SurveyPage';
+import SurveyContext from './src/context/SurveyContext';
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [surveyData, setSurveyData] = useState({});
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Screen1">
-        <Stack.Screen name="Screen1" component={Screen1} />
-        <Stack.Screen name="Screen2" component={Screen2} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SurveyContext.Provider value={{ surveyData, setSurveyData }}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="LoginPage" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="SurveyPage" component={SurveyPage} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SurveyContext.Provider>
   );
 };
 
