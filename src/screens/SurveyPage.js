@@ -34,6 +34,13 @@ const SurveyPage = ({ navigation }) => {
     }
   };
 
+  const handlePreviousQuestion = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  };
+  
+
   if (isSurveyComplete) {
     return (
       <SafeAreaView style={styles.container}>
@@ -50,7 +57,7 @@ const SurveyPage = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <Text>{`${currentQuestion + 1} of ${questionsComponents.length}`}</Text>
-      <CurrentQuestionComponent onAnswer={handleAnswerOptionClick} />
+      <CurrentQuestionComponent onAnswer={handleAnswerOptionClick} onGoBack={handlePreviousQuestion} />
     </SafeAreaView>
   );
 };

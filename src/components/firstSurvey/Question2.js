@@ -1,33 +1,81 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Button, TextInput } from 'react-native';
 
-const answerOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+const answerOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4','Option 5'];
 
-const Question2 = ({ onAnswer }) => {
+const Question2 = ({ onAnswer, onGoBack }) => {
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [customAnswer, setCustomAnswer] = useState('');
+
+  const handleAnswerOptionClick = (option) => {
+    setSelectedOptions((prevOptions) => {
+      if (prevOptions.includes(option)) {
+        // Option already selected, deselect it
+        return prevOptions.filter((prevOption) => prevOption !== option);
+      } else {
+        // Option not selected yet, add it
+        return [...prevOptions, option];
+      }
+    });
+  };
+
   const renderAnswerOption = ({ item }) => {
+    const isSelected = selectedOptions.includes(item);
     return (
       <TouchableOpacity
-        style={styles.answerOption}
-        onPress={() => onAnswer(item)}
+        style={[
+          styles.answerOption,
+          { backgroundColor: isSelected ? 'gray' : 'white' },
+        ]}
+        onPress={() => handleAnswerOptionClick(item)}
       >
         <Text>{item}</Text>
       </TouchableOpacity>
     );
   };
 
+  const handleSubmit = () => {
+    const finalAnswers = customAnswer ? [...selectedOptions, customAnswer] : selectedOptions;
+    onAnswer(finalAnswers);
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>
-        We'd like to know you better...
-      </Text>
-      <Text style={styles.questionText}>Do you have any diet type?</Text>
+      <Text style={styles.questionText}>Do you have any medical conditions that restrict you from any extreme activities?</Text>
+
+      <TextInput
+        style={styles.input}
+        onChangeText={setCustomAnswer}
+        value={customAnswer}
+        placeholder="ie. Asthma, heart condition, etc."
+      />
+
+      <Text style={styles.questionText}>Do you have any allergies?</Text>
+
       <FlatList
         data={answerOptions}
-        numColumns={2}
         renderItem={renderAnswerOption}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.answerOptionsContainer}
+        numColumns={2} 
       />
+<View style={styles.buttonContainer}>
+  <View style={styles.buttonBack}>
+    <Button
+      color="gray" 
+      title="<"
+      onPress={onGoBack}
+    />
+  </View>
+  <View style={styles.buttonNext}>
+    <Button
+      color="gray" 
+      title="Next Step"
+      onPress={handleSubmit}
+    />
+  </View>
+</View>
+
     </View>
   );
 };
@@ -36,13 +84,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  headerText: {
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 32,
-    textAlign: 'center',
-    marginBottom: 20,
+    padding: 12,
   },
   questionText: {
     fontStyle: 'normal',
@@ -51,18 +93,39 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
+  input: {
+    height: 40,
+    width: 320,
+    margin: 12,
+    borderWidth: 0.5,
+    padding: 10,
+  },
   answerOptionsContainer: {
+  //  flexDirection: 'row',
+  //  flexWrap: 'wrap',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   answerOption: {
-    width: 150,
-    height: 150,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     backgroundColor: 'white',
-    borderRadius: 10,
-    margin: 10,
+    borderRadius: 25,
+    margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  buttonContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    //width: '80%',
+     //   paddingHorizontal: 12, 
+  },
+
+  buttonNext: {
+
+  }
 });
 
 export default Question2;
