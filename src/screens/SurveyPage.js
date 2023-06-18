@@ -6,8 +6,9 @@ import SurveyContext from '../context/SurveyContext';
 import Question1 from '../components/firstSurvey/Question1';
 import Question2 from '../components/firstSurvey/Question2';
 import Question3 from '../components/firstSurvey/Question3';
+import Question4 from '../components/firstSurvey/Question4'
 // Array of question components
-const questionsComponents = [Question1 , Question2, Question3];
+const questionsComponents = [Question1 , Question2, Question3, Question4];
 
 const SurveyPage = ({ navigation }) => {
   const { surveyData, setSurveyData } = useContext(SurveyContext);
@@ -46,7 +47,7 @@ const SurveyPage = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
         <Text>All done!</Text>
-        <Button title="Back to Login" onPress={() => navigation.navigate('LoginPage')} />
+        <Button title="Back to Login" color="gray" onPress={() => navigation.navigate('LoginPage')} />
       </SafeAreaView>
     );
   }
