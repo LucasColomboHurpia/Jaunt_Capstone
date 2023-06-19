@@ -46,8 +46,12 @@ const SurveyPage = ({ navigation }) => {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
-        <Text>All done!</Text>
-        <Button title="Back to Login" color="gray" onPress={() => navigation.navigate('LoginPage')} />
+        <Text style={styles.bigText}>You're all set</Text>
+        <Text style={styles.smallText}>Start First Activity</Text>
+        <Button title="Start Activity" color="gray" onPress={() => navigation.navigate('CreateActivity')} />
+        <View style={styles.gotohome}>
+          <Button title="Go to Home" color="gray" onPress={() => navigation.navigate('HomePage')} />
+        </View>
       </SafeAreaView>
     );
   }
@@ -69,6 +73,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 55,
+  },
+  bigText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  smallText: {
+    fontSize: 20,
+    marginBottom: 20,
+  },
+  gotohome: {
+    position: 'absolute',
+    bottom: 100,
+
   },
 });
 
