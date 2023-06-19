@@ -43,7 +43,7 @@ const FormSection = () => {
 
       <Text style={styles.inputTitle}>Time</Text>
       <View style={{ flexDirection: 'row' }}>
-        <TextInput style={styles.input} value={hour} onChangeText={setHour} keyboardType="number-pad" />
+        <TextInput style={styles.input} value={hour} onChangeText={setHour} keyboardType="number-pad" placeholder="" />
       </View>
     </View>
   );
@@ -52,7 +52,7 @@ const FormSection = () => {
 const CreateSection = ({ onCreate }) => {
   return (
     <View style={styles.createSection}>
-      <Button title="Create" color='grey' onPress={onCreate} />
+      <Button title="Create" color='gray' onPress={onCreate} />
     </View>
   );
 };
