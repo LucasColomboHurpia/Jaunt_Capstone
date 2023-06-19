@@ -1,68 +1,93 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import SurveyContext from '../../context/SurveyContext';
 
-const answerOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-
-const Question1 = ({ onAnswer, onGoBack  }) => {
-  const renderAnswerOption = ({ item }) => {
-    return (
-      <TouchableOpacity
-        style={styles.answerOption}
-        onPress={() => onAnswer(item)}
-      >
-        <Text>{item}</Text>
-      </TouchableOpacity>
-    );
-  };
+const ActivityQuestion1 = ({ onAnswer }) => {
+  const { surveyData } = useContext(SurveyContext);
+  const { ActivityParameters } = surveyData;
+  const { name } = ActivityParameters;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>
-        We'd like to know you better...
-      </Text>
-      <Text style={styles.questionText}>Do you have any diet type?</Text>
-      <FlatList
-        data={answerOptions}
-        numColumns={2}
-        renderItem={renderAnswerOption}
-        keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.answerOptionsContainer}
-      />
+      <Text style={styles.title}>{name}</Text>
+      <Text style={styles.subtitle}>What do you wanna do?</Text>
+      <View style={styles.optionsContainer}>
+        <TouchableOpacity style={styles.optionDo} onPress={() => onAnswer("Do Something")}>
+          <Text style={styles.optionText}>Do Something</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.optionEat} onPress={() => onAnswer("Eat Something")}>
+          <Text style={styles.optionText}>Eat Something</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.optionBoth} onPress={() => onAnswer("Both")}>
+          <Text style={styles.optionText}>Both</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.weatherText}>Temperature and weather goes here</Text>
     </View>
   );
 };
 
+const { height, width } = Dimensions.get('window');
+const optionsHeight = height * 0.6;
+
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
-  },
-  headerText: {
-    fontStyle: 'normal',
-    fontWeight: '700',
-    fontSize: 32,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  questionText: {
-    fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  answerOptionsContainer: {
     alignItems: 'center',
+    width: '100%',
+    padding: 20,
   },
-  answerOption: {
-    width: 150,
-    height: 150,
-    backgroundColor: 'white',
+  title: {
+    fontSize: 20,
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  optionsContainer: {
+    position: 'relative',
+    marginTop: 20,
+    height: optionsHeight,
+    width: '100%',
+    flexDirection: 'row',
     borderRadius: 10,
-    margin: 10,
-    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  optionDo: {
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#bbb', // Darker color for "Do Something"
+  },
+  optionEat: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ddd', // Lighter color for "Eat Something"
+  },
+  optionBoth: {
+    position: 'absolute',
+    bottom: 0,
+    height: 60, // Smaller height for the "Both" option
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#999', // Different color for the "Both" option
+  },
+  optionText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  weatherText: {
+    fontSize: 14,
+    marginTop: 20,
+    textAlign: 'center',
   },
 });
 
-export default Question1;
+export default ActivityQuestion1;

@@ -1,52 +1,47 @@
+import React, { useState, useContext } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, Button } from 'react-native';
+import SurveyContext from '../context/SurveyContext';
+import ActivityQuestion1 from '../components/ActivitySurvey/ActivityQuestion1';
+import ActivityQuestion2 from '../components/ActivitySurvey/ActivityQuestion2';
+import ActivityQuestion3 from '../components/ActivitySurvey/ActivityQuestion3';
+
+// Array of our survey components
+const questions = [ActivityQuestion1, ActivityQuestion2 , ActivityQuestion2];
+
 const ActivitySurvey = ({ navigation }) => {
-    const { surveyData, setSurveyData } = useContext(SurveyContext);
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [answers, setAnswers] = useState({});
-    const [isSurveyComplete, setSurveyComplete] = useState(false);
-  
-    const handleAnswerOptionClick = (answer) => {
-      setAnswers({ ...answers, [`answer${currentQuestion + 1}`]: answer });
-  
-      if (currentQuestion === questionsComponents.length - 1) {
-        // Last question, submit survey
-        const newSurveyData = {
-          ...surveyData,
-          ...answers,
-          [`answer${currentQuestion + 1}`]: answer,
-        };
-        setSurveyData(newSurveyData);
-        console.log(newSurveyData);
-        setSurveyComplete(true);
-      } else {
-        // Move to next question
-        setCurrentQuestion(currentQuestion + 1);
-      }
-    };
-  
-    const handlePreviousQuestion = () => {
-      if (currentQuestion > 0) {
-        setCurrentQuestion(currentQuestion - 1);
-      }
-    };
-  
-    if (isSurveyComplete) {
-      return (
-        <SafeAreaView style={styles.container}>
-          <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
-          <Text>Activity survey done!</Text>
-          <Button title="Back to Home" color="gray" onPress={() => navigation.navigate('HomePage')} />
-        </SafeAreaView>
-      );
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const { surveyData, setSurveyData } = useContext(SurveyContext);
+
+  const handleAnswer = (answer) => {
+    // Save the answer in our context
+    setSurveyData({
+      ...surveyData,
+      [`ActivityQuestion${currentQuestionIndex + 1}`]: answer,
+    });
+
+    // Go to the next question, or finish if this was the last question
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      navigation.navigate('ActivitySummary');
     }
-  
-    const CurrentQuestionComponent = questionsComponents[currentQuestion];
-  
-    return (
-      <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
-        <Text>{`${currentQuestion + 1} of ${questionsComponents.length}`}</Text>
-        <CurrentQuestionComponent onAnswer={handleAnswerOptionClick} onGoBack={handlePreviousQuestion} />
-      </SafeAreaView>
-    );
   };
-  
+
+  // Render the current question
+  const CurrentQuestion = questions[currentQuestionIndex];
+  return (
+    <SafeAreaView style={styles.container}>
+      <CurrentQuestion onAnswer={handleAnswer} />
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default ActivitySurvey;

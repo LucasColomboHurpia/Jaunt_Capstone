@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import SurveyContext from '../context/SurveyContext';
 
 const HeaderSection = () => {
@@ -26,13 +28,7 @@ const MemberSection = () => {
   );
 };
 
-
-const FormSection = () => {
-  const [activityName, setActivityName] = useState("");
-  const [date, setDate] = useState("");
-  const [hour, setHour] = useState("");
-  const [minute, setMinute] = useState("");
-
+const FormSection = ({ activityName, setActivityName, date, setDate, hour, setHour, minute, setMinute }) => {
   return (
     <View style={styles.formSection}>
       <Text style={styles.inputTitle}>Activity Name</Text>
@@ -43,7 +39,8 @@ const FormSection = () => {
 
       <Text style={styles.inputTitle}>Time</Text>
       <View style={{ flexDirection: 'row' }}>
-        <TextInput style={styles.input} value={hour} onChangeText={setHour} keyboardType="number-pad" placeholder="" />
+        <TextInput style={styles.input} value={hour} onChangeText={setHour} keyboardType="number-pad" placeholder="Hour (24h format)" />
+        <TextInput style={styles.input} value={minute} onChangeText={setMinute} keyboardType="number-pad" placeholder="Minute" />
       </View>
     </View>
   );
@@ -57,15 +54,41 @@ const CreateSection = ({ onCreate }) => {
   );
 };
 
-const CreateActivity = () => {
-  const { surveyData } = useContext(SurveyContext);
+const CreateActivity = ({ navigation }) => {
+  const [activityName, setActivityName] = useState("");
+  const [date, setDate] = useState("");
+  const [hour, setHour] = useState("");
+  const [minute, setMinute] = useState("");
+
+  const { surveyData, setSurveyData } = useContext(SurveyContext);
 
   useEffect(() => {
     console.log('Survey Data: ', surveyData);
   }, []);
 
   const handleCreate = () => {
-    // handle create button press
+    const dateTime = `${date} ${hour}:${minute}`;
+
+    let currentDate = new Date().toLocaleString();
+
+    if(date!==''){currentDate=dateTime}
+
+
+    const newActivity = {
+      name: activityName || 'New Activity',
+      dateTime: currentDate,
+    };
+
+    // Update surveyData with activityParameters
+    setSurveyData(prevData => ({
+      ...prevData,
+      ActivityParameters: newActivity,
+    }));
+
+    console.log(surveyData)
+    
+    // Navigate to ActivitySurvey after setting data
+    navigation.navigate('ActivitySurvey');
   };
 
   return (
@@ -78,6 +101,7 @@ const CreateActivity = () => {
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {
