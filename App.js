@@ -5,7 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginPage from './src/screens/LoginPage';
 import SurveyPage from './src/screens/SurveyPage';
 import CreateActivity from './src/screens/CreateActivity';
-import ActivitySurvey from './src/screens/ActivitySurvey'
+import ActivitySurvey from './src/screens/ActivitySurvey';
+import HomePage from './src/screens/HomePage'
 
 import SurveyContext from './src/context/SurveyContext';
 
@@ -18,8 +19,14 @@ const App = () => {
     <SurveyContext.Provider value={{ surveyData, setSurveyData }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LoginPage" screenOptions={{ headerShown: false }}>
+
           <Stack.Screen name="LoginPage" component={LoginPage} />
+
+
+
+          
           <Stack.Screen name="SurveyPage" component={SurveyPage} />
+          <Stack.Screen name="HomePage" component={HomePage}/>
           <Stack.Screen name="CreateActivity" component={CreateActivity} />
           <Stack.Screen name="ActivitySurvey" component={ActivitySurvey} />
         </Stack.Navigator>

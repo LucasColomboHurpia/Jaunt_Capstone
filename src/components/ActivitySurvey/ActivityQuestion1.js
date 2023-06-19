@@ -61,22 +61,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#bbb', // Darker color for "Do Something"
+    backgroundColor: '#bbb', 
   },
   optionEat: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ddd', // Lighter color for "Eat Something"
+    backgroundColor: '#ddd', 
   },
   optionBoth: {
     position: 'absolute',
     bottom: 0,
-    height: 60, // Smaller height for the "Both" option
+    height: 60, 
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#999', // Different color for the "Both" option
+    backgroundColor: '#999',
   },
   optionText: {
     fontSize: 18,
