@@ -7,6 +7,7 @@ import SurveyPage from './src/screens/SurveyPage';
 import CreateActivity from './src/screens/CreateActivity';
 import ActivitySurvey from './src/screens/ActivitySurvey';
 import HomePage from './src/screens/HomePage'
+import GroupPage from './src/screens/GroupPage';
 
 import SurveyContext from './src/context/SurveyContext';
 
@@ -21,14 +22,12 @@ const App = () => {
         <Stack.Navigator initialRouteName="LoginPage" screenOptions={{ headerShown: false }}>
 
           <Stack.Screen name="LoginPage" component={LoginPage} />
-
-
-
-          
           <Stack.Screen name="SurveyPage" component={SurveyPage} />
           <Stack.Screen name="HomePage" component={HomePage}/>
           <Stack.Screen name="CreateActivity" component={CreateActivity} />
           <Stack.Screen name="ActivitySurvey" component={ActivitySurvey} />
+          <Stack.Screen name="GroupPage" component={GroupPage} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </SurveyContext.Provider>
