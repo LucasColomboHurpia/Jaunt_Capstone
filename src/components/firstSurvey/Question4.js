@@ -9,6 +9,8 @@ const Question4 = ({ onAnswer, onGoBack }) => {
         onAnswer(sliderValue);
     };
 
+    ///TH SLIDER CHANGES DEPENDING ONYOUR QUESITONS
+
     return (
         <View style={styles.container}>
             <Text style={styles.questionText}>Are you ok with other people eating meat?</Text>

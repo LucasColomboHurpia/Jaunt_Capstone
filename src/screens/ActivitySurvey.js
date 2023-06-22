@@ -13,17 +13,21 @@ const ActivitySurvey = ({ navigation }) => {
 
   const handleAnswer = (answer) => {
     // Save the answer in our context
-    setSurveyData({
-      ...surveyData,
-      [`ActivityQuestion${currentQuestionIndex + 1}`]: answer,
-    });
+    setSurveyData((prevData) => {
+      const newData = { ...prevData, [`ActivityQuestion${currentQuestionIndex + 1}`]: answer };
 
-    // Go to the next question, or finish if this was the last question
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      navigation.navigate('ActivitySummary');
-    }
+      // Go to the next question, or finish if this was the last question
+      if (currentQuestionIndex < questions.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        console.log("Survey complete! Here's the data:");
+      
+        console.log(newData);
+        navigation.navigate('ActivitySummary');
+      }
+
+      return newData;
+    });
   };
 
   // Render the current question
