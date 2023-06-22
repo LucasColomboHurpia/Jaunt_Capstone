@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import { TouchableOpacity } from 'react-native';
+
 const API_KEY = "";
 
 const object = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
@@ -29,7 +34,7 @@ const SurveyResults = ({ navigation }) => {
       ]
     };
 
-    let amIWritingCodeAndWantToStopTheApi = true;
+    let amIWritingCodeAndWantToStopTheApi = true; // set this to true whhile coding here
 
     if (amIWritingCodeAndWantToStopTheApi) { setIsLoading(false); }
     else {
@@ -44,11 +49,12 @@ const SurveyResults = ({ navigation }) => {
         })
         .then(response => response.json())
         .then(data => {
+          console.log(data.choices[0].message.content)
           setData(JSON.parse(data.choices[0].message.content));
           setIsLoading(false);
         })
         .catch(error => {
-          console.error('Error:', error);
+          console.error('Error on api call:', error);
           setIsLoading(false);
         });
     }
@@ -63,12 +69,14 @@ const SurveyResults = ({ navigation }) => {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         data.map((item, index) => (
-          <View style={styles.optionBox} key={index}>
-            <Text style={styles.itemName}>{item.name}</Text>
-            <Text style={styles.itemText}>{item.address}</Text>
-            <Text style={styles.itemDescription}>{item.description}</Text>
+          <TouchableOpacity key={index} onPress={() => navigation.navigate('ActivityDashboard', { item })}>
+          <View style={styles.optionBox}>
+            <Text style={styles.itemName}> {item.name}</Text>
+            <Text style={styles.itemText}> {item.address}</Text>
+            <Text style={styles.itemDescription}> {item.description}</Text>
             <Text style={styles.itemTags}>Tags: {item.tags.join(', ')}</Text>
           </View>
+        </TouchableOpacity>
         ))
       )}
 
@@ -130,3 +138,4 @@ const styles = StyleSheet.create({
 });
 
 export default SurveyResults;
+
