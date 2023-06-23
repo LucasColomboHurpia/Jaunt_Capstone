@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { TouchableOpacity } from 'react-native';
 
-const API_KEY = "";
+const API_KEY = "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";
 
 const object = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
   "UserWouldLikeTo": "Do Something",
@@ -16,6 +16,31 @@ const object = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m."
   "DoLike": ["Fish", "Wine", "Bread"],
   "ChanceOfEnjoyingMeat": 6.625 }`;
 
+const exampleAPIresponse = `[
+  {
+    "address":"1260 Howe St, Vancouver, BC V6Z 1R3",
+    "coordinates": {"lat":49.2786918,"lng":-123.1252157},
+    "name":"Vancouver Art Gallery",
+    "description":"The Vancouver Art Gallery is a fosters awareness and understanding of contemporary and historical art with an emphasis on British Columbia, and provides education, research, and scholarship",
+    "tags":["art", "museum", "gallery"]
+},
+{
+    "address":"1661 Granville St, Vancouver, BC V6Z 1N3",
+    "coordinates": {"lat":49.2729471,"lng":-123.1311157},
+    "name":"Maru Korean Bistro",
+    "description":"Maru Korean Bistro is a cozy restaurant serving authentic Korean cuisine, including vegetarian and vegan options.",
+    "tags":["vegetarian", "restaurant","korean","affordable"]
+
+},
+{
+    "address":"900 Burrard St, Vancouver, BC V6Z 3G5",
+    "coordinates": {"lat":49.2827025,"lng":-123.1213828},
+    "name":"Vancouver International Film Festival",
+    "description":"The Vancouver International Film Festival is among the five largest film festivals in North America, screening films from more than 70 countries on nine screens.",
+    "tags":["film", "festival", "movie theatre", "entertainment"]
+}
+]`
+
 const systemMessage = {
   "role": "system",
   "content": "You are a helpful assistant that suggests activities and places to go based on the given parameters. if the 'UserWouldLikeTo' is 'Do Something', suugest a fun place to go, if if the 'UserWouldLikeTo' is 'Eat Something', suggest a place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format: '[{address:' 123 example street, vancouver, BC, zip code', coordinates: {123,123}, name: 'name of place', descriptiom: 'describe the place',tags:['healthy','expensive','popular']},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'"
@@ -24,8 +49,9 @@ const systemMessage = {
 const SurveyResults = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [retryCount, setRetryCount] = useState(0);
 
-  useEffect(() => {
+  const makeApiCall = () => {
     const apiRequestBody = {
       "model": "gpt-3.5-turbo",
       "messages": [
@@ -34,7 +60,7 @@ const SurveyResults = ({ navigation }) => {
       ]
     };
 
-    let amIWritingCodeAndWantToStopTheApi = true; // set this to true whhile coding here
+    let amIWritingCodeAndWantToStopTheApi = false; // set this to true while coding
 
     if (amIWritingCodeAndWantToStopTheApi) { setIsLoading(false); }
     else {
@@ -49,16 +75,27 @@ const SurveyResults = ({ navigation }) => {
         })
         .then(response => response.json())
         .then(data => {
+          console.log("CHATGPT CALL")
           console.log(data.choices[0].message.content)
           setData(JSON.parse(data.choices[0].message.content));
           setIsLoading(false);
         })
         .catch(error => {
           console.error('Error on api call:', error);
-          setIsLoading(false);
+          if (retryCount < 2) {
+            setRetryCount(retryCount + 1);
+            makeApiCall();
+          } else {
+            setData(JSON.parse(exampleAPIresponse));
+            setIsLoading(false);
+          }
         });
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    makeApiCall();
+  }, [retryCount]);
 
   return (
     <View style={styles.container}>
@@ -138,4 +175,3 @@ const styles = StyleSheet.create({
 });
 
 export default SurveyResults;
-
