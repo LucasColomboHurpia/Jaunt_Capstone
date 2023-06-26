@@ -6,7 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { TouchableOpacity } from 'react-native';
 
-const API_KEY = "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";
+  ///-------------------------------------------------------------------------
+    const API_KEY = "";
+  /////-----------------------------------------------------------------------
+
 
 const object = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
   "UserWouldLikeTo": "Do Something",
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   optionBox: {
-    backgroundColor: '#cccccc', // Lighter gray color
+    backgroundColor: '#cccccc', 
     borderRadius: 10,
     height: 'auto',
     width: '80%',
@@ -168,8 +171,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#999',
     marginTop: 5,
-    backgroundColor: '#eeeeee', // Very light gray color
-    borderRadius: 10, // Border radius
+    backgroundColor: '#eeeeee', 
+    borderRadius: 10, 
     padding: 5,
   },
 });

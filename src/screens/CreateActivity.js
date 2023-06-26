@@ -32,14 +32,15 @@ const FormSection = ({ activityName, setActivityName, date, setDate, hour, setHo
   return (
     <View style={styles.formSection}>
       <Text style={styles.inputTitle}>Activity Name</Text>
-      <TextInput style={styles.input} value={activityName} onChangeText={setActivityName} />
+      <TextInput style={styles.input} value={activityName} onChangeText={setActivityName} placeholder="New Activity" />
 
       <Text style={styles.inputTitle}>Date (DD/MM/YYYY)</Text>
-      <TextInput style={styles.input} value={date} onChangeText={setDate} />
+      <TextInput style={styles.input} value={date} onChangeText={setDate} placeholder={date} />
 
       <Text style={styles.inputTitle}>Time</Text>
       <View style={{ flexDirection: 'row' }}>
         <TextInput style={styles.input} value={hour} onChangeText={setHour} keyboardType="number-pad" placeholder="Hour (24h format)" />
+        <TextInput style={styles.input} value={minute} onChangeText={setMinute} keyboardType="number-pad" placeholder="Minute" />
       </View>
     </View>
   );
@@ -54,10 +55,18 @@ const CreateSection = ({ onCreate }) => {
 };
 
 const CreateActivity = ({ navigation }) => {
-  const [activityName, setActivityName] = useState("");
-  const [date, setDate] = useState("");
-  const [hour, setHour] = useState("");
-  const [minute, setMinute] = useState("");
+  const currentDate = new Date();
+
+  // Format the date as "DD/MM/YYYY"
+  const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+
+  // Format the time as "HH:MM"
+  const formattedTime = `${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}`;
+
+  const [activityName, setActivityName] = useState("New Activity");
+  const [date, setDate] = useState(formattedDate);
+  const [hour, setHour] = useState(formattedTime.slice(0,2)); // First two characters represent the hour
+  const [minute, setMinute] = useState(formattedTime.slice(3)); // Last two characters represent the minutes
 
   const { surveyData, setSurveyData } = useContext(SurveyContext);
 
@@ -95,7 +104,16 @@ const CreateActivity = ({ navigation }) => {
       <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <HeaderSection />
       <MemberSection />
-      <FormSection />
+      <FormSection 
+        activityName={activityName} 
+        setActivityName={setActivityName} 
+        date={date} 
+        setDate={setDate} 
+        hour={hour} 
+        setHour={setHour} 
+        minute={minute} 
+        setMinute={setMinute} 
+      />
       <CreateSection onCreate={handleCreate} />
     </SafeAreaView>
   );

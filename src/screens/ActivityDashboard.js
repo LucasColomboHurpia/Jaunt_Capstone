@@ -5,6 +5,10 @@ const ActivityDashboard = ({ route, navigation }) => {
   const { item } = route.params;
   console.log(item);
 
+  ///-------------------------------------------------------------------------
+  
+  /////-----------------------------------------------------------------------
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{item.name}</Text>

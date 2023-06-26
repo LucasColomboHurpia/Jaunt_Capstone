@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
-const LoginPage = ({navigation}) => {
+const LoginPage = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -16,6 +16,8 @@ const LoginPage = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Jaunt</Text>
+
       <View style={styles.header}>
       </View>
       <Text style={styles.title}>Login Page</Text>

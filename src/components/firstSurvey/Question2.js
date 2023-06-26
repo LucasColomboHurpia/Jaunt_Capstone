@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Button, TextInput } from 'react-native';
 
-const answerOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4','Option 5'];
+const answerOptions = ['Shellfish', 'Tree nuts', 'Dairy', 'Glutten','Others'];
 
 const Question2 = ({ onAnswer, onGoBack }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);

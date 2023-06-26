@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 
-const answerOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+const answerOptions = ['Vegetarian', 'Vegan', 'Pescatarian', 'None'];
 
 const Question1 = ({ onAnswer, onGoBack  }) => {
   const renderAnswerOption = ({ item }) => {

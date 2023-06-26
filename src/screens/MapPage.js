@@ -1,18 +1,22 @@
-import React, { useRef, useMemo } from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import createMap from '../components/mapTemplate';
 
 export default function MapPage({ route }) {
-  let webRef = useRef();
+  const webRef = useRef();
 
   const placeData = route.params?.item;
-  console.log('route.params',route.params)
+  console.log('route.params', route.params)
   console.log(placeData)
   const centerCoordinates = placeData?.coordinates || { lat: 0, lng: 0 };
 
   // Create the map HTML with the received coordinates
-  const mapHtml = useMemo(() => createMap(centerCoordinates, placeData?.name), [centerCoordinates, placeData?.name]);
+  const mapHtml = createMap(centerCoordinates, placeData?.name);
+
+  const calculateRoute = (transportMethod) => {
+    webRef.current.postMessage(transportMethod);
+  };
 
   return (
     <View style={styles.container}>
@@ -22,17 +26,25 @@ export default function MapPage({ route }) {
         style={styles.map}
         originWhitelist={['*']}
         source={{ html: mapHtml }}
+        javaScriptEnabled={true}
       />
       <View style={styles.buttons}>
-        <Button title="Walk" color= 'grey' onPress={() => {}}></Button>
-        <Button title="Bike" color= 'grey' onPress={() => {}}></Button>
-        <Button title="Public" color= 'grey' onPress={() => {}}></Button>
-        <Button title="Car" color= 'grey' onPress={() => {}}></Button>
+        <TouchableOpacity style={styles.button} onPress={() => calculateRoute("pedestrian")}>
+          <Text style={styles.buttonText}>Walk</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => calculateRoute("bicycle")}>
+          <Text style={styles.buttonText}>Bike</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => calculateRoute("publicTransport")}>
+          <Text style={styles.buttonText}>Public</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => calculateRoute("car")}>
+          <Text style={styles.buttonText}>Car</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -55,5 +67,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  button: {
+    padding: 10,
+    backgroundColor: 'grey',
+  },
+  buttonText: {
+    color: 'white',
   },
 });
