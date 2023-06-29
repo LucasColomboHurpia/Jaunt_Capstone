@@ -54,7 +54,7 @@ const SurveyResults = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [retryCount, setRetryCount] = useState(0);
 
-  const makeApiCall = () => {
+  const makeApiCall = async () => {
     const apiRequestBody = {
       "model": "gpt-3.5-turbo",
       "messages": [
@@ -62,11 +62,15 @@ const SurveyResults = ({ navigation }) => {
         { role: "user", content: object }
       ]
     };
-
-    let amIWritingCodeAndWantToStopTheApi = false; // set this to true while coding
-
-    if (amIWritingCodeAndWantToStopTheApi) { setIsLoading(false); }
-    else {
+  
+    if (!API_KEY) {
+      setIsLoading(true);
+      // if the API_KEY is empty, "load" for 3 seconds and then use the object exampleAPIresponse
+      setTimeout(() => {
+        setData(JSON.parse(exampleAPIresponse));
+        setIsLoading(false);
+      }, 3000);
+    } else {
       fetch("https://api.openai.com/v1/chat/completions",
         {
           method: "POST",
@@ -95,6 +99,7 @@ const SurveyResults = ({ navigation }) => {
         });
     }
   };
+  
 
   useEffect(() => {
     makeApiCall();
