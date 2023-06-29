@@ -1,12 +1,17 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useContext } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import MenuComponent from "../components/MenuComponent";
 
-const GroupPage = () => {
-
-
+const GroupPage = (navigation) => {
   return (
     <View style={styles.container}>
-      <Text >This is the Group page</Text>
+      <MenuComponent navigation={navigation}></MenuComponent>
     </View>
   );
 };
@@ -14,12 +19,9 @@ const GroupPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
   },
-
 });
 
 export default GroupPage;
