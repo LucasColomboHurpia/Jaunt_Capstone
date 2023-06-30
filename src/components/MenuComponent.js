@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const MenuComponent = () => {
   const navigation = useNavigation();
-
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -18,7 +17,7 @@ const MenuComponent = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.iconContainer}
-        onPress={() => navigation.navigate('Profile')}
+        onPress={() => navigation.navigate('GroupPage')}
       >
         <Image
           source={require('./assets/groupprofile.png')} 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import SurveyContext from '../context/SurveyContext';
 
 const HeaderSection = () => {
@@ -11,8 +10,8 @@ const HeaderSection = () => {
     </View>
   );
 };
-
 const MemberSection = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.memberSection}>
       <Text style={styles.memberTitle}>Members</Text>
@@ -106,15 +105,15 @@ const CreateActivity = () => {
       <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <HeaderSection />
       <MemberSection />
-      <FormSection 
-        activityName={activityName} 
-        setActivityName={setActivityName} 
-        date={date} 
-        setDate={setDate} 
-        hour={hour} 
-        setHour={setHour} 
-        minute={minute} 
-        setMinute={setMinute} 
+      <FormSection
+        activityName={activityName}
+        setActivityName={setActivityName}
+        date={date}
+        setDate={setDate}
+        hour={hour}
+        setHour={setHour}
+        minute={minute}
+        setMinute={setMinute}
       />
       <CreateSection onCreate={handleCreate} />
     </SafeAreaView>
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent:'flex-start',
+    justifyContent: 'flex-start',
     paddingTop: 55,
   },
   title: {
@@ -137,9 +136,9 @@ const styles = StyleSheet.create({
   headerSection: {
     // styling for header section
   },
-  memberSection:{
+  memberSection: {
     alignItems: 'center',
-    justifyContent:'flex-start',
+    justifyContent: 'flex-start',
   },
   memberTitle: {
     fontWeight: 'bold',
@@ -185,3 +184,8 @@ const styles = StyleSheet.create({
 });
 
 export default CreateActivity;
+
+
+
+
+
