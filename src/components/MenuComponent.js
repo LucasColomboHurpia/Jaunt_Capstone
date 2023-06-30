@@ -2,7 +2,9 @@ import React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const MenuComponent = ({ navigation }) => {
+const MenuComponent = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -45,12 +47,11 @@ const styles = {
     height: 80,
     borderTopColor: '#ccc',
     borderTopWidth: 1,
-
-    width: '110%',
-    top:'94%',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    position: 'absolute'
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 9999,  // Make it appear on top of all other components
   },
   iconContainer: {
     flex: 1,
@@ -62,5 +63,6 @@ const styles = {
     height: 24,
   },
 };
+
 
 export default MenuComponent;

@@ -44,7 +44,7 @@ const SurveyResults = ({ navigation }) => {
   
     if (!API_KEY) {
       setIsLoading(true);
-      // if the API_KEY is empty, "load" for 3 seconds and then use the object exampleAPIresponse
+      // if the API_KEY is empty, "load" for 7 seconds and then use the object exampleAPIresponse
       setTimeout(() => {
         setData(JSON.parse(exampleAPIresponse));
         setIsLoading(false);
