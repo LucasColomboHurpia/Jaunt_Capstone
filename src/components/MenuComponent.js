@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const MenuComponent = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.iconContainer}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('HomePage')}
       >
         <Image
           source={require('./assets/home.png')} 
@@ -41,9 +42,15 @@ const styles = {
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#fff',
-    height: 60,
+    height: 80,
     borderTopColor: '#ccc',
     borderTopWidth: 1,
+
+    width: '110%',
+    top:'94%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    position: 'absolute'
   },
   iconContainer: {
     flex: 1,

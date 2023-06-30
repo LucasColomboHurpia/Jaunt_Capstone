@@ -35,9 +35,7 @@ const HomePage = ({ navigation }) => {
           <Text style={styles.description}>You have no upcoming or pending activities</Text>
         )}
       </View>
-      <View style={styles.menuContainer}>
         <MenuComponent navigation={navigation} />
-      </View>
     </View>
   );
 };
@@ -92,11 +90,7 @@ const styles = StyleSheet.create({
   activityDetails: {
     fontSize: 16,
   },
-  menuContainer: {
-    width: '100%',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
+
 });
 
 export default HomePage;

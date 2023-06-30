@@ -18,11 +18,11 @@ const MemberSection = () => {
       <Text style={styles.memberTitle}>Members</Text>
       <View style={styles.memberContent}>
         <Button title="Invite" color='grey'/>
-        <View style={styles.memberCircles}>
+{/*         <View style={styles.memberCircles}>
           <View style={styles.circle} />
           <View style={styles.circle} />
           <View style={styles.circle} />
-        </View>
+        </View> */}
       </View>
     </View>
   );

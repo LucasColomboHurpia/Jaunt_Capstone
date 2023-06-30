@@ -19,34 +19,13 @@ const object = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m."
   "DoLike": ["Fish", "Wine", "Bread"],
   "ChanceOfEnjoyingMeat": 6.625 }`;
 
-const exampleAPIresponse = `[
-  {
-    "address":"1260 Howe St, Vancouver, BC V6Z 1R3",
-    "coordinates": {"lat":49.2786918,"lng":-123.1252157},
-    "name":"Vancouver Art Gallery",
-    "description":"The Vancouver Art Gallery is a fosters awareness and understanding of contemporary and historical art with an emphasis on British Columbia, and provides education, research, and scholarship",
-    "tags":["art", "museum", "gallery"]
-},
-{
-    "address":"1661 Granville St, Vancouver, BC V6Z 1N3",
-    "coordinates": {"lat":49.2729471,"lng":-123.1311157},
-    "name":"Maru Korean Bistro",
-    "description":"Maru Korean Bistro is a cozy restaurant serving authentic Korean cuisine, including vegetarian and vegan options.",
-    "tags":["vegetarian", "restaurant","korean","affordable"]
-
-},
-{
-    "address":"900 Burrard St, Vancouver, BC V6Z 3G5",
-    "coordinates": {"lat":49.2827025,"lng":-123.1213828},
-    "name":"Vancouver International Film Festival",
-    "description":"The Vancouver International Film Festival is among the five largest film festivals in North America, screening films from more than 70 countries on nine screens.",
-    "tags":["film", "festival", "movie theatre", "entertainment"]
-}
-]`
+const exampleAPIresponse = `[{ "address": "750 Hornby St, Vancouver, BC V6Z 2H7", "coordinates": { "lat": 49.2835948, "lng": -123.121791 }, "name": "Vancouver Art Gallery", "description": "Experience world-class exhibits and contemporary art at the Vancouver Art Gallery 🎨🖼️", "Tips": [ "Take a leisurely stroll along Robson Street after your visit.", "Check out the gallery's rooftop patio for panoramic views of the city.", "Visit on a Tuesday evening for discounted admission and live music." ], "tags": [ "art", "cultural", "popular" ] }, 
+{ "address": "English Bay Beach Path, Vancouver, BC V6G 1Z4", "coordinates": { "lat": 49.2894692, "lng": -123.1409033 }, "name": "English Bay Beach", "description": "Enjoy a relaxing day at English Bay Beach, one of Vancouver's most popular beaches 🏖️🌊", "Tips": [ "Bring a blanket and have a picnic on the sandy shores.", "Watch the beautiful sunset over the ocean.", "Take a walk along the Seawall to nearby Stanley Park." ], "tags": [ "beach", "outdoors", "relaxing" ] },
+{ "address": "900 Burrard St, Vancouver, BC V6Z 1X9", "coordinates": { "lat": 49.2832496, "lng": -123.1227095 }, "name": "Scotiabank Theatre Vancouver", "description": "Watch the latest blockbuster movies at Scotiabank Theatre Vancouver 🍿🎥", "Tips": [ "Grab a combo deal for popcorn and a drink at the concession stand.", "Arrive early to secure your preferred seats.", "Check out the VIP cinema for a luxurious movie experience." ], "tags": [ "movies", "entertainment", "popular" ] }]`
 
 const systemMessage = {
   "role": "system",
-  "content": "You are a helpful assistant that suggests activities and places to go based on the given parameters. if the 'UserWouldLikeTo' is 'Do Something', suugest a fun place to go, if if the 'UserWouldLikeTo' is 'Eat Something', suggest a place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format: '[{address:' 123 example street, vancouver, BC, zip code', coordinates: {123,123}, name: 'name of place', descriptiom: 'describe the place',tags:['healthy','expensive','popular']},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'"
+  "content": "You are a helpful assistant that suggests activities and places to go in Vancouver based on the given parameters. if the 'UserWouldLikeTo' is 'Do Something', suugest a fun place to go, if if the 'UserWouldLikeTo' is 'Eat Something', suggest a place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(this is just an example, never use these example values, always use real place values): '[{address:' 123 example, vancouver, BC, zip code', coordinates: {lat:123,lng:123}, name: 'name of place', descriptiom: 'briefly describe the place, short phrases, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy']},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'"
 };
 
 const SurveyResults = ({ navigation }) => {
@@ -69,7 +48,7 @@ const SurveyResults = ({ navigation }) => {
       setTimeout(() => {
         setData(JSON.parse(exampleAPIresponse));
         setIsLoading(false);
-      }, 3000);
+      }, 7000);
     } else {
       fetch("https://api.openai.com/v1/chat/completions",
         {
@@ -168,9 +147,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   itemDescription: {
-    fontSize: 14,
+    fontSize: 18,
     color: '#666',
     marginTop: 5,
+    marginBottom: 5,
   },
   itemTags: {
     fontSize: 12,

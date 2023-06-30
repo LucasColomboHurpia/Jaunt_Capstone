@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import SurveyContext from '../context/SurveyContext';
+import MenuComponent from '../components/MenuComponent';
 
 const ActivityDashboard = ({ route, navigation }) => {
   const { surveyData } = useContext(SurveyContext);
@@ -19,9 +20,9 @@ const ActivityDashboard = ({ route, navigation }) => {
     console.log('|surveyResults|', item.item);
 
     addressText = item.item.address;
-
-
-  } else { console.log('survey not done!') }
+  } else {
+    console.log('survey not done!')
+  }
 
   return (
     <View style={styles.container}>
@@ -30,17 +31,24 @@ const ActivityDashboard = ({ route, navigation }) => {
       {/* no survey yet */}
       {!surveyResults && (
         <View style={styles.section}>
-          <Button
-            title="Go to ActivitySurvey"
-            color='grey'
+          <TouchableOpacity
+            style={styles.buttonCircle}
             onPress={() => navigation.navigate('ActivitySurvey')}
-          />
+          >
+            <Text style={styles.buttonText}>Pending...</Text>
+          </TouchableOpacity>
         </View>
       )}
-   {/* ayo survey just dropped */}
-     {surveyResults && (
+
+      {/* survey completed */}
+      {surveyResults && (
         <View style={styles.section}>
-          <Text>Activity ready! yay!</Text>
+          <TouchableOpacity
+            style={styles.buttonCircle}>
+            <Text style={styles.buttonText}>[icon]</Text>
+
+            <Text style={styles.buttonText}>{item.item.name}</Text>
+          </TouchableOpacity>
         </View>
       )}
 
@@ -58,6 +66,8 @@ const ActivityDashboard = ({ route, navigation }) => {
         <Text style={styles.cardText}>Date: {surveyData.ActivityParameters.dateTime || 'Still figuring it out!'}</Text>
         <Text style={styles.cardText}>Location: {addressText}</Text>
       </View>
+      <MenuComponent navigation={navigation} />
+
     </View>
   );
 };
@@ -80,11 +90,26 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 20,
   },
+  buttonCircle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'grey',
+    height: 200,
+    width: 200,
+    borderRadius: 150,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    paddingHorizontal: 10,
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
   card: {
     marginTop: 20,
-    padding: 16,
+    padding: 35,
     backgroundColor: 'white',
-    borderRadius: 6,
+    borderRadius: 18,
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 1, height: 1 },
