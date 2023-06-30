@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
-
 const MenuComponent = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.iconContainer}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('HomePage')}
       >
         <Image
           source={require('./assets/home.png')} 
@@ -15,7 +14,7 @@ const MenuComponent = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.iconContainer}
-        onPress={() => navigation.navigate('Profile')}
+        onPress={() => navigation.navigate('GroupPage')}
       >
         <Image
           source={require('./assets/groupprofile.png')} 

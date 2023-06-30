@@ -8,6 +8,7 @@ import CreateActivity from './src/screens/CreateActivity';
 import ActivitySurvey from './src/screens/ActivitySurvey';
 import HomePage from './src/screens/HomePage'
 import GroupPage from './src/screens/GroupPage';
+import Contact from './src/screens/Contact';
 import ActivitySummary from './src/screens/ActivitySummary';
 import SurveyResults from './src/screens/SurveyResults';
 import ActivityDashboard from './src/screens/ActivityDashboard';
@@ -28,6 +29,7 @@ const App = () => {
           <Stack.Screen name="LoginPage" component={LoginPage} />
           <Stack.Screen name="SurveyPage" component={SurveyPage} />
           <Stack.Screen name="HomePage" component={HomePage}/>
+          <Stack.Screen name="Contact" component={Contact}/>
           <Stack.Screen name="CreateActivity" component={CreateActivity} />
           <Stack.Screen name="ActivitySurvey" component={ActivitySurvey} />
           <Stack.Screen name="GroupPage" component={GroupPage} />
