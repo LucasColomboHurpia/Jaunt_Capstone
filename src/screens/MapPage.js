@@ -9,7 +9,7 @@ export default function MapPage({ route }) {
   const placeData = route.params?.item;
   console.log('route.params', route.params)
   console.log(placeData)
-  const centerCoordinates = placeData?.coordinates || { lat: 0, lng: 0 };
+  const centerCoordinates = placeData.item?.coordinates || { lat: 0, lng: 0 };
 
   // Create the map HTML with the received coordinates
   const mapHtml = createMap(centerCoordinates, placeData?.name);

@@ -54,7 +54,7 @@ const CreateSection = ({ onCreate }) => {
   );
 };
 
-const CreateActivity = ({ navigation }) => {
+const CreateActivity = () => {
   const currentDate = new Date();
 
   // Format the date as "DD/MM/YYYY"
@@ -69,6 +69,8 @@ const CreateActivity = ({ navigation }) => {
   const [minute, setMinute] = useState(formattedTime.slice(3)); // Last two characters represent the minutes
 
   const { surveyData, setSurveyData } = useContext(SurveyContext);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     console.log('Survey Data: ', surveyData);
@@ -95,8 +97,8 @@ const CreateActivity = ({ navigation }) => {
 
     console.log(surveyData)
     
-    // Navigate to ActivitySurvey after setting data
-    navigation.navigate('ActivitySurvey');
+    // Navigate to ActivityDashboard after setting data
+    navigation.navigate('ActivityDashboard');
   };
 
   return (

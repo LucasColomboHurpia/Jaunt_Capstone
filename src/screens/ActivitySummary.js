@@ -1,9 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import SurveyContext from '../context/SurveyContext';
 
 const ActivitySummary = ({ navigation }) => {
   const { surveyData } = useContext(SurveyContext);
+
+  // Log the surveyData when the component mounts
+  useEffect(() => {
+    console.log("Survey results:");
+    console.log(surveyData);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -16,7 +22,6 @@ const ActivitySummary = ({ navigation }) => {
         style={styles.button}
         onPress={() => navigation.navigate('SurveyResults')}
       />
-
     </View>
   );
 };
@@ -37,10 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
-  },
-  summary: {
-    fontSize: 18,
-    marginBottom: 10,
   },
   data: {
     fontSize: 14,

@@ -9,24 +9,24 @@ const questions = [ActivityQuestion1, ActivityQuestion2];
 
 const ActivitySurvey = ({ navigation }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const { surveyData, setSurveyData } = useContext(SurveyContext);
+  const { setSurveyData } = useContext(SurveyContext);
 
   const handleAnswer = (answer) => {
     // Save the answer in our context
-    setSurveyData((prevData) => {
-      const newData = { ...prevData, [`ActivityQuestion${currentQuestionIndex + 1}`]: answer };
+    setSurveyData((prevResults) => {
+      const newResults = { ...prevResults, [`ActivityQuestion${currentQuestionIndex + 1}`]: answer };
 
       // Go to the next question, or finish if this was the last question
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
       } else {
-        console.log("Survey complete! Here's the data:");
+        console.log("Survey complete! Here's the results:");
       
-        console.log(newData);
-        navigation.navigate('ActivitySummary');
+        console.log(newResults);
+        navigation.navigate('ActivitySummary'); // Navigate to ActivitySummary after the survey is done
       }
 
-      return newData;
+      return newResults;
     });
   };
 
