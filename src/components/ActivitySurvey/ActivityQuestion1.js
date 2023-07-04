@@ -12,13 +12,13 @@ const ActivityQuestion1 = ({ onAnswer }) => {
       <Text style={styles.title}>{name}</Text>
       <Text style={styles.subtitle}>What do you wanna do?</Text>
       <View style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.optionDo} onPress={() => onAnswer("Do Something")}>
+        <TouchableOpacity style={styles.optionDo} onPress={() => onAnswer("Do Something",'UserWouldLikeTo')}>
           <Text style={styles.optionText}>Do Something</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionEat} onPress={() => onAnswer("Eat Something")}>
+        <TouchableOpacity style={styles.optionEat} onPress={() => onAnswer("Eat Something",'UserWouldLikeTo')}>
           <Text style={styles.optionText}>Eat Something</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionBoth} onPress={() => onAnswer("Both")}>
+        <TouchableOpacity style={styles.optionBoth} onPress={() => onAnswer("Both",'UserWouldLikeTo')}>
           <Text style={styles.optionText}>Both</Text>
         </TouchableOpacity>
       </View>

@@ -81,7 +81,7 @@ const ActivityQuestion2 = ({ onAnswer, onGoBack }) => {
   
 
   const handleSubmit = () => {
-    onAnswer(selectedOptions);
+    onAnswer(selectedOptions, 'Preferences');
   };
 
   return (

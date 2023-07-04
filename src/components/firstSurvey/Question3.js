@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 
 const answerOptions = [
-  { text: 'Option 1', styles: { top: '22%', left: '2%' }, radius: 65 },
-  { text: 'Option 2', styles: { top: '10%', right: '0%' }, radius: 75 },
-  { text: 'Option 3', styles: { top: '45%', left: '5%' }, radius: 85 },
-  { text: 'Option 4', styles: { top: '37%', right: '-5%' }, radius: 55 },
-  { text: 'Option 5', styles: { bottom: '80%', left: '10%' }, radius: 55 },
-  { text: 'Option 6', styles: { bottom: '10%', right: '-20%' }, radius: 60 },
-  { text: 'Option 7', styles: { bottom: '22%', right: '8%' }, radius: 70 },
+  { text: 'Picnic', styles: { top: '22%', left: '2%' }, radius: 65 },
+  { text: 'Parks', styles: { top: '10%', right: '0%' }, radius: 75 },
+  { text: 'Vegan Food', styles: { top: '45%', left: '5%' }, radius: 85 },
+  { text: 'Meat', styles: { top: '37%', right: '-5%' }, radius: 55 },
+  { text: 'Bar', styles: { bottom: '80%', left: '10%' }, radius: 55 },
+  { text: 'Karaoke', styles: { bottom: '10%', right: '-20%' }, radius: 60 },
+  { text: 'Clubbing', styles: { bottom: '22%', right: '8%' }, radius: 70 },
 ];
 
 const Question3 = ({ onAnswer, onGoBack }) => {
@@ -27,7 +27,7 @@ const Question3 = ({ onAnswer, onGoBack }) => {
   };
 
   const handleSubmit = () => {
-    onAnswer(selectedOptions);
+    onAnswer(selectedOptions, 'DoLike');
   };
 
   return (

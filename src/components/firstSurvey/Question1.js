@@ -8,7 +8,7 @@ const Question1 = ({ onAnswer, onGoBack  }) => {
     return (
       <TouchableOpacity
         style={styles.answerOption}
-        onPress={() => onAnswer(item)}
+        onPress={() => onAnswer(item,'Diet')}
       >
         <Text>{item}</Text>
       </TouchableOpacity>

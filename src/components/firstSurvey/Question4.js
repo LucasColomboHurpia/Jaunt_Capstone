@@ -6,14 +6,14 @@ const Question4 = ({ onAnswer, onGoBack }) => {
     const [sliderValue, setSliderValue] = useState(5);
 
     const handleSubmit = () => {
-        onAnswer(sliderValue);
+        onAnswer(sliderValue, 'ChanceOfEnjoyingDrinking');
     };
 
     ///TH SLIDER CHANGES DEPENDING ONYOUR QUESITONS
 
     return (
         <View style={styles.container}>
-            <Text style={styles.questionText}>Are you ok with other people eating meat?</Text>
+            <Text style={styles.questionText}>Are you ok with other people drinking?</Text>
             <View style={styles.sliderContainer}>
                 <Text style={styles.text}>Not at all</Text>
                 <Slider

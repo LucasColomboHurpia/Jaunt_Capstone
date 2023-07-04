@@ -16,15 +16,15 @@ const SurveyPage = ({ navigation }) => {
   const [answers, setAnswers] = useState({});
   const [isSurveyComplete, setSurveyComplete] = useState(false);
 
-  const handleAnswerOptionClick = (answer) => {
-    setAnswers({ ...answers, [`answer${currentQuestion + 1}`]: answer });
+  const handleAnswerOptionClick = (answer,answerTitle) => {
+    setAnswers({ ...answers, [`${answerTitle}`]: answer });
 
     if (currentQuestion === questionsComponents.length - 1) {
       // Last question, submit survey
       const newSurveyData = {
         ...surveyData,
         ...answers,
-        [`answer${currentQuestion + 1}`]: answer,
+        [`${answerTitle}`]: answer,
       };
       setSurveyData(newSurveyData);
       console.log(newSurveyData);

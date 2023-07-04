@@ -36,7 +36,7 @@ const Question2 = ({ onAnswer, onGoBack }) => {
 
   const handleSubmit = () => {
     const finalAnswers = customAnswer ? [...selectedOptions, customAnswer] : selectedOptions;
-    onAnswer(finalAnswers);
+    onAnswer(finalAnswers, 'DoNotLike');
   }
 
   return (

@@ -11,10 +11,10 @@ const ActivitySurvey = ({ navigation }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const { setSurveyData } = useContext(SurveyContext);
 
-  const handleAnswer = (answer) => {
+  const handleAnswer = (answer, answerTitle) => {
     // Save the answer in our context
     setSurveyData((prevResults) => {
-      const newResults = { ...prevResults, [`ActivityQuestion${currentQuestionIndex + 1}`]: answer };
+      const newResults = { ...prevResults, [`${answerTitle}`]: answer };
 
       // Go to the next question, or finish if this was the last question
       if (currentQuestionIndex < questions.length - 1) {
