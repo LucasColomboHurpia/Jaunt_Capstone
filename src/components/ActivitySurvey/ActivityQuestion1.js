@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import SurveyContext from '../../context/SurveyContext';
+import { WeatherComponent } from '../WeatherComponent';
 
 const ActivityQuestion1 = ({ onAnswer }) => {
   const { surveyData } = useContext(SurveyContext);
@@ -10,6 +11,7 @@ const ActivityQuestion1 = ({ onAnswer }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{name}</Text>
+      <WeatherComponent />
       <Text style={styles.subtitle}>What do you wanna do?</Text>
       <View style={styles.optionsContainer}>
         <TouchableOpacity style={styles.optionDo} onPress={() => onAnswer("Do Something",'UserWouldLikeTo')}>
@@ -22,7 +24,6 @@ const ActivityQuestion1 = ({ onAnswer }) => {
           <Text style={styles.optionText}>Both</Text>
         </TouchableOpacity>
       </View>
-      <Text style={styles.weatherText}>Temperature and weather goes here</Text>
     </View>
   );
 };
