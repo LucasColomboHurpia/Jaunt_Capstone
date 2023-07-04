@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -6,18 +6,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { TouchableOpacity } from 'react-native';
 
+import SurveyContext from '../context/SurveyContext';
+
+
   ///-------------------------------------------------------------------------
     const API_KEY = "";
   /////-----------------------------------------------------------------------
 
 
-const object = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
+const object1234 = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
   "UserWouldLikeTo": "Do Something",
   "Preferences": ["Art Gallery", "Restaurant", "Movie Theatre", "Shopping Mall", "Park", "Nightclub", "Art Gallery"],
   "Diet": "Vegetarian",
   "DoNotLike": ["Glutten", "Diary"],
   "DoLike": ["Fish", "Wine", "Bread"],
-  "ChanceOfEnjoyingMeat": 6.625 }`;
+  "ChanceOfEnjoyingDrinking": 6.625 }`;
 
 const exampleAPIresponse = `[{ "address": "750 Hornby St, Vancouver, BC V6Z 2H7", "coordinates": { "lat": 49.2835948, "lng": -123.121791 }, "name": "Vancouver Art Gallery", "description": "Experience world-class exhibits and contemporary art at the Vancouver Art Gallery 🎨🖼️", "Tips": [ "Take a leisurely stroll along Robson Street after your visit.", "Check out the gallery's rooftop patio for panoramic views of the city.", "Visit on a Tuesday evening for discounted admission and live music." ], "tags": [ "art", "cultural", "popular" ] }, 
 { "address": "English Bay Beach Path, Vancouver, BC V6G 1Z4", "coordinates": { "lat": 49.2894692, "lng": -123.1409033 }, "name": "English Bay Beach", "description": "Enjoy a relaxing day at English Bay Beach, one of Vancouver's most popular beaches 🏖️🌊", "Tips": [ "Bring a blanket and have a picnic on the sandy shores.", "Watch the beautiful sunset over the ocean.", "Take a walk along the Seawall to nearby Stanley Park." ], "tags": [ "beach", "outdoors", "relaxing" ] },
@@ -25,7 +28,7 @@ const exampleAPIresponse = `[{ "address": "750 Hornby St, Vancouver, BC V6Z 2H7"
 
 const systemMessage = {
   "role": "system",
-  "content": "You are a helpful assistant that suggests activities and places to go in Vancouver based on the given parameters. if the 'UserWouldLikeTo' is 'Do Something', suugest a fun place to go, if if the 'UserWouldLikeTo' is 'Eat Something', suggest a place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(this is just an example, never use these example values, always use real place values): '[{address:' 123 example, vancouver, BC, zip code', coordinates: {lat:123,lng:123}, name: 'name of place', descriptiom: 'briefly describe the place, short phrases, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy']},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'"
+  "content": "You are a helpful assistant that suggests activities and places to go in Vancouver based on the given parameters. if the 'UserWouldLikeTo' is 'Do Something', sugest a real place to go, if if the 'UserWouldLikeTo' is 'Eat Something', suggest a real place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(this is just an example, never use these example values, always use real place values): '[{address:' 123 example, vancouver, BC, zip code', coordinates: {lat:123,lng:123}, name: 'name of place', descriptiom: 'briefly describe the place, a short phrase, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy']},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'"
 };
 
 const SurveyResults = ({ navigation }) => {
@@ -38,7 +41,7 @@ const SurveyResults = ({ navigation }) => {
       "model": "gpt-3.5-turbo",
       "messages": [
         systemMessage,
-        { role: "user", content: object }
+        { role: "user", content: JSON.stringify(surveyData) }
       ]
     };
   
@@ -79,10 +82,12 @@ const SurveyResults = ({ navigation }) => {
     }
   };
   
+  const { surveyData } = useContext(SurveyContext);
 
   useEffect(() => {
     makeApiCall();
   }, [retryCount]);
+
 
   return (
     <View style={styles.container}>

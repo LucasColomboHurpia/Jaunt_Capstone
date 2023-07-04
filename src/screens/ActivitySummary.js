@@ -7,7 +7,7 @@ const ActivitySummary = ({ navigation }) => {
 
   // Log the surveyData when the component mounts
   useEffect(() => {
-    console.log("Survey results:");
+    console.log("Survey results:"); //
     console.log(surveyData);
   }, []);
 
