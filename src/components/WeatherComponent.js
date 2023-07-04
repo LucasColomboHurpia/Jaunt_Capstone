@@ -8,7 +8,7 @@ const WeatherComponent = () => {
     fetchWeatherData();
   }, []);
 
-  const API_KEY = "030a06ef3a21f98e9fad039e0133fbbe";
+  const API_KEY = "";
 
   const fetchWeatherData = async () => {
     try {
