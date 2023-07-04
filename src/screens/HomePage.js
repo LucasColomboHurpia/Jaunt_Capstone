@@ -6,7 +6,7 @@ const HomePage = ({ navigation }) => {
   const activities = [
     { id: 1, title: 'Activity 1', date: '2023-06-22', time: '10:00 AM', memberName: 'John Doe', destination: 'Capilano Suspension Bridge' },
     { id: 2, title: 'Activity 2', date: '2023-06-23', time: '2:30 PM', memberName: 'Jane Smith', destination: 'Lynn Valley' },
-    { id: 3, title: 'Activity 3', date: '2023-06-24', time: '4:00 PM', memberName: 'Alex Johnson', destination: 'Squamish' },
+    { id: 3, title: 'New Activity', date: '2023-06-24', time: '4:00 PM', memberName: 'Alex Johnson', destination: 'Vancouver Art Gallery' },
   ];
 
   return (

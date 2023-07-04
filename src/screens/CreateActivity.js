@@ -16,7 +16,7 @@ const MemberSection = () => {
     <View style={styles.memberSection}>
       <Text style={styles.memberTitle}>Members</Text>
       <View style={styles.memberContent}>
-        <Button title="Invite" color='grey'/>
+        <Button title="Invite" color='grey'  onPress={() => navigation.navigate('Contact')}/>
 {/*         <View style={styles.memberCircles}>
           <View style={styles.circle} />
           <View style={styles.circle} />

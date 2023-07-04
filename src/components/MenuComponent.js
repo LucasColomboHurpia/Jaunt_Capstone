@@ -50,7 +50,7 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 9999,  // Make it appear on top of all other components
+    zIndex: 9999,
   },
   iconContainer: {
     flex: 1,
