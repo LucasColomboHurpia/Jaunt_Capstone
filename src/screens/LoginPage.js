@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,7 +10,30 @@ const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginBtnDisabled, setLoginBtnDisabled] = useState(false);
+  const [loginBtnText, setLoginBtnText] = useState("SUBMIT");
   
+    useEffect(() => {
+        if(isLoading){
+            setLoginBtnDisabled(true)
+            setLoginBtnText("Loading...");
+        }
+        else {
+            setLoginBtnDisabled(false);
+            setLoginBtnText("SUBMIT");
+        }
+    }, [isLoading]);
+
+    useEffect(() => {
+        if(email && password){
+            setLoginBtnDisabled(false)
+        }
+        else{
+            setLoginBtnDisabled(true)
+        }
+    }, [email, password])
+
   const onChangeEmail = text => {
     setError('');
     setEmail(text);
@@ -23,6 +46,7 @@ const LoginPage = ({ navigation }) => {
 
   const submitForm = async () => {
     try {
+        setIsLoading(true);
         const loginData = {
             email,
             password
@@ -38,6 +62,7 @@ const LoginPage = ({ navigation }) => {
             }
         }
     } catch (error) {
+        setIsLoading(false);
         if(error || error.response){
             return setError(error.response.data.message);
         }
@@ -73,7 +98,7 @@ const LoginPage = ({ navigation }) => {
         secureTextEntry
         autoCapitalize="none"
       />
-      <Button title="Submit" onPress={submitForm} color="gray" />
+      <Button title={loginBtnText} disabled={loginBtnDisabled} onPress={submitForm} color="gray" />
       <TouchableOpacity onPress={register}>
         <Text style={styles.registerLink}>Don't have an account? Register</Text>
       </TouchableOpacity>
