@@ -9,6 +9,17 @@ import { API_URL } from '../config';
 const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  
+  const onChangeEmail = text => {
+    setError('');
+    setEmail(text);
+  }
+
+  const onChangePassword = text => {
+    setError('');
+    setPassword(text);
+  }
 
   const submitForm = async () => {
     try {
@@ -16,7 +27,9 @@ const LoginPage = ({ navigation }) => {
             email,
             password
         }
+        
         const response = await axios.post(`${API_URL}/auth/login`, loginData);
+        
         if(response.status === 200) {
             if(response.data.status === 'success') {
                 const { token } = response.data;
@@ -25,7 +38,11 @@ const LoginPage = ({ navigation }) => {
             }
         }
     } catch (error) {
-        console.log(error.response.data)        
+        if(error || error.response){
+            return setError(error.response.data.message);
+        }
+
+        return setError('Something went wrong, please try again later!');
     }
   }
 
@@ -40,16 +57,17 @@ const LoginPage = ({ navigation }) => {
       <View style={styles.header}>
       </View>
       <Text style={styles.title}>Login Page</Text>
+      <Text style={styles.error}>{error}</Text>
       <TextInput
         style={styles.input}
-        onChangeText={text => setEmail(text)}
+        onChangeText={onChangeEmail}
         value={email}
         placeholder="Email"
         autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
-        onChangeText={text => setPassword(text)}
+        onChangeText={onChangePassword}
         value={password}
         placeholder="Password"
         secureTextEntry
@@ -97,6 +115,12 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     textAlign: 'center',
   },
+  error: {
+    fontSize: 12,
+    color: '#FF0000',
+    marginBottom: 10,
+    textAlign: 'center',
+  }
 });
 
 export default LoginPage;
