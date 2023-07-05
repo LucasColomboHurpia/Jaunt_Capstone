@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import MenuComponent from '../components/MenuComponent';
+import AddActivityButton from '../components/addActivityButton'; 
 
 const HomePage = ({ navigation }) => {
   const activities = [
@@ -11,31 +12,33 @@ const HomePage = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.greeting}>Hi User!</Text>
-        <Text style={styles.subText}>Here are your upcoming activities</Text> 
-      </View>
-      <View style={styles.body}>
-        {activities.length > 0 ? (
-          activities.map((activity) => (
-            <TouchableOpacity
-              key={activity.id}
-              style={styles.activityContainer}
-              onPress={() => console.log(activity.details)} 
-            >
-              <Text style={styles.activityTitle}>{activity.title}</Text>
-              <Text style={styles.activityDetails}>{activity.details}</Text>
-              <Text>Date: {activity.date}</Text>
-              <Text>Time: {activity.time}</Text>
-              <Text>Destination: {activity.destination}</Text>
-            </TouchableOpacity>
-          ))
-        ) : (
-          // Display a message if there are no activities
-          <Text style={styles.description}>You have no upcoming or pending activities</Text>
-        )}
-      </View>
-        <MenuComponent navigation={navigation} />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.header}>
+          <Text style={styles.greeting}>Hi User!</Text>
+          <Text style={styles.subText}>Here are your upcoming activities</Text>
+        </View>
+        <View style={styles.body}>
+          {activities.length > 0 ? (
+            activities.map((activity) => (
+              <TouchableOpacity
+                key={activity.id}
+                style={styles.activityContainer}
+                onPress={() => console.log(activity.details)}
+              >
+                <Text style={styles.activityTitle}>{activity.title}</Text>
+                <Text style={styles.activityDetails}>{activity.details}</Text>
+                <Text>Date: {activity.date}</Text>
+                <Text>Time: {activity.time}</Text>
+                <Text>Destination: {activity.destination}</Text>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={styles.description}>You have no upcoming or pending activities</Text>
+          )}
+        </View>
+      </ScrollView>
+      <AddActivityButton navigation={navigation} />
+      <MenuComponent navigation={navigation} />
     </View>
   );
 };
@@ -48,10 +51,18 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 20,
   },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+        width: '100%',
+  },
   header: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    justifyContent: 'center',
+
     width: '100%',
   },
   body: {
@@ -64,12 +75,12 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginTop: 60, 
+    marginTop: 60,
   },
   subText: {
     fontSize: 16,
     color: 'gray',
-    marginTop: 10, 
+    marginTop: 10,
   },
   description: {
     fontSize: 16,
@@ -89,6 +100,26 @@ const styles = StyleSheet.create({
   },
   activityDetails: {
     fontSize: 16,
+  },
+
+  addActivityButton: {
+    position: 'absolute', 
+    right: 10, 
+    bottom: 90, 
+    
+    
+  },
+  roundButton: {
+    height: 110,
+    width: 110,
+    borderRadius: 150,
+    backgroundColor: 'gray',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 24,
+    color: 'white',
   },
 
 });
