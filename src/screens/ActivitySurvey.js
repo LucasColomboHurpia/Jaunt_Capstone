@@ -3,9 +3,10 @@ import { View, Text, StyleSheet, SafeAreaView, Button } from 'react-native';
 import SurveyContext from '../context/SurveyContext';
 import ActivityQuestion1 from '../components/ActivitySurvey/ActivityQuestion1';
 import ActivityQuestion2 from '../components/ActivitySurvey/ActivityQuestion2';
+import ActivityQuestion3 from '../components/ActivitySurvey/ActivityQuestion3';
 
 // Array of our survey components
-const questions = [ActivityQuestion1, ActivityQuestion2];
+const questions = [ActivityQuestion1, ActivityQuestion2, ActivityQuestion3];
 
 const ActivitySurvey = ({ navigation }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
