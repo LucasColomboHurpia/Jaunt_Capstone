@@ -2,25 +2,39 @@ import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import SurveyContext from '../context/SurveyContext';
 
-const ActivitySummary = ({ navigation }) => {
+const ActivitySummary = ({ route, navigation }) => {
+  const { activityId } = route.params; // Get the activityId from the route params
   const { surveyData } = useContext(SurveyContext);
+  const { activityParameters } = surveyData;
 
-  // Log the surveyData when the component mounts
+  console.log('----summary---')
+  console.log(activityId)
+  console.log(surveyData)
+  console.log(activityParameters)
+  console.log('---')
+
+  let currentActivity = surveyData?.activityParameters?.find(activity => activity.id === activityId); // Get the activity with the same id
+
   useEffect(() => {
-    console.log("Survey results:"); //
+    console.log("Survey results:");
     console.log(surveyData);
+    console.log("Current activity: ");
+    console.log(currentActivity);
   }, []);
+
+  const handleNavigateToSurveyResults = () => {
+    navigation.navigate('SurveyResults', { activityId });
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{surveyData.ActivityParameters.name}</Text>
+      <Text style={styles.title}>{currentActivity.name}</Text>
       <Text style={styles.subtitle}>You are close to setting your plan...</Text>
       <Text style={styles.data}>{JSON.stringify(surveyData, null, 2)}</Text>
       <Button
         title="yay!"
         color="gray"
-        style={styles.button}
-        onPress={() => navigation.navigate('SurveyResults')}
+        onPress={handleNavigateToSurveyResults}
       />
     </View>
   );
@@ -48,12 +62,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  button: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  
 });
 
 export default ActivitySummary;

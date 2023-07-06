@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
+
+import SurveyContext from '../../context/SurveyContext';
 
 const positionData = [
   { top: '22%', left: '2%' },
@@ -51,6 +53,15 @@ const ActivityQuestion2 = ({ onAnswer, onGoBack }) => {
     radius: radiusData[index],
   })));
 
+  const { surveyData } = useContext(SurveyContext);
+  const { activityParameters } = surveyData; 
+
+  // Check if activityParameters is not empty and get the last element
+  let currentActivity = {};
+  if (activityParameters && activityParameters.length > 0) {
+    currentActivity = activityParameters[activityParameters.length - 1];
+  }
+
   const handleAnswerOptionClick = (option) => {
     if (selectedOptions.length >= 7) {
       return;
@@ -79,10 +90,10 @@ const ActivityQuestion2 = ({ onAnswer, onGoBack }) => {
     };
   };
   
-
   const handleSubmit = () => {
     onAnswer(selectedOptions, 'Preferences');
   };
+  
 
   return (
     <View style={styles.container}>
@@ -145,13 +156,11 @@ const styles = StyleSheet.create({
   answerOptionsContainer: {
     flex: 1,
     width: '100%',
-
   },
   answerOption: {
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   tagsContainer: {
     flexDirection: 'row',

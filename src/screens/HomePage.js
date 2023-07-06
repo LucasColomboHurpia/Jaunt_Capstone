@@ -3,7 +3,15 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from
 import MenuComponent from '../components/MenuComponent';
 import AddActivityButton from '../components/addActivityButton'; 
 
+import SurveyContext from '../context/SurveyContext';
+
+
 const HomePage = ({ navigation }) => {
+
+  const { surveyData } = useContext(SurveyContext);
+
+  console.log('---',surveyData)
+
   const activities = [
     { id: 1, title: 'Activity 1', date: '2023-06-22', time: '10:00 AM', memberName: 'John Doe', destination: 'Capilano Suspension Bridge' },
     { id: 2, title: 'Activity 2', date: '2023-06-23', time: '2:30 PM', memberName: 'Jane Smith', destination: 'Lynn Valley' },

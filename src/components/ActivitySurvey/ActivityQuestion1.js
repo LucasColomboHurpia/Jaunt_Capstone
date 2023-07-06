@@ -4,23 +4,28 @@ import SurveyContext from '../../context/SurveyContext';
 import { WeatherComponent } from '../WeatherComponent';
 
 const ActivityQuestion1 = ({ onAnswer }) => {
-  const { surveyData } = useContext(SurveyContext);
-  const { ActivityParameters } = surveyData;
-  const { name } = ActivityParameters;
+  const { activityParameters } = useContext(SurveyContext);
+
+  // Check if activityParameters exists before trying to access it
+  const item = activityParameters && activityParameters.length > 0 ? activityParameters[activityParameters.length - 1] : {};
+
+  const handleAnswer = (answer, questionKey) => {
+    onAnswer(answer, questionKey); // Directly pass answer to parent
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{name}</Text>
+      <Text style={styles.title}>{item.name}</Text>
       <WeatherComponent />
       <Text style={styles.subtitle}>What do you wanna do?</Text>
       <View style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.optionDo} onPress={() => onAnswer("Do Something",'UserWouldLikeTo')}>
+        <TouchableOpacity style={styles.optionDo} onPress={() => handleAnswer("Do Something", 'UserWouldLikeTo')}>
           <Text style={styles.optionText}>Do Something</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionEat} onPress={() => onAnswer("Eat Something",'UserWouldLikeTo')}>
+        <TouchableOpacity style={styles.optionEat} onPress={() => handleAnswer("Eat Something", 'UserWouldLikeTo')}>
           <Text style={styles.optionText}>Eat Something</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionBoth} onPress={() => onAnswer("Both",'UserWouldLikeTo')}>
+        <TouchableOpacity style={styles.optionBoth} onPress={() => handleAnswer("Both", 'UserWouldLikeTo')}>
           <Text style={styles.optionText}>Both</Text>
         </TouchableOpacity>
       </View>
@@ -62,18 +67,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#bbb', 
+    backgroundColor: '#bbb',
   },
   optionEat: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ddd', 
+    backgroundColor: '#ddd',
   },
   optionBoth: {
     position: 'absolute',
     bottom: 0,
-    height: 60, 
+    height: 60,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',

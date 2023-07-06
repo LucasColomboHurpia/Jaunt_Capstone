@@ -11,7 +11,7 @@ const ActivityQuestion3 = ({ onAnswer, onGoBack }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText}>How much to you plan to spend?</Text>
+      <Text style={styles.titleText}>How much do you plan to spend?</Text>
       <Text style={styles.valueText}>${sliderValue} CAD</Text>
 
       <View style={styles.sliderContainer}>
