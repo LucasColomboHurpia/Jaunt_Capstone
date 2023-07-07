@@ -8,14 +8,29 @@ import Aligner from '../components/Aligner';
 import yay from '../components/assets/icons/yay';
 import SurveyContext from '../context/SurveyContext';
 
-const ActivitySummary = ({ navigation }) => {
+const ActivitySummary = ({ route, navigation }) => {
+  const { activityId } = route.params; // Get the activityId from the route params
   const { surveyData } = useContext(SurveyContext);
+  const { activityParameters } = surveyData;
 
-  // Log the surveyData when the component mounts
+  console.log('----summary---')
+  console.log(activityId)
+  console.log(surveyData)
+  console.log(activityParameters)
+  console.log('---')
+
+  let currentActivity = surveyData?.activityParameters?.find(activity => activity.id === activityId); // Get the activity with the same id
+
   useEffect(() => {
-    console.log("Survey results:"); //
+    console.log("Survey results:");
     console.log(surveyData);
+    console.log("Current activity: ");
+    console.log(currentActivity);
   }, []);
+
+  const handleNavigateToSurveyResults = () => {
+    navigation.navigate('SurveyResults', { activityId });
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

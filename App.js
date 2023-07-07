@@ -20,9 +20,12 @@ const Stack = createStackNavigator();
 
 const App = () => {
   const [surveyData, setSurveyData] = useState({});
+  const [activityParameters, setActivityParameters] = useState([]);
+  const [currentActivityId, setCurrentActivityId] = useState([]);
+
 
   return (
-    <SurveyContext.Provider value={{ surveyData, setSurveyData }}>
+    <SurveyContext.Provider value={{ surveyData, setSurveyData, activityParameters, setActivityParameters,  currentActivityId, setCurrentActivityId }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LoginPage" screenOptions={{ headerShown: false }}>
 

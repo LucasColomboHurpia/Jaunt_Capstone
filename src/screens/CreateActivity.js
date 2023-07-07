@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SurveyContext from '../context/SurveyContext';
+import uuid from 'react-native-uuid';
 
 const HeaderSection = () => {
   return (
@@ -10,18 +11,14 @@ const HeaderSection = () => {
     </View>
   );
 };
+
 const MemberSection = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.memberSection}>
       <Text style={styles.memberTitle}>Members</Text>
       <View style={styles.memberContent}>
-        <Button title="Invite" color='grey'  onPress={() => navigation.navigate('Contact')}/>
-{/*         <View style={styles.memberCircles}>
-          <View style={styles.circle} />
-          <View style={styles.circle} />
-          <View style={styles.circle} />
-        </View> */}
+        <Button title="Invite" color='grey' onPress={() => navigation.navigate('Contact')} />
       </View>
     </View>
   );
@@ -55,49 +52,54 @@ const CreateSection = ({ onCreate }) => {
 
 const CreateActivity = () => {
   const currentDate = new Date();
-
-  // Format the date as "DD/MM/YYYY"
   const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-
-  // Format the time as "HH:MM"
   const formattedTime = `${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}`;
 
   const [activityName, setActivityName] = useState("New Activity");
   const [date, setDate] = useState(formattedDate);
-  const [hour, setHour] = useState(formattedTime.slice(0,2)); // First two characters represent the hour
-  const [minute, setMinute] = useState(formattedTime.slice(3)); // Last two characters represent the minutes
+  const [hour, setHour] = useState(formattedTime.slice(0, 2));
+  const [minute, setMinute] = useState(formattedTime.slice(3));
 
   const { surveyData, setSurveyData } = useContext(SurveyContext);
 
   const navigation = useNavigation();
 
+
   useEffect(() => {
     console.log('Survey Data: ', surveyData);
   }, []);
 
+  useEffect(() => {
+    console.log('Updated Activities: ', surveyData.activityParameters)
+  }, [surveyData.activityParameters]);
+
   const handleCreate = () => {
     const dateTime = `${date} ${hour}:${minute}`;
-
     let currentDate = new Date().toLocaleString();
-
-    if(date!==''){currentDate=dateTime}
-
+    if (date !== '') {
+      currentDate = dateTime;
+    }
 
     const newActivity = {
+      id: uuid.v4(),
       name: activityName || 'New Activity',
       dateTime: currentDate,
+      activitySet: false,
     };
 
-    // Update surveyData with activityParameters
-    setSurveyData(prevData => ({
-      ...prevData,
-      ActivityParameters: newActivity,
-    }));
+    const updatedActivityParameters = surveyData.activityParameters ? [...surveyData.activityParameters, newActivity] : [newActivity];
+
+    const updatedSurveyData = {
+      ...surveyData,
+      activityParameters: updatedActivityParameters,
+    };
+
+    setSurveyData(updatedSurveyData);
 
     console.log(surveyData)
+
     
-    // Navigate to ActivityDashboard after setting data
-    navigation.navigate('ActivityDashboard');
+     navigation.navigate('ActivityDashboard', { activityId: newActivity.id });
   };
 
   return (
@@ -120,7 +122,6 @@ const CreateActivity = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    padding: 30
+    padding: 30,
   },
   headerSection: {
     // styling for header section
@@ -149,17 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '50%',
-    padding: 20
-  },
-  memberCircles: {
-    flexDirection: 'row',
-  },
-  circle: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: 'grey',
-    marginLeft: -10,
+    padding: 20,
   },
   formSection: {
     width: '100%',
@@ -184,8 +175,3 @@ const styles = StyleSheet.create({
 });
 
 export default CreateActivity;
-
-
-
-
-
