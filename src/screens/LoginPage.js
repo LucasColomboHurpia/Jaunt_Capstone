@@ -45,7 +45,11 @@ const LoginPage = ({ navigation }) => {
   }
 
   const submitForm = async () => {
-    try {
+
+    navigation.navigate('SurveyPage');
+
+
+/*     try {
         setIsLoading(true);
         const loginData = {
             email,
@@ -68,7 +72,7 @@ const LoginPage = ({ navigation }) => {
         }
 
         return setError('Something went wrong, please try again later!');
-    }
+    } */
   }
 
   const register = () => {
