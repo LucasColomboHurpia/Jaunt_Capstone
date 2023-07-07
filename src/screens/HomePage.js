@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Dimensions, ScrollView } from 'react-native';
 import MenuComponent from '../components/MenuComponent';
 import AddActivityButton from '../components/addActivityButton'; 
 
 import SurveyContext from '../context/SurveyContext';
-
 
 const HomePage = ({ navigation }) => {
 
@@ -12,37 +11,79 @@ const HomePage = ({ navigation }) => {
 
   console.log('---',surveyData)
 
+
   const activities = [
-    { id: 1, title: 'Activity 1', date: '2023-06-22', time: '10:00 AM', memberName: 'John Doe', destination: 'Capilano Suspension Bridge' },
-    { id: 2, title: 'Activity 2', date: '2023-06-23', time: '2:30 PM', memberName: 'Jane Smith', destination: 'Lynn Valley' },
-    { id: 3, title: 'New Activity', date: '2023-06-24', time: '4:00 PM', memberName: 'Alex Johnson', destination: 'Vancouver Art Gallery' },
+    {
+      id: 1,
+      title: "Lunch out with my friends",
+      date: "2023-06-22",
+      time: "10:00 AM",
+      destination: "Capilano Suspension Bridge",
+      groups: [
+        {
+          id: 1,
+          name: "Group 1",
+          members: [
+            { id: 1, name: "Jon Snow" },
+            { id: 2, name: "Michael" },
+            { id: 3, name: "Obika K" },
+          ],
+        },
+      ],
+    },
+    {
+      id: 2,
+      title: "Hiking with the gang",
+      date: "2023-06-23",
+      time: "2:30 PM",
+      destination: "Lynn Valley",
+      groups: [
+        {
+          id: 3,
+          name: "Group 3",
+          members: [
+            { id: 4, name: "Harry Potter" },
+            { id: 5, name: "Sebastian" },
+            { id: 6, name: "Lucas" },
+          ],
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: "Explore the Art Exhibitions",
+      date: "2023-06-24",
+      time: "4:00 PM",
+      destination: "Vancouver Art Gallery",
+      groups: [
+        {
+          id: 4,
+          name: "Group 4",
+          members: [
+            { id: 7, name: "Milla" },
+            { id: 8, name: "Stephanie" },
+            { id: 9, name: "Zarah" },
+            { id: 10, name: "Nismath" },
+          ],
+        },
+      ],
+    },
   ];
+
+  const upcomingActivities = [activities[0]];
+  const pendingActivities = [activities[1], activities[2]];
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.greeting}>Hi User!</Text>
+        <Text style={[styles.subText, { marginTop: 20 }]}>
+          These are your upcoming activities:
+        </Text>
+      </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.header}>
-          <Text style={styles.greeting}>Hi User!</Text>
-          <Text style={styles.subText}>Here are your upcoming activities</Text>
-        </View>
         <View style={styles.body}>
-          {activities.length > 0 ? (
-            activities.map((activity) => (
-              <TouchableOpacity
-                key={activity.id}
-                style={styles.activityContainer}
-                onPress={() => console.log(activity.details)}
-              >
-                <Text style={styles.activityTitle}>{activity.title}</Text>
-                <Text style={styles.activityDetails}>{activity.details}</Text>
-                <Text>Date: {activity.date}</Text>
-                <Text>Time: {activity.time}</Text>
-                <Text>Destination: {activity.destination}</Text>
-              </TouchableOpacity>
-            ))
-          ) : (
-            <Text style={styles.description}>You have no upcoming or pending activities</Text>
-          )}
+          {/* Your activities logic... */}
         </View>
       </ScrollView>
       <AddActivityButton navigation={navigation} />
@@ -54,61 +95,85 @@ const HomePage = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
+    alignItems: "flex-start",
+    width: "100%",
     padding: 20,
   },
   scrollContainer: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-        width: '100%',
+    width: '100%',
   },
   header: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    width: "100%",
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    width: '100%',
   },
+  
   body: {
-    flex: 2,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-    overflow: 'scroll', // Enable scrolling behavior
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    width: "100%",
+    overflow: "scroll",
   },
   greeting: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 60,
+    fontWeight: "bold",
+    textAlign: "left",
+    marginTop: 32,
   },
+  
   subText: {
     fontSize: 16,
-    color: 'gray',
-    marginTop: 10,
+    color: "gray",
+    textAlign: "left",
+
   },
   description: {
     fontSize: 16,
     marginBottom: 20,
   },
   activityContainer: {
-    backgroundColor: 'lightgray',
+    backgroundColor: "lightgray",
     padding: 10,
     borderRadius: 5,
-    marginBottom: 10,
-    width: Dimensions.get('window').width - 40,
+    marginBottom: 5,
+    width: Dimensions.get("window").width - 40,
+  },
+  activityHeader: {
+    flexDirection: "column",
+    marginBottom: 5,
   },
   activityTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
+    marginLeft: 10,
+    textAlign: "left",
   },
   activityDetails: {
-    fontSize: 16,
+    textAlign: "left",
+    marginLeft: 10,
+    marginBottom: 10,
   },
+  groupImage: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    marginLeft: 10,
+  },
+  groupMembers: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  memberName: {
+    fontSize: 16,
+    marginLeft: 10,
+    marginBottom: 10
+  },
+
 
   addActivityButton: {
     position: 'absolute', 
