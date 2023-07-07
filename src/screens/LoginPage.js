@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, PermissionsAndroid } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { API_URL } from '../config';
 
 
 const LoginPage = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('obikaForPresident2022@gmail.com');
+  const [password, setPassword] = useState('test1111');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loginBtnDisabled, setLoginBtnDisabled] = useState(false);
-  const [loginBtnText, setLoginBtnText] = useState("SUBMIT");
+  const [loginBtnText, setLoginBtnText] = useState("SUBMIT");    
   
     useEffect(() => {
         if(isLoading){
