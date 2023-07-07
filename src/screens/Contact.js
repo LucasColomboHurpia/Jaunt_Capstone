@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,24 +8,23 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-const contacts = [
-  { id: 1, name: "John Snow" },
-  { id: 2, name: "Michael" },
-  { id: 3, name: "Obika K" },
-  { id: 4, name: "Harry Potter" },
-  { id: 5, name: "Sebastian" },
-  { id: 6, name: "Lucas" },
-  { id: 7, name: "Milla" },
-  { id: 8, name: "Stephanie" },
-  { id: 9, name: "Zara" },
-  { id: 10, name: "Nismath" },
-];
+import * as Contacts from 'expo-contacts';
 
 const Contact = () => {
   const navigation = useNavigation();
 
   const [invitedContacts, setInvitedContacts] = useState([]);
+  const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Contacts.requestPermissionsAsync();
+      if (status === 'granted') {
+        const { data } = await Contacts.getContactsAsync();
+        setContacts(data);
+      }
+    })();
+  }, []);
 
   const handleInvite = (contactId) => {
     if (invitedContacts.includes(contactId)) {
@@ -42,6 +41,45 @@ const Contact = () => {
     navigation.navigate("CreateActivity");
   };
 
+  const displayContacts = () => {
+    if(contacts && contacts.length !==0) {
+        return contacts.map((contact, index) => {
+            if(contact.hasOwnProperty('phoneNumbers')) {
+                return (
+                    <View key={contact.lookupKey} style={styles.contactItem}>
+                      <MaterialIcons
+                        name="person"
+                        size={24}
+                        color="black"
+                        style={styles.profileIcon}
+                      />
+                      <Text style={styles.contactName}>{contact.firstName} {contact.lastName}</Text>
+                      <TouchableOpacity
+                        style={[
+                          styles.inviteButton,
+                          isContactInvited(contact.lookupKey) && styles.invitedButton,
+                        ]}
+                        onPress={() => handleInvite(contact.lookupKey)}
+                      >
+                        {isContactInvited(contact.lookupKey) ? (
+                          <MaterialIcons name="check" size={24} color="white" />
+                        ) : (
+                          <Text style={styles.inviteButtonText}>Invite</Text>
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  )
+            }
+        })
+    }
+
+    return (
+        <View>
+            <Text>Syncing Contacts....</Text>
+        </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -49,30 +87,7 @@ const Contact = () => {
         <MaterialIcons name="search" size={24} color="black" />
       </View>
       <ScrollView contentContainerStyle={styles.contactList}>
-        {contacts.map((contact) => (
-          <View key={contact.id} style={styles.contactItem}>
-            <MaterialIcons
-              name="person"
-              size={24}
-              color="black"
-              style={styles.profileIcon}
-            />
-            <Text style={styles.contactName}>{contact.name}</Text>
-            <TouchableOpacity
-              style={[
-                styles.inviteButton,
-                isContactInvited(contact.id) && styles.invitedButton,
-              ]}
-              onPress={() => handleInvite(contact.id)}
-            >
-              {isContactInvited(contact.id) ? (
-                <MaterialIcons name="check" size={24} color="white" />
-              ) : (
-                <Text style={styles.inviteButtonText}>Invite</Text>
-              )}
-            </TouchableOpacity>
-          </View>
-        ))}
+        {displayContacts()}
       </ScrollView>
       <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
         <Text style={styles.nextButtonText}>Next</Text>
