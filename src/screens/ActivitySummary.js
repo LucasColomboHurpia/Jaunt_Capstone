@@ -34,7 +34,7 @@ const ActivitySummary = ({ route, navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.activity}>{surveyData.ActivityParameters.name}</Text>
+        <Text style={styles.activity}>{currentActivity.name}</Text>
         <Text style={styles.title}>Thank you</Text>
         <Text style={styles.subtitle}>You are close to setting your plan...</Text>
         
@@ -51,7 +51,7 @@ const ActivitySummary = ({ route, navigation }) => {
             title="Choose Plan!"
             color="gray"
             style={styles.button}
-            onPress={() => navigation.navigate('SurveyResults')}
+            onPress={() => navigation.navigate('SurveyResults', {activityId})}
         />
 
         <Spacer type="margin" position="bottom" customSize={20} />
