@@ -10,7 +10,7 @@ const ActivityDashboard = ({ route, navigation }) => {
 
   const activityId = route.params.activityId;
 
-  
+
 
   const item = surveyData?.activityParameters?.find(activity => activity.id === activityId);
 
@@ -73,7 +73,7 @@ const ActivityDashboard = ({ route, navigation }) => {
 
           <View style={styles.card}>
             <Text style={styles.cardText}>Date: {item ? item.dateTime || 'Still figuring it out!' : 'Activity not found'}</Text>
-            <Text style={styles.cardText}>Location: {item ? item.address || addressText : 'Activity not found'}</Text>
+            <Text style={styles.cardText}>Location: {item ? item.apiResponse.address || addressText : 'Activity not found'}</Text>
           </View>
 
           {item && item?.apiResponse?.Tips && (

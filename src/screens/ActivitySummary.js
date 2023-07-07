@@ -56,12 +56,12 @@ const ActivitySummary = ({ route, navigation }) => {
 
         <Spacer type="margin" position="bottom" customSize={20} />
 
-        <Button
-            title="Back to Group"
+        {/* <Button
+            title="Back to Activity"
             color="gray"
             style={styles.button}
             onPress={() => navigation.navigate('SurveyResults')}
-        />
+        /> */}
     </ScrollView>
   );
 };
