@@ -4,57 +4,64 @@ import SurveyContext from '../context/SurveyContext';
 import MenuComponent from '../components/MenuComponent';
 
 const ActivityDashboard = ({ route, navigation }) => {
-  const { surveyData } = useContext(SurveyContext);
-  const item = route.params || surveyData?.ActivityParameters || {};
-  const surveyResults = Boolean(route.params);
 
-  let addressText = 'Still figuring it out!'
+  const { activityParameters } = useContext(SurveyContext);
+  const { setSurveyData, surveyData } = useContext(SurveyContext);
 
-  useEffect(() => {
-    console.log('Survey Results: ', surveyResults);
-  }, [surveyResults]);
+  const activityId = route.params.activityId;
 
-  if (surveyResults) {
-    console.log('survey done!');
-    console.log('|ActivityParameters|', surveyData.ActivityParameters);
-    console.log('|surveyResults|', item.item);
+  
 
-    addressText = item.item.address;
-  } else {
-    console.log('survey not done!')
-  }
+  const item = surveyData?.activityParameters?.find(activity => activity.id === activityId);
+
+
+
+  console.log('---------------------------------------')
+  
+  console.log('---route.params',route.params)
+
+  console.log('survey', surveyData)
+
+  console.log('---activityId ',activityId)
+
+  console.log('item',item)
+
+  console.log('---------------------------------------')
+
+
+
+  let addressText = 'Still figuring it out!';
 
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
-          <Text style={styles.title}>{surveyData.ActivityParameters.name || 'New Activity!'}</Text>
+          <Text style={styles.title}>{item ? item.name : 'New Activity!'}</Text>
 
           {/* no survey yet */}
-          {!surveyResults && (
+          {!(item && item?.apiResponse) && (
             <View style={styles.section}>
               <TouchableOpacity
                 style={styles.buttonCircle}
-                onPress={() => navigation.navigate('ActivitySurvey')}
+                onPress={() => navigation.navigate('ActivitySurvey', { activityId })}
               >
                 <Text style={styles.buttonText}>Pending...</Text>
               </TouchableOpacity>
             </View>
           )}
 
-          {/* survey completed */}
-          {surveyResults && (
+          {/* activity created */}
+          { item && item?.apiResponse?.name && (
             <View style={styles.section}>
               <TouchableOpacity
                 style={styles.buttonCircle}>
                 <Text style={styles.buttonText}>[icon]</Text>
-
-                <Text style={styles.buttonText}>{item.item.name}</Text>
+                <Text style={styles.buttonText}>{item.apiResponse.name}</Text>
               </TouchableOpacity>
             </View>
           )}
 
-          {surveyResults && (
+          {item && item?.apiResponse?.coordinates && (
             <View style={styles.buttonContainer}>
               <Button
                 title="See Map"
@@ -65,14 +72,14 @@ const ActivityDashboard = ({ route, navigation }) => {
           )}
 
           <View style={styles.card}>
-            <Text style={styles.cardText}>Date: {surveyData.ActivityParameters.dateTime || 'Still figuring it out!'}</Text>
-            <Text style={styles.cardText}>Location: {addressText}</Text>
+            <Text style={styles.cardText}>Date: {item ? item.dateTime || 'Still figuring it out!' : 'Activity not found'}</Text>
+            <Text style={styles.cardText}>Location: {item ? item.address || addressText : 'Activity not found'}</Text>
           </View>
 
-          {surveyResults && item.item.Tips && (
+          {item && item?.apiResponse?.Tips && (
             <View style={styles.tipsSection}>
               <Text style={styles.tipsTitle}>Tips:</Text>
-              {item.item.Tips.map((tip, index) => (
+              {item.apiResponse.Tips.map((tip, index) => (
                 <View key={index} style={styles.tipCard}>
                   <Text style={styles.tipText}>{tip}</Text>
                 </View>
@@ -93,9 +100,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginBottom: 80, // This should be the height of your MenuComponent, adjust as needed
+    marginBottom: 80,
   },
-  
+
   container: {
     flex: 1,
     alignItems: 'center',

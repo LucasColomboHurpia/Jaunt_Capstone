@@ -1,15 +1,17 @@
-import React, { useContext } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  Button,
-} from "react-native";
-import MenuComponent from "../components/MenuComponent";
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Dimensions, ScrollView } from 'react-native';
+import MenuComponent from '../components/MenuComponent';
+import AddActivityButton from '../components/addActivityButton'; 
+
+import SurveyContext from '../context/SurveyContext';
 
 const HomePage = ({ navigation }) => {
+
+  const { surveyData } = useContext(SurveyContext);
+
+  console.log('---',surveyData)
+
+
   const activities = [
     {
       id: 1,
@@ -79,113 +81,12 @@ const HomePage = ({ navigation }) => {
           These are your upcoming activities:
         </Text>
       </View>
-      <View style={styles.body}>
-        {upcomingActivities.length > 0 ? (
-          upcomingActivities.map((activity) => (
-            <TouchableOpacity
-              key={activity.id}
-              style={[styles.activityContainer, { marginTop: 10 }]}
-              onPress={() => console.log(activity.details)}
-            >
-              <View style={styles.activityHeader}>
-                {activity.groups.map((group) => (
-                  <View key={group.id} style={styles.groupMembers}>
-                    {group.members.length > 2 ? (
-                      <>
-                        <Text style={styles.memberName}>
-                          {group.members[0].name},
-                        </Text>
-                        <Text style={styles.memberName}>
-                          {group.members[1].name},
-                        </Text>
-                        <Text style={styles.memberName}>
-                          +{group.members.length - 2} others
-                        </Text>
-                      </>
-                    ) : (
-                      group.members.map((member) => (
-                        <Text key={member.id} style={styles.memberName}>
-                          {member.name}
-                        </Text>
-                      ))
-                    )}
-                  </View>
-                ))}
-                <Text style={styles.activityTitle}>{activity.title}</Text>
-              </View>
-              <Text style={styles.activityDetails}>Date: {activity.date}</Text>
-              <Text style={styles.activityDetails}>Time: {activity.time}</Text>
-              <Text style={styles.activityDetails}>
-                Destination: {activity.destination}
-              </Text>
-            </TouchableOpacity>
-          ))
-        ) : (
-          // Display a message if there are no upcoming activities
-          <Text style={styles.description}>
-            You have no upcoming activities
-          </Text>
-        )}
-        {pendingActivities.length > 0 ? (
-          <>
-            <Text
-              style={[
-                styles.subText,
-                { textAlign: "left", marginBottom: 10, marginTop: 10 },
-              ]}
-            >
-              Pending activities:
-            </Text>
-            {pendingActivities.map((activity) => (
-              <TouchableOpacity
-                key={activity.id}
-                style={styles.activityContainer}
-                onPress={() => console.log(activity.details)}
-              >
-                <View style={styles.activityHeader}>
-                  {activity.groups.map((group) => (
-                    <View key={group.id} style={styles.groupMembers}>
-                      {group.members.length > 2 ? (
-                        <>
-                          <Text style={styles.memberName}>
-                            {group.members[0].name},
-                          </Text>
-                          <Text style={styles.memberName}>
-                            {group.members[1].name},
-                          </Text>
-                          <Text style={styles.memberName}>
-                            +{group.members.length - 2} others
-                          </Text>
-                        </>
-                      ) : (
-                        group.members.map((member) => (
-                          <Text key={member.id} style={styles.memberName}>
-                            {member.name}
-                          </Text>
-                        ))
-                      )}
-                    </View>
-                  ))}
-                  <Text style={styles.activityTitle}>{activity.title}</Text>
-                </View>
-                <Text style={styles.activityDetails}>
-                  Date: {activity.date}
-                </Text>
-                <Text style={styles.activityDetails}>
-                  Time: {activity.time}
-                </Text>
-                <Button
-                  title="Play the Game"
-                  color="black"
-                  onPress={() => console.log("Button pressed")}
-                />
-              </TouchableOpacity>
-            ))}
-          </>
-        ) : (
-          <Text style={styles.description}>You have no pending activities</Text>
-        )}
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.body}>
+          {/* Your activities logic... */}
+        </View>
+      </ScrollView>
+      <AddActivityButton navigation={navigation} />
       <MenuComponent navigation={navigation} />
     </View>
   );
@@ -198,11 +99,19 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 20,
   },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
   header: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
+    flex: 1,
   },
+  
   body: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
@@ -215,10 +124,12 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginTop: 32,
   },
+  
   subText: {
     fontSize: 16,
     color: "gray",
     textAlign: "left",
+
   },
   description: {
     fontSize: 16,
@@ -262,6 +173,28 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 10
   },
+
+
+  addActivityButton: {
+    position: 'absolute', 
+    right: 10, 
+    bottom: 90, 
+    
+    
+  },
+  roundButton: {
+    height: 110,
+    width: 110,
+    borderRadius: 150,
+    backgroundColor: 'gray',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 24,
+    color: 'white',
+  },
+
 });
 
 export default HomePage;
