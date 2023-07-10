@@ -17,37 +17,27 @@ export default function MapPage({ route }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{placeData?.name}</Text>
-      <WebView
-        ref={webRef}
-        style={styles.map}
-        originWhitelist={['*']}
-        source={{ html: mapHtml }}
-        javaScriptEnabled={true}
-        onMessage={(event) => {
-          const msgData = JSON.parse(event.nativeEvent.data);
-          if (msgData.type === 'error') {
-            console.log('Received error from WebView: ', msgData.data);
-          } else if (msgData.type === 'position') {
-            console.log('Received position from WebView: ', msgData.data);
-          }
-        }}
-      />
-      <View style={styles.buttons}>
-        <TouchableOpacity style={styles.button} onPress={() => calculateRoute('pedestrian')}>
-          <Text style={styles.buttonText}>Walk</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => calculateRoute('bicycle')}>
-          <Text style={styles.buttonText}>Bike</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => calculateRoute('publicTransport')}>
-          <Text style={styles.buttonText}>Public</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => calculateRoute('car')}>
-          <Text style={styles.buttonText}>Car</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <Text style={styles.title}>{placeData?.name}</Text>
+    <WebView
+      ref={webRef}
+      style={styles.map}
+      originWhitelist={['*']}
+      source={{ html: mapHtml }}
+      javaScriptEnabled={true}
+      onMessage={(event) => {
+        const msgData = JSON.parse(event.nativeEvent.data);
+        if (msgData.type === 'error') {
+          console.log('Received error from WebView: ', msgData.data);
+        } else if (msgData.type === 'position') {
+          console.log('Received position from WebView: ', msgData.data);
+        } else if (msgData.type === 'transportMethod') {
+          console.log('Transport method: ', msgData.data);
+        } else if (msgData.type === 'consoleLog') {
+          console.log("LOG: ", msgData.data)
+        }
+      }}
+    />
+  </View>
   );
 }
 
@@ -81,3 +71,5 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+//car,truck,taxi,bus,van,motorcycle,bicycle,pedestrian
