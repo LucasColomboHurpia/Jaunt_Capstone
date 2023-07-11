@@ -72,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-//car,truck,taxi,bus,van,motorcycle,bicycle,pedestrian
+//car,truck,taxi,bus,van,motorcycle,bicycle,pedestrian //SAs8GubigOjo4UwoTk7tG4sXMPosF8uU //SAs8GubigOjo4UwoTk7tG4sXMPosF8uU
