@@ -7,15 +7,35 @@ export default function createMap(centerCoordinates, placeName) {
         }
 
         #map {
-          height: 100%;
+          height: 80%; /* adjust this as needed */
           width: 100%;
+        }
+
+        /* styles for the buttons */
+        .route-button {
+          display: inline-block;
+          padding: 80px;
+          margin: 5px;
+          background-color: grey;
+          color: white;
+          text-align: center;
+          cursor: pointer;
         }
       </style>
 
       <div id='map' class='map'></div>
 
+      <div id='route-buttons'>
+        <div class='route-button pedestrian'>Walk</div>
+        <div class='route-button bicycle'>Bike</div>
+        <div class='route-button publicTransport'>Public</div>
+        <div class='route-button car'>Car</div>
+      </div>
+
       <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps.css'/>
       <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/maps/maps-web.min.js'></script>
+      <script src='https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.13.0/services/services-web.min.js'></script>
+      
 
       <script>
         tt.setProductInfo('TomTom Maps React Native Demo', '1.0');
@@ -33,20 +53,26 @@ export default function createMap(centerCoordinates, placeName) {
           window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'position', data: [center.lng.toFixed(3), center.lat.toFixed(3)] }));
         });
 
-        window.document.addEventListener('message', function(event) {
-          console.log('Received event: ' + event.data);
-          var transportMethod = event.data;
 
-          var routeLayer = 'route_' + Date.now();
 
-          tt.services
-            .calculateRoute({
+        function calculateRoute(transportMethod) {
+          window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'consoleLog', data: "===============" }));
+        
+          try {
+            window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'consoleLog', data: "Started calculateRoute" }));
+            var routeLayer = 'route_' + Date.now();
+            window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'consoleLog', data: "Created routeLayer: " + routeLayer }));
+            window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'transportMethod', data: transportMethod }));
+            window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'consoleLog', data: "About to call tt.services.calculateRoute()" }));
+        
+            tt.services.calculateRoute({
               key: 'SAs8GubigOjo4UwoTk7tG4sXMPosF8uU',
               locations: ['-123.107508,49.224028', '${centerCoordinates.lng},${centerCoordinates.lat}'],
               travelMode: transportMethod,
-            })
-            .go()
-            .then(function(response) {
+            }).then(response => {
+              window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'consoleLog', data: "tt.services.calculateRoute result: " + JSON.stringify(response) }));
+        
+              // Removed response.go()
               var geojson = response.toGeoJson();
               if (map.getLayer(routeLayer)) {
                 map.removeLayer(routeLayer);
@@ -61,15 +87,43 @@ export default function createMap(centerCoordinates, placeName) {
                 },
                 layout: {},
                 paint: {
-                  'line-color': '#FF0000',
-                  'line-width': 3,
+                  'line-color': 'blue',
+                  'line-width': 10,
                 },
               });
-            })
-            .catch(function(error) {
-              window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'error', data: error.message }));
+        
+            }).catch(error => {
+              window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'consoleLog', data: "Error during 'calculateRoute' call: " + error.toString() }));
             });
-        });
+        
+          } catch (error) {
+            window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'consoleLog', data: "Error calling calculateRoute function: " + error.toString() }));
+            window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'error', data: error.toString() }));          
+          }
+        }
+        
+
+
+
+
+        
+
+        function setupEventListeners() {
+          document.querySelector('.route-button.pedestrian').addEventListener('click', function() {
+            calculateRoute('pedestrian');
+          });
+          document.querySelector('.route-button.bicycle').addEventListener('click', function() {
+            calculateRoute('bicycle');
+          });
+          document.querySelector('.route-button.publicTransport').addEventListener('click', function() {
+            calculateRoute('publicTransport');
+          });
+          document.querySelector('.route-button.car').addEventListener('click', function() {
+            calculateRoute('car');
+          });
+        }
+
+        window.onload = setupEventListeners;
       </script>
     </div>
   `;

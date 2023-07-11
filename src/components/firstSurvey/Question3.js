@@ -5,7 +5,7 @@ const answerOptions = [
   { text: 'Picnic', styles: { top: '22%', left: '2%' }, radius: 65 },
   { text: 'Parks', styles: { top: '10%', right: '0%' }, radius: 75 },
   { text: 'Vegan Food', styles: { top: '45%', left: '5%' }, radius: 85 },
-  { text: 'Meat', styles: { top: '37%', right: '-5%' }, radius: 55 },
+  { text: 'Burguers', styles: { top: '37%', right: '-5%' }, radius: 55 },
   { text: 'Bar', styles: { bottom: '80%', left: '10%' }, radius: 55 },
   { text: 'Karaoke', styles: { bottom: '10%', right: '-20%' }, radius: 60 },
   { text: 'Clubbing', styles: { bottom: '22%', right: '8%' }, radius: 70 },

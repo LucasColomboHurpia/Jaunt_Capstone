@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native';
 import SurveyContext from '../context/SurveyContext';
 
 ///-------------------------------------------------------------------------
-const API_KEY = "";
+const API_KEY = ""
 /////-----------------------------------------------------------------------
 
 
@@ -20,9 +20,26 @@ const object1234 = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a
   "DoLike": ["Fish", "Wine", "Bread"],
   "ChanceOfEnjoyingDrinking": 6.625 }`;
 
-const exampleAPIresponse = `[{ "address": "750 Hornby St, Vancouver, BC V6Z 2H7", "coordinates": { "lat": 49.2835948, "lng": -123.121791 }, "name": "Vancouver Art Gallery", "description": "Experience world-class exhibits and contemporary art at the Vancouver Art Gallery 🎨🖼️", "Tips": [ "Take a leisurely stroll along Robson Street after your visit.", "Check out the gallery's rooftop patio for panoramic views of the city.", "Visit on a Tuesday evening for discounted admission and live music." ], "tags": [ "art", "cultural", "popular" ] }, 
-{ "address": "English Bay Beach Path, Vancouver, BC V6G 1Z4", "coordinates": { "lat": 49.2894692, "lng": -123.1409033 }, "name": "English Bay Beach", "description": "Enjoy a relaxing day at English Bay Beach, one of Vancouver's most popular beaches 🏖️🌊", "Tips": [ "Bring a blanket and have a picnic on the sandy shores.", "Watch the beautiful sunset over the ocean.", "Take a walk along the Seawall to nearby Stanley Park." ], "tags": [ "beach", "outdoors", "relaxing" ] },
-{ "address": "900 Burrard St, Vancouver, BC V6Z 1X9", "coordinates": { "lat": 49.2832496, "lng": -123.1227095 }, "name": "Scotiabank Theatre Vancouver", "description": "Watch the latest blockbuster movies at Scotiabank Theatre Vancouver 🍿🎥", "Tips": [ "Grab a combo deal for popcorn and a drink at the concession stand.", "Arrive early to secure your preferred seats.", "Check out the VIP cinema for a luxurious movie experience." ], "tags": [ "movies", "entertainment", "popular" ] }]`
+const exampleAPIresponse = `[{"address":"1687 W Mall, Vancouver, BC V6T 1Z4, Canada",
+"coordinates":{"lat":49.2639243,"lng":-123.2489539},
+"name":"Museum of Anthropology",
+"description":"Explore indigenous art and culture 🎨",
+"Tips":["Take a walk around the stunning UBC campus", "Visit the Nitobe Memorial Garden nearby for a tranquil experience", "Don't miss the impressive collection of First Nations artwork"],
+"tags":["art", "culture", "indigenous"]},
+
+{"address":"1715 Anderson St, Vancouver, BC V6H 3P2, Canada",
+"coordinates":{"lat":49.2669501,"lng":-123.1467938},
+"name":"Kitsilano Beach",
+"description":"Relax on the sandy beach and enjoy stunning views 🏖️",
+"Tips":["Take a dip in the ocean during the summer", "Rent a bike and explore the beautiful surrounding area", "Stay until sunset for breathtaking colors"],
+"tags":["beach", "recreation", "scenic"]},
+
+{"address":"695 Grand Blvd, North Vancouver, BC V7L 3W2, Canada",
+"coordinates":{"lat":49.3142504,"lng":-123.081255},
+"name":"Capilano Suspension Bridge Park",
+"description":"Experience the thrill of crossing a suspension bridge 🌉",
+"Tips":["Explore the Treetops Adventure for a unique perspective", "Visit during the holiday season for the Canyon Lights display", "Try the Cliffwalk for a bit of adrenaline"],
+"tags":["adventure", "nature", "suspension bridge"]}]`
 
 const systemMessage = {
   "role": "system",
