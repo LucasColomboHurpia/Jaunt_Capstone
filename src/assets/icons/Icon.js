@@ -1,7 +1,7 @@
 import React from "react";
 import { SvgXml } from "react-native-svg";
 
-export const dots3Icon = () => (
+export const dots3Icon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="3dots Icon">
@@ -18,7 +18,7 @@ export const dots3Icon = () => (
   />
 );
 
-export const BackIcon = () => (
+export const BackIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Back Icon">
@@ -31,7 +31,7 @@ export const BackIcon = () => (
   />
 );
 
-export const BeerIcon = () => (
+export const BeerIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Beer Icon">
@@ -47,7 +47,7 @@ export const BeerIcon = () => (
   />
 );
 
-export const BikeIcon = () => (
+export const BikeIcon = (color) => (
   <SvgXml
     xml={`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="bike">
@@ -60,7 +60,7 @@ export const BikeIcon = () => (
   />
 );
 
-export const BreadIcon = () => (
+export const BreadIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Bread Icon">
@@ -77,7 +77,7 @@ export const BreadIcon = () => (
   />
 );
 
-export const BusIcon = () => (
+export const BusIcon = (color) => (
   <SvgXml
     xml={`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="bus">
@@ -90,7 +90,7 @@ export const BusIcon = () => (
   />
 );
 
-export const Calender = () => (
+export const Calender = (color) => (
   <SvgXml
     xml={`<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Calendar Icon">
@@ -103,7 +103,7 @@ export const Calender = () => (
   />
 );
 
-export const CameraPlusIcon = () => (
+export const CameraPlusIcon = (color) => (
   <SvgXml
     xml={`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="camera-plus">
@@ -116,7 +116,7 @@ export const CameraPlusIcon = () => (
   />
 );
 
-export const CameraIcon = () => (
+export const CameraIcon = (color) => (
   <SvgXml
     xml={`<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="camera">
@@ -132,7 +132,7 @@ export const CameraIcon = () => (
   />
 );
 
-export const CarIcon = () => (
+export const CarIcon = (color) => (
   <SvgXml
     xml={`<svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="car">
@@ -145,7 +145,7 @@ export const CarIcon = () => (
   />
 );
 
-export const CheckIcon = () => (
+export const CheckIcon = (color) => (
   <SvgXml
     xml={`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="check">
@@ -159,7 +159,7 @@ export const CheckIcon = () => (
   />
 );
 
-export const CheeseIcon = () => (
+export const CheeseIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Cheese Icon">
@@ -176,7 +176,7 @@ export const CheeseIcon = () => (
   />
 );
 
-export const ChickenIcon = () => (
+export const ChickenIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Chicken Icon">
@@ -189,7 +189,7 @@ export const ChickenIcon = () => (
   />
 );
 
-export const DairyIcon = () => (
+export const DairyIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Dairy Icon">
@@ -217,7 +217,7 @@ export const DairyIcon = () => (
   />
 );
 
-export const DownIcon = () => (
+export const DownIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Down Icon">
@@ -230,7 +230,7 @@ export const DownIcon = () => (
   />
 );
 
-export const DownloadIcon = () => (
+export const DownloadIcon = (color) => (
   <SvgXml
     xml={`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="download">
@@ -243,7 +243,7 @@ export const DownloadIcon = () => (
   />
 );
 
-export const FishIcon = () => (
+export const FishIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Fish Icon">
@@ -256,7 +256,7 @@ export const FishIcon = () => (
   />
 );
 
-export const GoogleFillIcon = () => (
+export const GoogleFillIcon = (color) => (
   <SvgXml
     xml={`<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="remix-icons/fill/logos/google-fill" clip-path="url(#clip0_516_4784)">
@@ -276,7 +276,7 @@ export const GoogleFillIcon = () => (
   />
 );
 
-export const HomeIcon = () => (
+export const HomeIcon = (color) => (
   <SvgXml
     xml={`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Home Icon">
@@ -289,7 +289,7 @@ export const HomeIcon = () => (
   />
 );
 
-export const InviteIcon = () => (
+export const InviteIcon = (color) => (
   <SvgXml
     xml={`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Invite Icon">
@@ -303,7 +303,7 @@ export const InviteIcon = () => (
   />
 );
 
-export const MapPinIcon = () => (
+export const MapPinIcon = (color) => (
   <SvgXml
     xml={`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="map-pin">
@@ -320,7 +320,7 @@ export const MapPinIcon = () => (
   />
 );
 
-export const MeatIcon = () => (
+export const MeatIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Meat Icon">
@@ -337,7 +337,7 @@ export const MeatIcon = () => (
   />
 );
 
-export const MilkIcon = () => (
+export const MilkIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Milk Icon">
@@ -354,7 +354,7 @@ export const MilkIcon = () => (
   />
 );
 
-export const NextIcon = () => (
+export const NextIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Next Icon">
@@ -367,7 +367,7 @@ export const NextIcon = () => (
   />
 );
 
-export const NotificationIcon = () => (
+export const NotificationIcon = (color) => (
   <SvgXml
     xml={`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Notification Icon">
@@ -381,7 +381,7 @@ export const NotificationIcon = () => (
   />
 );
 
-export const PencilIcon = () => (
+export const PencilIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="pencil">
@@ -395,7 +395,7 @@ export const PencilIcon = () => (
   />
 );
 
-export const PlusIcon = () => (
+export const PlusIcon = (color) => (
   <SvgXml
     xml={`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="plus">
@@ -408,7 +408,7 @@ export const PlusIcon = () => (
   />
 );
 
-export const SearchIcon = () => (
+export const SearchIcon = (color) => (
   <SvgXml
     xml={`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="search">
@@ -422,7 +422,7 @@ export const SearchIcon = () => (
   />
 );
 
-export const SendIcon = () => (
+export const SendIcon = (color) => (
   <SvgXml
     xml={`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="send">
@@ -436,7 +436,7 @@ export const SendIcon = () => (
   />
 );
 
-export const SettingsIcon = () => (
+export const SettingsIcon = (color) => (
   <SvgXml
     xml={`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="settings">
@@ -452,7 +452,7 @@ export const SettingsIcon = () => (
   />
 );
 
-export const ShrimpIcon = () => (
+export const ShrimpIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Shrimp Icon">
@@ -466,7 +466,7 @@ export const ShrimpIcon = () => (
   />
 );
 
-export const SmokingIcon = () => (
+export const SmokingIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Smoking Icon">
@@ -484,7 +484,7 @@ export const SmokingIcon = () => (
   />
 );
 
-export const TimeIcon = () => (
+export const TimeIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Time Icon">
@@ -500,7 +500,7 @@ export const TimeIcon = () => (
   />
 );
 
-export const VeganIcon = () => (
+export const VeganIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Vegan Icon">
@@ -516,7 +516,7 @@ export const VeganIcon = () => (
   />
 );
 
-export const VegetableIcon = () => (
+export const VegetableIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Vegetable Icon">
@@ -530,7 +530,7 @@ export const VegetableIcon = () => (
   />
 );
 
-export const WalkIcon = () => (
+export const WalkIcon = (color) => (
   <SvgXml
     xml={`<svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="walk">
@@ -544,7 +544,7 @@ export const WalkIcon = () => (
   />
 );
 
-export const WineIcon = () => (
+export const WineIcon = (color) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Wine Icon">
@@ -557,7 +557,7 @@ export const WineIcon = () => (
   />
 );
 
-export const CrossIcon = () => (
+export const CrossIcon = (color) => (
   <SvgXml
     xml={`<svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="x">
@@ -570,20 +570,19 @@ export const CrossIcon = () => (
   />
 );
 
-export const SingleProfileIcon = () => (
+export const SingleProfileIcon = (color) => (
   <SvgXml
-    xml={`<svg width="13" height="18" viewBox="0 0 13 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M6.5 8.11111C8.52504 8.11111 10.1667 6.51923 10.1667 4.55556C10.1667 2.59188 8.52504 1 6.5 1C4.47496 1 2.83333 2.59188 2.83333 4.55556C2.83333 6.51923 4.47496 8.11111 6.5 8.11111Z" fill="#F35F4B"/>
-    <path d="M1 17V15.2222C1 14.2792 1.38631 13.3749 2.07394 12.7081C2.76158 12.0413 3.69421 11.6667 4.66667 11.6667H8.33333C9.30579 11.6667 10.2384 12.0413 10.9261 12.7081C11.6137 13.3749 12 14.2792 12 15.2222V17" fill="#F35F4B"/>
-    <path d="M1 17V15.2222C1 14.2792 1.38631 13.3749 2.07394 12.7081C2.76158 12.0413 3.69421 11.6667 4.66667 11.6667H8.33333C9.30579 11.6667 10.2384 12.0413 10.9261 12.7081C11.6137 13.3749 12 14.2792 12 15.2222V17M10.1667 4.55556C10.1667 6.51923 8.52504 8.11111 6.5 8.11111C4.47496 8.11111 2.83333 6.51923 2.83333 4.55556C2.83333 2.59188 4.47496 1 6.5 1C8.52504 1 10.1667 2.59188 10.1667 4.55556Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>    
+    xml={`<svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="23" cy="23" r="22.5" fill="#F35F4B" stroke="#19445A"/>
+    <path d="M18 31V29.2222C18 28.2792 18.3863 27.3749 19.0739 26.7081C19.7616 26.0413 20.6942 25.6667 21.6667 25.6667H25.3333C26.3058 25.6667 27.2384 26.0413 27.9261 26.7081C28.6137 27.3749 29 28.2792 29 29.2222V31M27.1667 18.5556C27.1667 20.5192 25.525 22.1111 23.5 22.1111C21.475 22.1111 19.8333 20.5192 19.8333 18.5556C19.8333 16.5919 21.475 15 23.5 15C25.525 15 27.1667 16.5919 27.1667 18.5556Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>       
     `}
-    width={32}
-    height={32}
+    width={46}
+    height={46}
   />
 );
 
-export const GroupProfileIcon = () => (
+export const GroupProfileIcon = (color) => (
   <SvgXml
     xml={`<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M6 18V16.6667C6 15.9594 6.28095 15.2811 6.78105 14.781C7.28115 14.281 7.95942 14 8.66667 14H11.3333C12.0406 14 12.7189 14.281 13.219 14.781C13.719 15.2811 14 15.9594 14 16.6667V18M14.6667 6.08667C15.2403 6.23354 15.7487 6.56714 16.1118 7.03488C16.4748 7.50262 16.6719 8.07789 16.6719 8.67C16.6719 9.26212 16.4748 9.83739 16.1118 10.3051C15.7487 10.7729 15.2403 11.1065 14.6667 11.2533M18 18V16.6667C17.9966 16.0781 17.7986 15.5072 17.4368 15.043C17.0751 14.5787 16.5699 14.2471 16 14.1M12.6667 8.66667C12.6667 10.1394 11.4728 11.3333 10 11.3333C8.52724 11.3333 7.33333 10.1394 7.33333 8.66667C7.33333 7.19391 8.52724 6 10 6C11.4728 6 12.6667 7.19391 12.6667 8.66667Z" stroke="#19445A" stroke-linecap="round" stroke-linejoin="round"/>
