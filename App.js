@@ -1,60 +1,46 @@
-import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import LoginPage from "./src/screens/LoginPage";
-import SurveyPage from "./src/screens/SurveyPage";
-import CreateActivity from "./src/screens/CreateActivity";
-import ActivitySurvey from "./src/screens/ActivitySurvey";
-import HomePage from "./src/screens/HomePage";
-import MediaScreen from "./src/screens/Media";
-import GroupPage from "./src/screens/GroupPage";
-import Contact from "./src/screens/Contact";
-import ActivitySummary from "./src/screens/ActivitySummary";
-import SurveyResults from "./src/screens/SurveyResults";
-import ActivityDashboard from "./src/screens/ActivityDashboard";
-import MapPage from "./src/screens/MapPage";
-import SurveyContext from "./src/context/SurveyContext";
+import React, { useState, useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import { ThemeProvider } from 'styled-components';
 
-const Stack = createStackNavigator();
+import AuthNavigator from './src/infrastructure/navigation/AuthNavigator';
+import AppNavigator from './src/infrastructure/navigation/AppNavigator';
+import SurveyContext from './src/context/SurveyContext';
+
+import { theme } from './src/infrastructure/theme';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
 
 const App = () => {
-  const [surveyData, setSurveyData] = useState({});
-  const [activityParameters, setActivityParameters] = useState([]);
-  const [currentActivityId, setCurrentActivityId] = useState([]);
+    const [token, setToken] = useState({});
+    const [surveyData, setSurveyData] = useState({});
+    const [activityParameters, setActivityParameters] = useState([]);
+    const [currentActivityId, setCurrentActivityId] = useState([]);
+    
+    const getToken = async () => {
+        await AsyncStorage.setItem('auth_token', 'keiks');
+        const result = await AsyncStorage.getItem('auth_token');
+        setToken(result)
+    }
+
+    useEffect(() => {
+        getToken()
+    }, [])
+
+    const [loaded] = useFonts({
+        'Neuzeit-Grotesk': require('./src/assets/fonts/NeuzeitSBook.ttf'),
+    });
+
+    if (!loaded) {
+        return null;
+    }
 
   return (
-    <SurveyContext.Provider
-      value={{
-        surveyData,
-        setSurveyData,
-        activityParameters,
-        setActivityParameters,
-        currentActivityId,
-        setCurrentActivityId,
-      }}
-    >
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="LoginPage"
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="LoginPage" component={LoginPage} />
-          <Stack.Screen name="SurveyPage" component={SurveyPage} />
-          <Stack.Screen name="HomePage" component={HomePage} />
-          <Stack.Screen name="Contact" component={Contact} />
-          <Stack.Screen name="Media" component={MediaScreen} />
-          <Stack.Screen name="CreateActivity" component={CreateActivity} />
-          <Stack.Screen name="ActivitySurvey" component={ActivitySurvey} />
-          <Stack.Screen name="GroupPage" component={GroupPage} />
-          <Stack.Screen name="ActivitySummary" component={ActivitySummary} />
-          <Stack.Screen name="SurveyResults" component={SurveyResults} />
-          <Stack.Screen
-            name="ActivityDashboard"
-            component={ActivityDashboard}
-          />
-          <Stack.Screen name="MapPage" component={MapPage} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <SurveyContext.Provider value={{ surveyData, setSurveyData, activityParameters, setActivityParameters,  currentActivityId, setCurrentActivityId }}>
+        <ThemeProvider theme={theme}>
+            <NavigationContainer>
+                {token ? <AppNavigator /> : <AuthNavigator /> }
+            </NavigationContainer>
+        </ThemeProvider>
     </SurveyContext.Provider>
   );
 };
