@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, PermissionsAndroid } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTheme } from 'react-navigation';
+import { SvgXml } from 'react-native-svg';
 
 import { API_URL } from '../../../config';
+import Text from '../../../shared-components/Text';
+import Button from '../../../shared-components/Button';
+import { Input } from '../../../shared-components/Form';
+import Spacer from '../../../shared-components/Spacer';
+import logo from '../../../assets/icons/logo';
+import googleIcon from '../../../assets/icons/googleIcon';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -12,7 +20,9 @@ const LoginScreen = ({ navigation }) => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loginBtnDisabled, setLoginBtnDisabled] = useState(false);
-  const [loginBtnText, setLoginBtnText] = useState("SUBMIT");    
+  const [loginBtnText, setLoginBtnText] = useState("Sign in");  
+  
+  const theme = useTheme();
   
     useEffect(() => {
         if(isLoading){
@@ -21,7 +31,7 @@ const LoginScreen = ({ navigation }) => {
         }
         else {
             setLoginBtnDisabled(false);
-            setLoginBtnText("SUBMIT");
+            setLoginBtnText("Sign in");
         }
     }, [isLoading]);
 
@@ -77,31 +87,77 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Jaunt</Text>
 
-      <View style={styles.header}>
-      </View>
-      <Text style={styles.title}>Login Page</Text>
-      <Text style={styles.error}>{error}</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeEmail}
-        value={email}
-        placeholder="Email"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangePassword}
-        value={password}
-        placeholder="Password"
-        secureTextEntry
-        autoCapitalize="none"
-      />
-      <Button title={loginBtnText} disabled={loginBtnDisabled} onPress={submitForm} color="gray" />
-      <TouchableOpacity onPress={register}>
-        <Text style={styles.registerLink}>Don't have an account? Register</Text>
+
+        <Spacer type="margin" position="bottom" customSize={20} >
+            <Aligner>
+                <SvgXml xml={logo()} />
+            </Aligner>
+        </Spacer>
+      
+      <Spacer type="margin" position="bottom" customSize={20} >
+        <Aligner>
+            <Text variant="heading1">Sign in</Text>
+        </Aligner>
+      </Spacer>
+
+      <TouchableOpacity style={styles.header}>
+        <Spacer type="margin" position="right" customSize={20} >
+            <SvgXml xml={googleIcon()} />
+        </Spacer>
+        
+        <Text>Sign in with Google</Text>
       </TouchableOpacity>
+
+      <Spacer>
+            <Text variant="heading2">Or enter your login credentials</Text>
+      </Spacer>
+
+      <Text style={styles.error}>{error}</Text>
+      
+        <Spacer type="margin" position="bottom" customSize={30}>
+            <Text variant="labelSm">EMAIL ADDRESS</Text>
+            
+            <Spacer type="margin" position="bottom" customSize={5} />
+            
+            <Input
+                onChangeText={onChangeEmail}
+                value={email}
+                placeholder="email@gmail.com"
+                autoCapitalize="none"
+            />
+        </Spacer>
+
+        <Spacer type="margin" position="bottom" customSize={20}>
+            <Text variant="labelSm">PASSWORD</Text>
+            
+            <Spacer type="margin" position="bottom" customSize={5} />
+            
+            <Input
+                onChangeText={onChangePassword}
+                value={password}
+                placeholder="Enter your password here"
+                secureTextEntry
+                autoCapitalize="none"
+            />
+        </Spacer>
+      
+        <Spacer type="margin" position="bottom" customSize={20} >
+
+            <Button variant="bg"
+                text={loginBtnText}
+                type="secondary"
+                disabled={loginBtnDisabled}
+                onPress={submitForm}
+            />
+
+        </Spacer>
+
+      <Aligner>
+        <TouchableOpacity onPress={register}>
+            <Text variant="body" options={{ textDecoration: "underline" }}>No account yet? Sign in here</Text>
+        </TouchableOpacity>
+      </Aligner>
     </View>
   );
 };
@@ -110,13 +166,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 16,
-    backgroundColor: '#ecf0f1',
+    padding: 24,
+    backgroundColor: '#ffffff',
   },
   header: {
-    backgroundColor: '#cccccc',
+    backgroundColor: '#ffffff',
     padding: 10,
     marginBottom: 20,
+    borderRadius: 2,
+    height: 50,
+    elevation: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   headerText: {
     fontSize: 20,
