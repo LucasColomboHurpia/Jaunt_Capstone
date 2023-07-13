@@ -5,7 +5,7 @@ import { SvgXml } from 'react-native-svg';
 import Button from './Button';
 import Spacer from './Spacer';
 import Aligner from './Aligner';
-import yay from './assets/icons/yay';
+import yay from '../../../../assets/icons/yay';
 import SurveyContext from '../../../../context/SurveyContext';
 
 const ActivitySummary = ({ route, navigation }) => {

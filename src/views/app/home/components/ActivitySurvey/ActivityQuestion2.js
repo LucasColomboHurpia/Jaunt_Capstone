@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 
-import SurveyContext from '../../context/SurveyContext';
+import SurveyContext from '../../../../../context/SurveyContext';
 
 const positionData = [
   { top: '22%', left: '2%' },

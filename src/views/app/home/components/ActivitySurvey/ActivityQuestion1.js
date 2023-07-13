@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import SurveyContext from '../../context/SurveyContext';
+import SurveyContext from '../../../../../context/SurveyContext';
 import { WeatherComponent } from '../WeatherComponent';
 
 const ActivityQuestion1 = ({ onAnswer }) => {
