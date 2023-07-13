@@ -3,7 +3,9 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import createMap from '../components/mapTemplate';
 
-export default function MapPage({ route }) {
+import {BackIcon} from '../../../../assets/icons/Icon'
+
+export default function MapPage({ route, navigation }) {
   const webRef = useRef();
 
   const placeData = route.params?.item;
@@ -17,27 +19,32 @@ export default function MapPage({ route }) {
 
   return (
     <View style={styles.container}>
-    <Text style={styles.title}>{placeData?.name}</Text>
-    <WebView
-      ref={webRef}
-      style={styles.map}
-      originWhitelist={['*']}
-      source={{ html: mapHtml }}
-      javaScriptEnabled={true}
-      onMessage={(event) => {
-        const msgData = JSON.parse(event.nativeEvent.data);
-        if (msgData.type === 'error') {
-          console.log('Received error from WebView: ', msgData.data);
-        } else if (msgData.type === 'position') {
-          console.log('Received position from WebView: ', msgData.data);
-        } else if (msgData.type === 'transportMethod') {
-          console.log('Transport method: ', msgData.data);
-        } else if (msgData.type === 'consoleLog') {
-          console.log("LOG: ", msgData.data)
-        }
-      }}
-    />
-  </View>
+      <View style={styles.titleContainer}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <BackIcon color="#000" />
+        </TouchableOpacity>
+        <Text style={styles.title}>{placeData?.name}</Text>
+      </View>
+      <WebView
+        ref={webRef}
+        style={styles.map}
+        originWhitelist={['*']}
+        source={{ html: mapHtml }}
+        javaScriptEnabled={true}
+        onMessage={(event) => {
+          const msgData = JSON.parse(event.nativeEvent.data);
+          if (msgData.type === 'error') {
+            console.log('Received error from WebView: ', msgData.data);
+          } else if (msgData.type === 'position') {
+            console.log('Received position from WebView: ', msgData.data);
+          } else if (msgData.type === 'transportMethod') {
+            console.log('Transport method: ', msgData.data);
+          } else if (msgData.type === 'consoleLog') {
+            console.log("LOG: ", msgData.data)
+          }
+        }}
+      />
+    </View>
   );
 }
 
@@ -46,8 +53,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
-  title: {
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     height: '10%',
+  },
+  backButton: {
+    paddingHorizontal: 10,
+    fontSize: 20,
+  },
+  title: {
     padding: 10,
     fontSize: 20,
     fontWeight: 'bold',
@@ -71,5 +86,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-//car,truck,taxi,bus,van,motorcycle,bicycle,pedestrian //SAs8GubigOjo4UwoTk7tG4sXMPosF8uU //SAs8GubigOjo4UwoTk7tG4sXMPosF8uU
