@@ -17,14 +17,9 @@ export const fontWeights = {
 };
 
 export const fontSizes = {
-    label: RFValue(10),
-    caption: RFValue(12),
-    body: RFValue(14),
-    title: RFValue(18),
-    ProductTitle: RFValue(20),
-    h5: RFValue(24),
-    h4: RFValue(28),
-    h3: RFValue(32),
-    h2: RFValue(36),
-    h1: RFValue(40),
+    heading1: RFValue(32),
+    heading2: RFValue(22),
+    body: RFValue(16),
+    labelBg: RFValue(18),
+    labelSm: RFValue(12),
 };
