@@ -38,7 +38,8 @@ const App = () => {
     <SurveyContext.Provider value={{ surveyData, setSurveyData, activityParameters, setActivityParameters,  currentActivityId, setCurrentActivityId }}>
         <ThemeProvider theme={theme}>
             <NavigationContainer>
-                {token ? <AppNavigator /> : <AuthNavigator /> }
+                {/* {token ? <AppNavigator /> : <AuthNavigator /> } */}
+                <AuthNavigator />
             </NavigationContainer>
         </ThemeProvider>
     </SurveyContext.Provider>
