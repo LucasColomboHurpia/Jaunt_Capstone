@@ -17,7 +17,6 @@ const App = () => {
     const [currentActivityId, setCurrentActivityId] = useState([]);
     
     const getToken = async () => {
-        await AsyncStorage.setItem('auth_token', 'keiks');
         const result = await AsyncStorage.getItem('auth_token');
         setToken(result)
     }
