@@ -86,7 +86,7 @@ const MenuComponent = (props) => {
 
                             </TouchableOpacity>
 
-                            {/* <SvgXml xml={tabActive(activeDashColor)} /> */}
+                            <SvgXml xml={tabActive(activeDashColor)} />
                         </View>
                     )
                 }
