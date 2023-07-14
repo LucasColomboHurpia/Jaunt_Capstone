@@ -55,7 +55,8 @@ const LoginScreen = ({ navigation }) => {
   }
 
   const submitForm = async () => {
-    try {
+
+/*     try {
         setIsLoading(true);
         const loginData = {
             email,
@@ -78,7 +79,10 @@ const LoginScreen = ({ navigation }) => {
         }
 
         return setError('Something went wrong, please try again later!');
-    }
+    } */
+
+    navigation.navigate('App');
+
   }
 
   const register = () => {

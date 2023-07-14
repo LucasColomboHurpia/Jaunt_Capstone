@@ -65,13 +65,25 @@ const SurveyResults = ({ route, navigation }) => {
         .then(data => {
           console.log("CHATGPT CALL");
           console.log(data.choices[0].message.content);
+
+          // Check if data.choices[0].message.content contains any of the specified strings
+          if (
+            data.choices[0].message.content.includes("123") ||
+            data.choices[0].message.content.includes("456") ||
+            data.choices[0].message.content.includes("879") ||
+            data.choices[0].message.content.includes("example")
+          ) {
+            throw new Error("Content includes disallowed string");  // Throw an error to trigger the retry
+          }
+
           setData(JSON.parse(data.choices[0].message.content));
           setIsLoading(false);
         })
         .catch(error => {
           console.error('Error on API call:', error);
+          // On catch, regardless of error type, increase retryCount to 4 and retry
           if (retryCount < 2) {
-            setRetryCount(retryCount + 1);
+            setRetryCount(4);
             makeApiCall();
           } else {
             setData([]);
