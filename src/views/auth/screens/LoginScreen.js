@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useTheme } from 'react-navigation';
+import { useTheme } from 'styled-components';
 import { SvgXml } from 'react-native-svg';
 
 import { API_URL } from '../../../config';
@@ -12,6 +12,7 @@ import { Input } from '../../../shared-components/Form';
 import Spacer from '../../../shared-components/Spacer';
 import logo from '../../../assets/icons/logo';
 import googleIcon from '../../../assets/icons/googleIcon';
+import { Container } from '../../../shared-components/Container';
 
 
 const LoginScreen = ({ navigation }) => {
@@ -86,9 +87,7 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-
-
+    <Container>
         <Spacer type="margin" position="bottom" customSize={20} >
             <Aligner>
                 <SvgXml xml={logo()} />
@@ -106,7 +105,7 @@ const LoginScreen = ({ navigation }) => {
             <SvgXml xml={googleIcon()} />
         </Spacer>
         
-        <Text>Sign in with Google</Text>
+        <Text variant="labelMd" options={{ color: theme.colors.greys.g2 }}>Sign in with Google</Text>
       </TouchableOpacity>
 
       <Spacer>
@@ -158,7 +157,7 @@ const LoginScreen = ({ navigation }) => {
             <Text variant="body" options={{ textDecoration: "underline" }}>No account yet? Sign in here</Text>
         </TouchableOpacity>
       </Aligner>
-    </View>
+    </Container>
   );
 };
 
