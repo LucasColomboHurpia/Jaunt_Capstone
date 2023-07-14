@@ -1,9 +1,26 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 
+import {VegetableIcon, VeganIcon, FishIcon, ChickenIcon} from '../../../../../assets/icons/Icon'
+
 const answerOptions = ['Vegetarian', 'Vegan', 'Pescatarian', 'None'];
 
 const Question1 = ({ onAnswer, onGoBack  }) => {
+  const getIcon = (item) => {
+    switch (item) {
+      case 'Vegetarian':
+        return <VegetableIcon size={105}/>;
+      case 'Vegan':
+        return <VeganIcon size={105}/>;
+      case 'Pescatarian':
+        return <FishIcon  size={105}/>;
+      case 'None':
+        return <ChickenIcon size={105} />;
+      default:
+        return null;
+    }
+  };
+
   const renderAnswerOption = ({ item }) => {
     return (
       <TouchableOpacity
@@ -11,6 +28,7 @@ const Question1 = ({ onAnswer, onGoBack  }) => {
         onPress={() => onAnswer(item,'Diet')}
       >
         <Text>{item}</Text>
+        {getIcon(item)}
       </TouchableOpacity>
     );
   };

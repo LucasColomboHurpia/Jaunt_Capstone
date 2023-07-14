@@ -91,14 +91,17 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     fontSize: 18,
     marginBottom: 20,
+    marginTop: 30,
     textAlign: 'center',
   },
   input: {
-    height: 40,
+    height: 60,
+    borderRadius: 15,
+
     width: 320,
     margin: 12,
     borderWidth: 0.5,
-    padding: 10,
+    padding: 15,
   },
   answerOptionsContainer: {
   //  flexDirection: 'row',
@@ -107,8 +110,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   answerOption: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 30,
+    fontSize: 20,
     backgroundColor: 'white',
     borderRadius: 25,
     margin: 5,

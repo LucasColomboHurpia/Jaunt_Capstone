@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
 
 ///-------------------------------------------------------------------------
-const API_KEY = "";
+const API_KEY = "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"
 /////-----------------------------------------------------------------------
 
 
@@ -68,7 +68,7 @@ const SurveyResults = ({ route, navigation }) => {
 
           // Check if data.choices[0].message.content contains any of the specified strings
           if (
-            data.choices[0].message.content.includes("123") ||
+            data.choices[0].message.content.includes("123 ") ||
             data.choices[0].message.content.includes("456") ||
             data.choices[0].message.content.includes("879") ||
             data.choices[0].message.content.includes("example")
