@@ -1,25 +1,34 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import Text from "../../../../shared-components/Text";
 import { useNavigation } from "@react-navigation/native";
-import * as Contacts from 'expo-contacts';
+import * as Contacts from "expo-contacts";
+import Button from "../../../../shared-components/Button";
+import {
+  SingleProfileIcon,
+  CheckIcon,
+  SearchIcon,
+} from "../../../../assets/icons/Icon";
+import Aligner from "../../../../shared-components/Aligner";
 
 const ContactListScreen = () => {
   const navigation = useNavigation();
 
   const [invitedContacts, setInvitedContacts] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     (async () => {
       const { status } = await Contacts.requestPermissionsAsync();
-      if (status === 'granted') {
+      if (status === "granted") {
         const { data } = await Contacts.getContactsAsync();
         setContacts(data);
       }
@@ -37,61 +46,118 @@ const ContactListScreen = () => {
   const isContactInvited = (contactId) => {
     return invitedContacts.includes(contactId);
   };
+
   const handleNext = () => {
     navigation.navigate("CreateActivity");
   };
 
+  const handleSkip = () => {
+    navigation.navigate("CreateActivity");
+  };
+
+  const handleSearchIconClick = () => {
+    setShowSearchBar(!showSearchBar);
+  };
+
+  const handleSearch = () => {
+    const filteredContacts = contacts.filter((contact) => {
+      const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
+      return fullName.includes(searchQuery.toLowerCase());
+    });
+    setContacts(filteredContacts);
+  };
+
   const displayContacts = () => {
-    if(contacts && contacts.length !==0) {
-        return contacts.map((contact, index) => {
-            if(contact.hasOwnProperty('phoneNumbers')) {
-                return (
-                    <View key={contact.lookupKey} style={styles.contactItem}>
-                      <MaterialIcons
-                        name="person"
-                        size={24}
-                        color="black"
-                        style={styles.profileIcon}
-                      />
-                      <Text style={styles.contactName}>{contact.firstName} {contact.lastName}</Text>
-                      <TouchableOpacity
-                        style={[
-                          styles.inviteButton,
-                          isContactInvited(contact.lookupKey) && styles.invitedButton,
-                        ]}
-                        onPress={() => handleInvite(contact.lookupKey)}
-                      >
-                        {isContactInvited(contact.lookupKey) ? (
-                          <MaterialIcons name="check" size={24} color="white" />
-                        ) : (
-                          <Text style={styles.inviteButtonText}>Invite</Text>
-                        )}
-                      </TouchableOpacity>
-                    </View>
-                  )
-            }
-        })
+    if (contacts && contacts.length !== 0) {
+      return contacts.map((contact, index) => {
+        if (contact.hasOwnProperty("phoneNumbers")) {
+          return (
+            <View key={contact.lookupKey} style={styles.contactItem}>
+              <SingleProfileIcon
+                name="person"
+                size={24}
+                style={styles.profileIcon}
+              />
+              <Text style={styles.contactName}>
+                {contact.firstName} {contact.lastName}
+              </Text>
+              <TouchableOpacity
+                style={[
+                  styles.inviteButton,
+                  isContactInvited(contact.lookupKey) && styles.invitedButton,
+                ]}
+                onPress={() => handleInvite(contact.lookupKey)}
+              >
+                {isContactInvited(contact.lookupKey) ? (
+                  <CheckIcon name="check" />
+                ) : (
+                  <Text style={styles.inviteButtonText}>Invite</Text>
+                )}
+              </TouchableOpacity>
+            </View>
+          );
+        }
+      });
     }
 
     return (
-        <View>
-            <Text>Syncing Contacts....</Text>
-        </View>
-    )
-  }
+      <View>
+        <Text>Syncing Contacts....</Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Contact List</Text>
-        <MaterialIcons name="search" size={24} color="black" />
+        {!showSearchBar && (
+          <Text variant="heading2" style={styles.title}>
+            Contact List
+          </Text>
+        )}
+        {showSearchBar && (
+          <View style={styles.searchBar}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search contacts"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+              onSubmitEditing={handleSearch}
+            />
+          </View>
+        )}
+        <TouchableOpacity onPress={handleSearchIconClick}>
+          <SearchIcon
+            name="search"
+            size={24}
+            color="black"
+            style={styles.searchIcon}
+          />
+        </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={styles.contactList}>
-        {displayContacts()}
-      </ScrollView>
-      <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-        <Text style={styles.nextButtonText}>Next</Text>
-      </TouchableOpacity>
+      <View style={styles.contentContainer}>
+        <ScrollView contentContainerStyle={styles.contactList}>
+          {displayContacts()}
+        </ScrollView>
+      </View>
+      <Spacer type="margin" position="bottom" customSize={5}>
+        <Aligner>
+          <Button
+            variant="sm"
+            text="Next"
+            type="primary"
+            onPress={handleNext}
+          />
+        </Aligner>
+        <Aligner>
+          <Button
+            variant="sm"
+            text="Skip"
+            type="tertiary"
+            onPress={handleSkip}
+          />
+        </Aligner>
+      </Spacer>
     </View>
   );
 };
@@ -99,72 +165,60 @@ const ContactListScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    paddingTop: 20,
+    justifyContent: "space-between",
     paddingHorizontal: 20,
-    backgroundColor: "white",
+    paddingTop: 40,
+    paddingBottom: 10,
     elevation: 4,
+    backgroundColor: "white",
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginRight: 10,
+  searchBar: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  searchInput: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+  },
+  contentContainer: {
+    flex: 1,
+    marginBottom: 10,
   },
   contactList: {
-    flexGrow: 1,
     alignItems: "center",
-    marginTop: 80,
-    marginBottom: 60,
+    marginTop: 22,
   },
   contactItem: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
     width: "80%",
-    marginBottom: 20,
-  },
-  profileIcon: {
-    marginRight: 10,
+    marginBottom: 21,
+    height: 45,
   },
   contactName: {
-    fontSize: 16,
+    fontSize: 18,
+    alignSelf: "flex-start",
   },
   inviteButton: {
     paddingHorizontal: 12,
     paddingVertical: 8,
-    backgroundColor: "grey",
+    backgroundColor: "white",
     borderRadius: 5,
   },
-  invitedButton: {
-    backgroundColor: "green",
-  },
   inviteButtonText: {
-    color: "white",
+    color: "grey",
     fontWeight: "bold",
   },
-  nextButton: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 60,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "grey",
-  },
-  nextButtonText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "black",
+  searchIcon: {
+    marginRight: 10,
   },
 });
 
