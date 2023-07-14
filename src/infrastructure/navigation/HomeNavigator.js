@@ -9,6 +9,8 @@ import ActivitySummary from '../../views/app/home/screens/ActivitySummary';
 import ActivitySurveyResults from '../../views/app/home/screens/ActivitySurveyResults';
 import MapPage from '../../views/app/home/screens/MapPage';
 import MediaScreen from '../../views/app/home/screens/Media';
+import Profile from '../../views/app/home/screens/ProfilePage';
+
 
 const HomeNavigator = (props) => {
 
@@ -31,6 +33,7 @@ const HomeNavigator = (props) => {
             <stack.Screen name="MapPage" component={MapPage} />
             <stack.Screen name="Notifications" component={HomeScreen} />
             <stack.Screen name="Media" component={MediaScreen} />
+            <stack.Screen name="Profile" component={Profile} />
         </stack.Navigator>
 
     )

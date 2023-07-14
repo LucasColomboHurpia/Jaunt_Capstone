@@ -446,8 +446,8 @@ export const SettingsIcon = (color) => (
   </g>
   </g>
   </svg>`}
-    width={32}
-    height={32}
+    width={38}
+    height={38}
     fill="none"
   />
 );
