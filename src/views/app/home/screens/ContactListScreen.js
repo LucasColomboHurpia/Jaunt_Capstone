@@ -111,7 +111,7 @@ const ContactListScreen = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         {!showSearchBar && (
-          <Text variant="heading2" style={styles.title}>
+          <Text variant="heading1" style={styles.title}>
             Contact List
           </Text>
         )}

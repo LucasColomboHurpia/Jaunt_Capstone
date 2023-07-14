@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MenuComponent from './MenuComponent';
 
 import HomeNavigator from './HomeNavigator';
+import NotificationScreen from '../../views/app/home/screens/NotificationScreen';
 
 const BottomTabNavigator = (props) => {
 
@@ -17,7 +18,7 @@ const BottomTabNavigator = (props) => {
         >
             <appTab.Screen name="Home" component={HomeNavigator} />
             <appTab.Screen name="Activities" component={HomeNavigator} />
-            <appTab.Screen name="Notifications" component={HomeNavigator} />
+            <appTab.Screen name="Notifications" component={NotificationScreen} />
         </appTab.Navigator>
 
     )
