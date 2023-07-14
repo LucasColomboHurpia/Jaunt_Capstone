@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute', 
     right: 10, 
-    bottom: 90,
+    bottom: 20,
   },
   buttonText: {
     fontSize: 24,

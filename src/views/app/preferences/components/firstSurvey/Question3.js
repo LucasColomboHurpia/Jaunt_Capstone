@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 
+import {MeatIcon, MilkIcon, VeganIcon, BreadIcon, WineIcon, ChickenIcon, ShrimpIcon, DairyIcon, SmokingIcon, BeerIcon} from '../../../../../assets/icons/Icon'
+
 const answerOptions = [
-  { text: 'Picnic', styles: { top: '22%', left: '2%' }, radius: 65 },
-  { text: 'Parks', styles: { top: '10%', right: '0%' }, radius: 75 },
-  { text: 'Vegan Food', styles: { top: '45%', left: '5%' }, radius: 85 },
-  { text: 'Meat', styles: { top: '37%', right: '-5%' }, radius: 55 },
-  { text: 'Bar', styles: { bottom: '80%', left: '10%' }, radius: 55 },
-  { text: 'Karaoke', styles: { bottom: '10%', right: '-20%' }, radius: 60 },
-  { text: 'Clubbing', styles: { bottom: '22%', right: '8%' }, radius: 70 },
+  { text: 'Picnic', styles: { top: '22%', left: '2%' }, radius: 65, icon: <BreadIcon size={100}/> },
+  { text: 'Parks', styles: { top: '10%', right: '0%' }, radius: 75, icon: <DairyIcon size={100}/> },
+  { text: 'Vegan Food', styles: { top: '45%', left: '5%' }, radius: 85, icon: <VeganIcon size={100}/> },
+  { text: 'Meat', styles: { top: '37%', right: '-5%' }, radius: 55, icon: <MeatIcon size={100}/> },
+  { text: 'Bar', styles: { bottom: '80%', left: '10%' }, radius: 55, icon: <BeerIcon size={100}/> },
+  { text: 'Karaoke', styles: { bottom: '10%', right: '-20%' }, radius: 60, icon: <WineIcon size={100}/> },
+  { text: 'Clubbing', styles: { bottom: '22%', right: '8%' }, radius: 70, icon: <SmokingIcon size={100}/> },
 ];
 
 const Question3 = ({ onAnswer, onGoBack }) => {
@@ -42,13 +44,13 @@ const Question3 = ({ onAnswer, onGoBack }) => {
               key={option.text}
               style={[
                 styles.answerOption,
-                { backgroundColor: isSelected ? 'gray' : 'white' },
+                { backgroundColor: isSelected ? '#F35F4B' : 'white' },
                 option.styles,
                 { width: option.radius * 2, height: option.radius * 2, borderRadius: option.radius },
               ]}
               onPress={() => handleAnswerOptionClick(option)}
             >
-              <Text>{option.text}</Text>
+              {option.icon}
             </TouchableOpacity>
           );
         })}
