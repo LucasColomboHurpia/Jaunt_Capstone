@@ -10,6 +10,7 @@ import Text from "../../../../shared-components/Text";
 import { useNavigation } from "@react-navigation/native";
 import * as Contacts from "expo-contacts";
 import Button from "../../../../shared-components/Button";
+import Spacer from '../../../../shared-components/Spacer';
 import {
   SingleProfileIcon,
   CheckIcon,

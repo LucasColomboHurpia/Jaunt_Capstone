@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, Dimensions } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
+import { CameraPlusIcon } from '../../../../assets/icons/Icon';
 
 const ActivityDashboard = ({ route, navigation }) => {
   const { activityParameters } = useContext(SurveyContext);
@@ -94,10 +95,14 @@ const ActivityDashboard = ({ route, navigation }) => {
         </View>
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Media</Text>
-          <Button
-            title="Upload Media +"
-            onPress={() => navigation.navigate("Media")}
-          />
+          <View style={styles.rectangleContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate("Media")}>
+            <View style={styles.mediaContainer}>
+              <CameraPlusIcon />
+              </View>
+            <Text>No media has been posted yet.</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -112,7 +117,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 10,
   },
-
   container: {
     flex: 1,
     alignItems: "center",
@@ -125,6 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 50,
   },
+
   section: {
     margin: 20,
   },
@@ -177,6 +182,25 @@ const styles = StyleSheet.create({
   },
   tipText: {
     fontSize: 16,
+  },
+  sectionContainer: {
+    alignItems: "center",
+    marginTop: 10,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  rectangleContainer: {
+    backgroundColor: "#EAEAEA",
+    padding: 16,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+
+  mediaContainer: {
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
 
