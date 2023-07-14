@@ -38,7 +38,7 @@ const FormSection = ({ activityName, setActivityName, date, setDate, hour, setHo
       <Text style={styles.inputTitle}>Time</Text>
       <View style={{ flexDirection: 'row' }}>
         <TextInput style={styles.input} value={hour} onChangeText={setHour} keyboardType="number-pad" placeholder="Hour (24h format)" />
-        <TextInput style={styles.input} value={minute} onChangeText={setMinute} keyboardType="number-pad" placeholder="Minute" />
+        <TextInput style={styles.inputHideImLazyAndDontWantToFixThisNow} value={minute} onChangeText={setMinute} keyboardType="number-pad" placeholder="Minute" />
       </View>
     </View>
   );
@@ -171,6 +171,13 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     borderWidth: 1,
     paddingLeft: 10,
+    marginBottom: 20,
+  },
+
+  inputHideImLazyAndDontWantToFixThisNow: {
+    width: '0%',
+    height: 40,
+    borderColor: 'gray',
     marginBottom: 20,
   },
   createSection: {

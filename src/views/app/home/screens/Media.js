@@ -72,7 +72,7 @@ const MediaScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Media Screen</Text>
-      <Button title="Upload/Take a photo" onPress={handleUploadButtonPress} />
+      <Button title="Upload/Take a photo" onPress={handleUploadButtonPress} color="grey"/>
       <View style={styles.imageContainer}>
         {selectedImages.map((uri, index) => (
           <View key={index} style={styles.imageWrapper}>

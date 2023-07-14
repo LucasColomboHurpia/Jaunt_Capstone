@@ -91,14 +91,26 @@ const ActivityDashboard = ({ route, navigation }) => {
               ))}
             </View>
           )}
+
+
+
+          {item && item?.apiResponse && (
+
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>Media</Text>
+              <Button
+                color="grey"
+                title="Upload Media +"
+                onPress={() => navigation.navigate("Media")}
+              />
+            </View>
+          )}
+
+
         </View>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Media</Text>
-          <Button
-            title="Upload Media +"
-            onPress={() => navigation.navigate("Media")}
-          />
-        </View>
+
+
+
       </ScrollView>
     </View>
   );
@@ -178,6 +190,10 @@ const styles = StyleSheet.create({
   tipText: {
     fontSize: 16,
   },
+  sectionContainer:{
+    marginTop: 40,
+
+  }
 });
 
 export default ActivityDashboard;

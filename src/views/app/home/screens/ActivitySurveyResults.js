@@ -8,7 +8,7 @@ import { TouchableOpacity } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
 
 ///-------------------------------------------------------------------------
-const API_KEY = "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"
+const API_KEY = ""
 /////-----------------------------------------------------------------------
 
 
