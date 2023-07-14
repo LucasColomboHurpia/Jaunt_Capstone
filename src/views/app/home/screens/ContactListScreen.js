@@ -16,6 +16,7 @@ import {
   SearchIcon,
 } from "../../../../assets/icons/Icon";
 import Aligner from "../../../../shared-components/Aligner";
+import Spacer from '../../../../shared-components/Spacer';
 
 const ContactListScreen = () => {
   const navigation = useNavigation();
