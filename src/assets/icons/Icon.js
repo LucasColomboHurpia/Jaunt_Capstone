@@ -153,8 +153,8 @@ export const CheckIcon = (color) => (
   </g>
   </svg>
   `}
-    width={32}
-    height={32}
+    width={35}
+    height={35}
     fill="none"
   />
 );
@@ -416,8 +416,8 @@ export const SearchIcon = (color) => (
   </g>
   </svg>
   `}
-    width={32}
-    height={32}
+    width={24}
+    height={24}
     fill="none"
   />
 );
@@ -577,8 +577,8 @@ export const SingleProfileIcon = (color) => (
     <path d="M18 31V29.2222C18 28.2792 18.3863 27.3749 19.0739 26.7081C19.7616 26.0413 20.6942 25.6667 21.6667 25.6667H25.3333C26.3058 25.6667 27.2384 26.0413 27.9261 26.7081C28.6137 27.3749 29 28.2792 29 29.2222V31M27.1667 18.5556C27.1667 20.5192 25.525 22.1111 23.5 22.1111C21.475 22.1111 19.8333 20.5192 19.8333 18.5556C19.8333 16.5919 21.475 15 23.5 15C25.525 15 27.1667 16.5919 27.1667 18.5556Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>       
     `}
-    width={46}
-    height={46}
+    width={32}
+    height={32}
   />
 );
 

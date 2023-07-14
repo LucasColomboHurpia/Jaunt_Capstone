@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import Text from "../../../../shared-components/Text";
 import { useNavigation } from "@react-navigation/native";
 import * as Contacts from "expo-contacts";
-import { SingleProfileIcon, CheckIcon, SearchIcon } from "../../../../assets/icons/Icon";
+import Button from "../../../../shared-components/Button";
+import {
+  SingleProfileIcon,
+  CheckIcon,
+  SearchIcon,
+} from "../../../../assets/icons/Icon";
+import Aligner from "../../../../shared-components/Aligner";
 
 const ContactListScreen = () => {
   const navigation = useNavigation();
@@ -83,7 +89,7 @@ const ContactListScreen = () => {
                 onPress={() => handleInvite(contact.lookupKey)}
               >
                 {isContactInvited(contact.lookupKey) ? (
-                  <CheckIcon name="check" size={24} color="white" />
+                  <CheckIcon name="check" />
                 ) : (
                   <Text style={styles.inviteButtonText}>Invite</Text>
                 )}
@@ -105,7 +111,9 @@ const ContactListScreen = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         {!showSearchBar && (
-          <Text style={styles.title}>Contact List</Text>
+          <Text variant="heading2" style={styles.title}>
+            Contact List
+          </Text>
         )}
         {showSearchBar && (
           <View style={styles.searchBar}>
@@ -119,7 +127,12 @@ const ContactListScreen = () => {
           </View>
         )}
         <TouchableOpacity onPress={handleSearchIconClick}>
-          <SearchIcon name="search" size={24} color="black" style={styles.searchIcon} />
+          <SearchIcon
+            name="search"
+            size={24}
+            color="black"
+            style={styles.searchIcon}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.contentContainer}>
@@ -127,12 +140,24 @@ const ContactListScreen = () => {
           {displayContacts()}
         </ScrollView>
       </View>
-      <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-        <Text style={styles.nextButtonText}>Next</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-        <Text style={styles.skipButtonText}>Skip</Text>
-      </TouchableOpacity>
+      <Spacer type="margin" position="bottom" customSize={5}>
+        <Aligner>
+          <Button
+            variant="sm"
+            text="Next"
+            type="primary"
+            onPress={handleNext}
+          />
+        </Aligner>
+        <Aligner>
+          <Button
+            variant="sm"
+            text="Skip"
+            type="tertiary"
+            onPress={handleSkip}
+          />
+        </Aligner>
+      </Spacer>
     </View>
   );
 };
@@ -151,10 +176,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     elevation: 4,
     backgroundColor: "white",
-    height: 87,
-  },
-  title: {
-    fontSize: 32,
   },
   searchBar: {
     flex: 1,
@@ -169,7 +190,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    marginBottom: 150,
+    marginBottom: 10,
   },
   contactList: {
     alignItems: "center",
@@ -177,14 +198,14 @@ const styles = StyleSheet.create({
   },
   contactItem: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
     width: "80%",
     marginBottom: 21,
-    height: 50,
+    height: 45,
   },
   contactName: {
-    fontSize: 22,
+    fontSize: 18,
+    alignSelf: "flex-start",
   },
   inviteButton: {
     paddingHorizontal: 12,
@@ -195,41 +216,6 @@ const styles = StyleSheet.create({
   inviteButtonText: {
     color: "grey",
     fontWeight: "bold",
-  },
-  nextButton: {
-    position: "absolute",
-    bottom: 24,
-    left: 110,
-    height: 60,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#F35F4B",
-    borderRadius: 10,
-    width: 194,
-    height: 56,
-  },
-  nextButtonText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-  },
-  skipButton: {
-    position: "absolute",
-    bottom: 96,
-    left: 110,
-    right: 20,
-    height: 60,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#DFDFDF",
-    borderRadius: 10,
-    width: 194,
-    height: 56,
-  },
-  skipButtonText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#535353",
   },
   searchIcon: {
     marginRight: 10,
