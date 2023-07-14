@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Button, Image, TouchableOpacity, Alert } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity, Alert, Linking } from "react-native";
+import Text from "../../../../shared-components/Text";
 import * as ImagePicker from "expo-image-picker";
+import Button from "../../../../shared-components/Button";
+import { CameraPlusIcon } from "../../../../assets/icons/Icon";
 
 const MediaScreen = ({ navigation }) => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -63,16 +66,38 @@ const MediaScreen = ({ navigation }) => {
       "Choose an option",
       [
         { text: "Upload", onPress: pickFromGallery },
-        { text: "Take a photo", onPress: pickFromCamera },
+        { text: "Take photo", onPress: pickFromCamera },
       ],
       { cancelable: true }
     );
   };
+  // const handleDownload = async (uri) => {
+  //   try {
+  //     const supported = await Linking.canOpenURL(uri);
+  //     if (supported) {
+  //       await Linking.open(uri);
+  //     } else {
+  //       console.log("Cannot open URL:", uri);
+  //     }
+  //   } catch (error) {
+  //     console.log("Error opening URL:", error);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Media Screen</Text>
-      <Button title="Upload/Take a photo" onPress={handleUploadButtonPress} color="grey"/>
+      <View style={styles.header}>
+        <Text variant="heading1">Media</Text>
+      </View>
+        <TouchableOpacity onPress={handleUploadButtonPress}>
+          <View style={styles.rectangleContainer}>
+            <View style={styles.mediaContainer}>
+              <CameraPlusIcon
+              />
+              <Text>Upload/Take a photo</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
       <View style={styles.imageContainer}>
         {selectedImages.map((uri, index) => (
           <View key={index} style={styles.imageWrapper}>
@@ -90,8 +115,15 @@ const MediaScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  header: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingTop: 40,
+    paddingBottom: 10,
+    backgroundColor: "white",
   },
   title: {
     fontSize: 24,
@@ -126,6 +158,18 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 14,
+  },
+  rectangleContainer: {
+    backgroundColor: "#FFFFFF",
+    padding: 16,
+    marginLeft: 30,
+    marginRight: 30,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  mediaContainer: {
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
 

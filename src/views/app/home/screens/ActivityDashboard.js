@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, Dimensions } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
+import { CameraPlusIcon } from '../../../../assets/icons/Icon';
 
 const ActivityDashboard = ({ route, navigation }) => {
   const { activityParameters } = useContext(SurveyContext);
@@ -93,22 +94,22 @@ const ActivityDashboard = ({ route, navigation }) => {
           )}
 
 
-
           {item && item?.apiResponse && (
 
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Media</Text>
-              <Button
-                color="grey"
-                title="Upload Media +"
-                onPress={() => navigation.navigate("Media")}
-              />
-            </View>
+          <Text style={styles.sectionTitle}>Media</Text>
+          <View style={styles.rectangleContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate("Media")}>
+            <View style={styles.mediaContainer}>
+              <CameraPlusIcon />
+              </View>
+            <Text>No media has been posted yet.</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
           )}
 
-
         </View>
-
 
 
       </ScrollView>
@@ -191,9 +192,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   sectionContainer:{
-    marginTop: 40,
+    marginTop: 10,
 
-  }
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+
+  rectangleContainer: {
+    backgroundColor: "#EAEAEA",
+    padding: 16,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+
+  mediaContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+
 });
 
 export default ActivityDashboard;
