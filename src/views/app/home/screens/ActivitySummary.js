@@ -45,17 +45,18 @@ const ActivitySummary = ({ route, navigation }) => {
         <Spacer type="margin" position="bottom" customSize={20} />
 
         <Button
-            title="Choose Plan!"
-            color="gray"
-            style={styles.button}
+            variant="sm"
+            text="Choose Plan!"
+            type="primary"
             onPress={() => navigation.navigate('ActivitySurveyResults', {activityId})}
         />
 
         <Spacer type="margin" position="bottom" customSize={20} />
 
         <Button
-            title="Back to Group"
-            color="gray"
+            variant="sm"
+            text="Back to Group"
+            type="secondary"
             style={styles.button}
             onPress={() => navigation.navigate('SurveyResults')}
         />
@@ -65,7 +66,6 @@ const ActivitySummary = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 12,
