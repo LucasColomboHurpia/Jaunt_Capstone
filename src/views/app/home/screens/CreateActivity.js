@@ -54,25 +54,6 @@ const CreateSection = ({ onCreate }) => {
 
 const CreateActivity = () => {
 
-    const isFocused = useIsFocused();
-
-    useEffect(() => {
-        if(navigation) {
-            navigation.getParent().dispatch(state => {
-                return CommonActions.reset({
-                    ...state,
-                    hidden: true,
-                  });
-            })
-              
-              return () => navigation.getParent().dispatch(state => {
-                return CommonActions.reset({
-                    ...state,
-                    hidden: false,
-                  });
-                });
-        }
-        }, [isFocused]);
 
   const currentDate = new Date();
   const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
