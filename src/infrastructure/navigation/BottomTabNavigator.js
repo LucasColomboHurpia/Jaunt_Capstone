@@ -18,7 +18,7 @@ const BottomTabNavigator = (props) => {
             backBehavior="history"
         >
             <appTab.Screen name="Home" component={HomeNavigator} />
-            <appTab.Screen name="Activities" component={HomeNavigator} />
+            <appTab.Screen name="Activities" component={GroupPage} />
             <appTab.Screen name="Notifications" component={NotificationScreen} />
         </appTab.Navigator>
 
