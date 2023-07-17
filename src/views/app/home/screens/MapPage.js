@@ -1,11 +1,32 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import createMap from '../components/mapTemplate';
+import { CommonActions, useIsFocused } from "@react-navigation/native";
+
 
 import {BackIcon} from '../../../../assets/icons/Icon'
 
 export default function MapPage({ route, navigation }) {
+
+const isFocused = useIsFocused();
+    useEffect(() => {
+        if(navigation) {
+            navigation.getParent().dispatch(state => {
+                return CommonActions.reset({
+                    ...state,
+                    hidden: true,
+                  });
+            })
+              return () => navigation.getParent().dispatch(state => {
+                return CommonActions.reset({
+                    ...state,
+                    hidden: false,
+                  });
+                });
+        }
+        }, [isFocused]);
+
   const webRef = useRef();
 
   const placeData = route.params?.item;

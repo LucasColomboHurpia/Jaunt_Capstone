@@ -12,8 +12,14 @@ const HomePage = ({ navigation }) => {
 
   const activities = surveyData.activityParameters || [];
 
-  const upcomingActivities = activities.filter(activity => activity.apiResponse);
-  const pendingActivities = activities.filter(activity => !activity.apiResponse);
+  const upcomingActivities = activities.filter(activity => activity.apiResponse && !activity.completed);
+  const pendingActivities = activities.filter(activity => !activity.apiResponse && !activity.completed);
+  
+  console.log('-------------------------------')
+  console.log('HOME ACTIVITIES : ', activities)
+  console.log('HOME ACTIVITIES : ', activities.length)
+
+  console.log('-------------------------------')
 
   return (
     <View style={styles.container}>

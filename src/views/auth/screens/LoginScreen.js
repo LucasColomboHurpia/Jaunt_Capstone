@@ -159,7 +159,7 @@ const LoginScreen = ({ navigation }) => {
 
       <Aligner>
         <TouchableOpacity onPress={register}>
-            <Text variant="body" options={{ textDecoration: "underline" }}>No account yet? Sign in here</Text>
+            <Text variant="body" options={{ textDecoration: "underline" }}>No account yet? Sign up here</Text>
         </TouchableOpacity>
       </Aligner>
     </View>

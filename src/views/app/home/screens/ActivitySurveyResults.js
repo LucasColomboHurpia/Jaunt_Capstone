@@ -20,13 +20,30 @@ const object1234 = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a
   "DoLike": ["Fish", "Wine", "Bread"],
   "ChanceOfEnjoyingDrinking": 6.625 }`;
 
-const exampleAPIresponse = `[{ "address": "750 Hornby St, Vancouver, BC V6Z 2H7", "coordinates": { "lat": 49.2835948, "lng": -123.121791 }, "name": "Vancouver Art Gallery", "description": "Experience world-class exhibits and contemporary art at the Vancouver Art Gallery 🎨🖼️", "Tips": [ "Take a leisurely stroll along Robson Street after your visit.", "Check out the gallery's rooftop patio for panoramic views of the city.", "Visit on a Tuesday evening for discounted admission and live music." ], "tags": [ "art", "cultural", "popular" ] }, 
-{ "address": "English Bay Beach Path, Vancouver, BC V6G 1Z4", "coordinates": { "lat": 49.2894692, "lng": -123.1409033 }, "name": "English Bay Beach", "description": "Enjoy a relaxing day at English Bay Beach, one of Vancouver's most popular beaches 🏖️🌊", "Tips": [ "Bring a blanket and have a picnic on the sandy shores.", "Watch the beautiful sunset over the ocean.", "Take a walk along the Seawall to nearby Stanley Park." ], "tags": [ "beach", "outdoors", "relaxing" ] },
-{ "address": "900 Burrard St, Vancouver, BC V6Z 1X9", "coordinates": { "lat": 49.2832496, "lng": -123.1227095 }, "name": "Scotiabank Theatre Vancouver", "description": "Watch the latest blockbuster movies at Scotiabank Theatre Vancouver 🍿🎥", "Tips": [ "Grab a combo deal for popcorn and a drink at the concession stand.", "Arrive early to secure your preferred seats.", "Check out the VIP cinema for a luxurious movie experience." ], "tags": [ "movies", "entertainment", "popular" ] }]`
+const exampleAPIresponse = `[{"address":"100 W Hastings St, Vancouver, BC V6B 1G8, Canada", 
+"coordinates": {"lat":49.2812,"lng":-123.108}, 
+"name": "Gastown", 
+"description":"Explore the cobblestone streets and take a picture of the famous steam clock! ⏰", 
+"Tips": ["Walk around and admire the beautiful architecture", "Check out the trendy boutiques and shops", "Try the local craft beer at one of the breweries in the area"], 
+"tags": ["historic", "unique", "hipster"]}, 
+
+{"address":"Granville Island, Vancouver, BC V6H 3S3, Canada", 
+"coordinates": {"lat":49.2718,"lng":-123.133}, 
+"name": "Granville Island", 
+"description":"Vibrant public market with fresh produce. Try the fresh seafood or enjoy a picnic by the water! 🐟🧺", 
+"Tips": ["Visit the Granville Island Public Market for fresh fruits and vegetables", "Take a walk along the seawall for stunning views of the city", "Try the famous smoked salmon from one of the local vendors"], 
+"tags": ["market", "fresh", "scenic"]}, 
+
+{"address":"800 Robson St, Vancouver, BC V6Z 3B7, Canada", 
+"coordinates": {"lat":49.2816,"lng":-123.121}, 
+"name": "Robson Street", 
+"description":"Popular shopping street with a wide variety of stores, restaurants, and cafes! 👗🛍️", 
+"Tips": ["Indulge in some retail therapy at the various clothing stores", "Try the famous Japadog for a unique fusion of hot dog and Japanese flavors", "Visit the Vancouver Art Gallery located on Robson Street"], 
+"tags": ["shopping", "food", "trendy"]}]`
 
 const systemMessage = {
   "role": "system",
-  "content": "You are a helpful assistant that suggests activities and places to go in Vancouver based on the given parameters. if the 'UserWouldLikeTo' is 'Do Something', sugest a real place to go, if if the 'UserWouldLikeTo' is 'Eat Something', suggest a real place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(this is just an example, never use these example values, always use real place values): '[{address:' 123 example, vancouver, BC, zip code', coordinates: {lat:123,lng:123}, name: 'name of place', descriptiom: 'briefly describe the place, a short phrase, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy']},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'"
+  "content": "You are a helpful assistant that suggests activities and real places to go in Vancouver based on the given parameters. you are not allowed to show places tha are not real business or. if the 'UserWouldLikeTo' is 'Do Something', if the 'UserWouldLikeTo' is 'Eat Something', suggest a real place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(never use these example values, always use real place values, do not invent places, prioritize business): '[{address:' add the address here', coordinates: {lat:123,lng:123}, name: 'name of place', description: 'briefly describe the place, a short phrase, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy']},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. you are not allowed to show results with adress equals to '123 Main St' or '456 Granville St'. The first characters of the message must be '[' and the last ']'"
 };
 const SurveyResults = ({ route, navigation }) => {
   const { surveyData, setSurveyData } = useContext(SurveyContext);
@@ -37,6 +54,11 @@ const SurveyResults = ({ route, navigation }) => {
   const [retryCount, setRetryCount] = useState(0);
 
   const makeApiCall = async () => {
+
+    console.log(`========================================`)
+    console.log(`parameters are `, surveyData)
+    console.log(`========================================`)
+
     const apiRequestBody = {
       "model": "gpt-3.5-turbo",
       "messages": [
@@ -70,7 +92,6 @@ const SurveyResults = ({ route, navigation }) => {
           if (
             data.choices[0].message.content.includes("123 ") ||
             data.choices[0].message.content.includes("456") ||
-            data.choices[0].message.content.includes("879") ||
             data.choices[0].message.content.includes("example")
           ) {
             throw new Error("Content includes disallowed string");  // Throw an error to trigger the retry

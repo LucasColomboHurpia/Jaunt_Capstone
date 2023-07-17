@@ -27,6 +27,25 @@ const ActivityDashboard = ({ route, navigation }) => {
 
   let addressText = "Still figuring it out!";
 
+
+  const handleCompleteClick = () => {
+    console.log('complete!')
+
+    const updatedSurveyData = {
+      ...surveyData,
+      activityParameters: surveyData.activityParameters.map(param => {
+        if (param.id === activityId) {
+          return { ...param, completed: true };
+        }
+        return param;
+      })
+    };
+
+    setSurveyData(updatedSurveyData);
+    console.log(surveyData)
+  };
+
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
@@ -59,12 +78,13 @@ const ActivityDashboard = ({ route, navigation }) => {
 
           {item && item?.apiResponse?.coordinates && (
             <View style={styles.buttonContainer}>
-              <Button
-                title="See Map"
-                color="grey"
+              <TouchableOpacity
                 onPress={() => navigation.navigate("MapPage", { item })}
-              />
+              >
+                <Text style={{ color: "white", textAlign: 'center', fontSize: 17 }}>See Map</Text>
+              </TouchableOpacity>
             </View>
+
           )}
 
           <View style={styles.card}>
@@ -97,16 +117,41 @@ const ActivityDashboard = ({ route, navigation }) => {
           {item && item?.apiResponse && (
 
             <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Media</Text>
-          <View style={styles.rectangleContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate("Media")}>
-            <View style={styles.mediaContainer}>
-              <CameraPlusIcon />
+              <Text style={styles.sectionTitle}>Media</Text>
+              <View style={styles.rectangleContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate("Media")}>
+                  <View style={styles.mediaContainer}>
+                    <CameraPlusIcon />
+                  </View>
+                  <Text>No media has been posted yet.</Text>
+                </TouchableOpacity>
               </View>
-            <Text>No media has been posted yet.</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+            </View>
+          )}
+
+
+          {item && item?.apiResponse?.coordinates && !item.completed && (
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={() => handleCompleteClick()}
+              >
+                <Text style={{ color: "white", textAlign: 'center', fontSize: 17 }}>Set Activity to complete</Text>
+              </TouchableOpacity>
+            </View>
+
+          )}
+
+          {item && item?.apiResponse?.coordinates && item.completed && (
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                onPress={() => handleCompleteClick()}
+              >
+                <Text style={{ color: "white", textAlign: 'center', fontSize: 17 }}>Activity Completed!</Text>
+              </TouchableOpacity>
+            </View>
+
           )}
 
         </View>
@@ -143,7 +188,29 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 20,
+    padding: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'grey',
+    overflow: 'hidden',
+    backgroundColor: 'grey',
+    width: '100%',
+
+
   },
+  buttonContainerComplete: {
+    marginTop: 50,
+    marginBottom: 15,
+    width: '100%',
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'grey',
+    overflow: 'hidden',
+    backgroundColor: 'grey',
+
+  },
+
   buttonCircle: {
     justifyContent: "center",
     alignItems: "center",
@@ -160,7 +227,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   card: {
-    marginTop: 20,
+    marginTop: 35,
     padding: 35,
     backgroundColor: "white",
     borderRadius: 18,
@@ -191,9 +258,9 @@ const styles = StyleSheet.create({
   tipText: {
     fontSize: 16,
   },
-  sectionContainer:{
+  sectionContainer: {
     marginTop: 10,
-
+    marginBottom: 10,
   },
   sectionTitle: {
     fontSize: 20,
