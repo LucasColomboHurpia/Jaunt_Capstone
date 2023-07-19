@@ -11,6 +11,7 @@ import MapPage from '../../views/app/home/screens/MapPage';
 import MediaScreen from '../../views/app/home/screens/Media';
 import NotificationScreen from '../../views/app/home/screens/NotificationScreen'; 
 import Profile from '../../views/app/home/screens/ProfilePage';
+import LogoutScreen from '../../views/app/home/screens/Logout';
 
 const HomeNavigator = (props) => {
 
@@ -34,6 +35,8 @@ const HomeNavigator = (props) => {
             <stack.Screen name="Notifications" component={NotificationScreen} /> 
             <stack.Screen name="Media" component={MediaScreen} />
             <stack.Screen name="Profile" component={Profile} />
+            <stack.Screen name="Logout" component={LogoutScreen}/>
+
         </stack.Navigator>
 
     )
