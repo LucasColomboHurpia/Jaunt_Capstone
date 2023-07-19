@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
 
-import {MeatIcon, MilkIcon, VeganIcon, BreadIcon, WineIcon, ChickenIcon, ShrimpIcon, DairyIcon, SmokingIcon, BeerIcon} from '../../../../../assets/icons/Icon'
+import { BackIcon, BeerBlack, FancyGlassBlack, SushiBlack, WineBlack, BurguerBlack, PizzaBlack, SpinningGlobeBlack, BeerWhite, FancyGlassWhite, SushiWhite, WineWhite, BurguerWhite, PizzaWhite, SpinningGlobeWhite, MeatIcon, MilkIcon, VeganIcon, BreadIcon, WineIcon, ChickenIcon, ShrimpIcon, DairyIcon, SmokingIcon, BeerIcon } from '../../../../../assets/icons/Icon'
 
 const answerOptions = [
-  { text: 'Picnic', styles: { top: '22%', left: '2%' }, radius: 65, icon: <BreadIcon size={100}/> },
-  { text: 'Parks', styles: { top: '10%', right: '0%' }, radius: 75, icon: <DairyIcon size={100}/> },
-  { text: 'Vegan Food', styles: { top: '45%', left: '5%' }, radius: 85, icon: <VeganIcon size={100}/> },
-  { text: 'Meat', styles: { top: '37%', right: '-5%' }, radius: 55, icon: <MeatIcon size={100}/> },
-  { text: 'Bar', styles: { bottom: '80%', left: '10%' }, radius: 55, icon: <BeerIcon size={100}/> },
-  { text: 'Karaoke', styles: { bottom: '10%', right: '-20%' }, radius: 60, icon: <WineIcon size={100}/> },
-  { text: 'Clubbing', styles: { bottom: '22%', right: '8%' }, radius: 70, icon: <SmokingIcon size={100}/> },
+  { text: 'Picnic', styles: { top: '22%', left: '2%' }, radius: 65, icon: <PizzaBlack size={90} />, iconSelected: <PizzaWhite size={90} /> },
+  { text: 'Parks', styles: { top: '10%', right: '0%' }, radius: 75, icon: <FancyGlassBlack size={90} />, iconSelected: <FancyGlassWhite size={90} /> },
+  { text: 'Vegan Food', styles: { top: '45%', left: '5%' }, radius: 80, icon: <SushiBlack size={90} />, iconSelected: <SushiWhite size={90} /> },
+  { text: 'Meat', styles: { top: '37%', right: '-5%' }, radius: 55, icon: <SpinningGlobeBlack size={90} />, iconSelected: <SpinningGlobeWhite size={90} /> },
+  { text: 'Bar', styles: { bottom: '80%', left: '10%' }, radius: 55, icon: <BreadIcon size={100} />, iconSelected: <BreadIcon size={100} /> },
+  { text: 'Karaoke', styles: { bottom: '10%', right: '-20%' }, radius: 60, icon: <BeerBlack size={90} />, iconSelected: <BeerWhite size={90} /> },
+  { text: 'Clubbing', styles: { bottom: '22%', right: '8%' }, radius: 70, icon: <BurguerBlack size={90} />, iconSelected: <BurguerWhite size={90} /> },
 ];
 
 const Question3 = ({ onAnswer, onGoBack }) => {
@@ -44,30 +44,30 @@ const Question3 = ({ onAnswer, onGoBack }) => {
               key={option.text}
               style={[
                 styles.answerOption,
-                { backgroundColor: isSelected ? '#F35F4B' : 'white' },
+                { backgroundColor: isSelected ? '#F35F4B' : '#F3F3F3' },
                 option.styles,
                 { width: option.radius * 2, height: option.radius * 2, borderRadius: option.radius },
               ]}
               onPress={() => handleAnswerOptionClick(option)}
             >
-              {option.icon}
+              {isSelected ? option.iconSelected : option.icon}
             </TouchableOpacity>
           );
         })}
       </View>
 
+
       <View style={styles.buttonContainer}>
-        <Button
-          title="<"
-          color="gray"
-          onPress={onGoBack}
-        />
-        <Button
-          title="Next Step"
-          color="gray"
-          onPress={handleSubmit}
-        />
+        <TouchableOpacity style={styles.buttonBack} onPress={onGoBack}>
+          <View style={styles.backIconContainer}>
+            <BackIcon size={24} color='black' />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonNext} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Next Step</Text>
+        </TouchableOpacity>
       </View>
+
     </View>
   );
 };
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
   },
   questionText: {
     fontStyle: 'normal',
-    fontWeight: 'normal',
-    fontSize: 18,
+    fontWeight: 'bold',
+    fontSize: 19,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -95,14 +95,49 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+
+
+
+
+
+
+
   buttonContainer: {
-    position: 'absolute',
-    bottom: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    padding: 10,
+    paddingHorizontal: 12,
   },
+
+  backIconContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  buttonBack: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+
+  buttonNext: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: '#F35F4B',
+    borderRadius: 15,
+    fontWeight: 'bold',
+    margin: 10,
+    padding: 20,
+    width: '45%',
+    alignItems: 'center'
+  },
+
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+
+  }
 });
 
 export default Question3;

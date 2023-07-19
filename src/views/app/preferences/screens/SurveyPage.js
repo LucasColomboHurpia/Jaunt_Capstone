@@ -9,7 +9,7 @@ import Question2 from '../components/firstSurvey/Question2';
 import Question3 from '../components/firstSurvey/Question3';
 import Question4 from '../components/firstSurvey/Question4'
 // Array of question components
-const questionsComponents = [Question1 , Question2, Question3, Question4];
+const questionsComponents = [Question1 , Question2, Question3];
 
 const SurveyPage = ({ navigation }) => {
   const { surveyData, setSurveyData } = useContext(SurveyContext);
@@ -54,7 +54,7 @@ const SurveyPage = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
-      <Text>{`${currentQuestion + 1} of ${questionsComponents.length}`}</Text>
+      <Text style={styles.questionCounter}>{`${currentQuestion + 1} of ${questionsComponents.length}`}</Text>
       <CurrentQuestionComponent onAnswer={handleAnswerOptionClick} onGoBack={handlePreviousQuestion} />
     </SafeAreaView>
   );
@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 55,
+    backgroundColor: 'white'
   },
   bigText: {
     fontSize: 30,
@@ -74,13 +75,20 @@ const styles = StyleSheet.create({
   },
   smallText: {
     fontSize: 20,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   gotohome: {
     position: 'absolute',
     bottom: 100,
 
   },
+
+  questionCounter: {
+    margin: 5,
+    marginTop: 10,
+    fontWeight: 'bold',
+
+  }
 });
 
 export default SurveyPage;
