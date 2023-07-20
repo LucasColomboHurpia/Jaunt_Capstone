@@ -1,15 +1,24 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import SurveyContext from '../../../../context/SurveyContext';
-import uuid from 'react-native-uuid';
-import { useIsFocused } from "@react-navigation/native";
-import { CommonActions } from '@react-navigation/native';
+import React, { useState, useEffect, useContext } from "react";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  SafeAreaView,
+  StatusBar,
+  TouchableOpacity
+} from "react-native";
+import { colors } from "../../../../infrastructure/theme/colors";
+import { useNavigation } from "@react-navigation/native";
+import SurveyContext from "../../../../context/SurveyContext";
+import uuid from "react-native-uuid";
+import Button from "../../../../shared-components/Button";
+import Text from "../../../../shared-components/Text";
+import { GroupProfileIcon } from "../../../../assets/icons/Icon";
 
 const HeaderSection = () => {
   return (
     <View style={styles.headerSection}>
-      <Text style={styles.title}>Create an activity</Text>
+      <Text variant="heading1">Create an activity</Text>
     </View>
   );
 };
@@ -18,27 +27,65 @@ const MemberSection = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.memberSection}>
-      <Text style={styles.memberTitle}>Members</Text>
+      <Text variant="labelBg">Members</Text>
       <View style={styles.memberContent}>
-        <Button title="Invite" color='grey' onPress={() => navigation.navigate('ContactListScreen')} />
+        <GroupProfileIcon style = {styles.profileIcon} stroke = "#0BC9B9"/>
+        <Text variant = "labelBg" style = {styles.inviteText}>Invite:</Text>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => navigation.navigate("ContactListScreen")}
+        > 
+          <Text style={styles.addButtonIcon}>+</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-const FormSection = ({ activityName, setActivityName, date, setDate, hour, setHour, minute, setMinute }) => {
+const FormSection = ({
+  activityName,
+  setActivityName,
+  date,
+  setDate,
+  hour,
+  setHour,
+  minute,
+  setMinute,
+}) => {
   return (
     <View style={styles.formSection}>
-      <Text style={styles.inputTitle}>Activity Name</Text>
-      <TextInput style={styles.input} value={activityName} onChangeText={setActivityName} placeholder="New Activity" />
+      <Text variant="labelBg">Activity Name</Text>
+      <TextInput
+        style={styles.input}
+        value={activityName}
+        onChangeText={setActivityName}
+        placeholder="New Activity"
+      />
 
-      <Text style={styles.inputTitle}>Date (DD/MM/YYYY)</Text>
-      <TextInput style={styles.input} value={date} onChangeText={setDate} placeholder={date} />
+      <Text variant="labelBg">Date (DD/MM/YYYY)</Text>
+      <TextInput
+        style={styles.input}
+        value={date}
+        onChangeText={setDate}
+        placeholder={date}
+      />
 
-      <Text style={styles.inputTitle}>Time</Text>
-      <View style={{ flexDirection: 'row' }}>
-        <TextInput style={styles.input} value={hour} onChangeText={setHour} keyboardType="number-pad" placeholder="Hour (24h format)" />
-        <TextInput style={styles.inputHideImLazyAndDontWantToFixThisNow} value={minute} onChangeText={setMinute} keyboardType="number-pad" placeholder="Minute" />
+      <Text variant="labelBg">Time</Text>
+      <View style={{ flexDirection: "row" }}>
+        <TextInput
+          style={styles.input}
+          value={hour}
+          onChangeText={setHour}
+          keyboardType="number-pad"
+          placeholder="Hour (24h format)"
+        />
+        <TextInput
+          style={styles.inputHideImLazyAndDontWantToFixThisNow}
+          value={minute}
+          onChangeText={setMinute}
+          keyboardType="number-pad"
+          placeholder="Minute"
+        />
       </View>
     </View>
   );
@@ -47,17 +94,23 @@ const FormSection = ({ activityName, setActivityName, date, setDate, hour, setHo
 const CreateSection = ({ onCreate }) => {
   return (
     <View style={styles.createSection}>
-      <Button title="Create" color='gray' onPress={onCreate} />
+      <Button variant="sm" text="Create" color="gray" onPress={onCreate} />
     </View>
   );
 };
 
 const CreateActivity = () => {
-
-
   const currentDate = new Date();
-  const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
-  const formattedTime = `${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}`;
+  const formattedDate = `${currentDate
+    .getDate()
+    .toString()
+    .padStart(2, "0")}/${(currentDate.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${currentDate.getFullYear()}`;
+  const formattedTime = `${currentDate
+    .getHours()
+    .toString()
+    .padStart(2, "0")}:${currentDate.getMinutes().toString().padStart(2, "0")}`;
 
   const [activityName, setActivityName] = useState("New Activity");
   const [date, setDate] = useState(formattedDate);
@@ -68,30 +121,31 @@ const CreateActivity = () => {
 
   const navigation = useNavigation();
 
-
   useEffect(() => {
-    console.log('Survey Data: ', surveyData);
+    console.log("Survey Data: ", surveyData);
   }, []);
 
   useEffect(() => {
-    console.log('Updated Activities: ', surveyData.activityParameters)
+    console.log("Updated Activities: ", surveyData.activityParameters);
   }, [surveyData.activityParameters]);
 
   const handleCreate = () => {
     const dateTime = `${date} ${hour}:${minute}`;
     let currentDate = new Date().toLocaleString();
-    if (date !== '') {
+    if (date !== "") {
       currentDate = dateTime;
     }
 
     const newActivity = {
       id: uuid.v4(),
-      name: activityName || 'New Activity',
+      name: activityName || "New Activity",
       dateTime: currentDate,
       activitySet: false,
     };
 
-    const updatedActivityParameters = surveyData.activityParameters ? [...surveyData.activityParameters, newActivity] : [newActivity];
+    const updatedActivityParameters = surveyData.activityParameters
+      ? [...surveyData.activityParameters, newActivity]
+      : [newActivity];
 
     const updatedSurveyData = {
       ...surveyData,
@@ -100,10 +154,9 @@ const CreateActivity = () => {
 
     setSurveyData(updatedSurveyData);
 
-    console.log(surveyData)
+    console.log(surveyData);
 
-    
-     navigation.navigate('ActivityDashboard', { activityId: newActivity.id });
+    navigation.navigate("ActivityDashboard", { activityId: newActivity.id });
   };
 
   return (
@@ -129,59 +182,79 @@ const CreateActivity = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     paddingTop: 55,
+  },
+  titleContainer: {
+    textAlign: "left",
   },
   title: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     padding: 30,
-  },
-  headerSection: {
-    // styling for header section
+    textAlign: "left",
   },
   memberSection: {
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  memberTitle: {
-    fontWeight: 'bold',
-    fontSize: 16,
+    justifyContent: "flex-start",
+    marginLeft: 30,
   },
   memberContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '50%',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "50%",
     padding: 20,
   },
   formSection: {
-    width: '100%',
+    width: "100%",
     padding: 20,
   },
-  inputTitle: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginBottom: 10,
-  },
   input: {
-    width: '100%',
+    width: "100%",
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     paddingLeft: 10,
     marginBottom: 20,
+    borderRadius: 10,
   },
 
   inputHideImLazyAndDontWantToFixThisNow: {
-    width: '0%',
+    width: "0%",
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     marginBottom: 20,
   },
+  headerSection: {
+    flexDirection: "row", 
+    marginLeft: 30,
+    marginBottom: 35,
+  },
+
   createSection: {
-    // styling for create section
+    alignSelf: "center",
+  },
+  inviteText: {
+    marginLeft: 11,
+  },
+  addButton: {
+    marginLeft: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#F35F4B",
+    marginLeft: 122,
+  },
+  addButtonIcon: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  profileIcon: {
+    marginLeft: 36,
+    alignItems: "left"
   },
 });
 
