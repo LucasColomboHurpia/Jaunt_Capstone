@@ -61,7 +61,6 @@ const LoginScreen = ({ navigation }) => {
             email,
             password
         }
-        
         const response = await api.post(`/auth/login`, loginData);
         
         if(response.status === 200) {
@@ -73,7 +72,7 @@ const LoginScreen = ({ navigation }) => {
         }
     } catch (error) {
         setIsLoading(false);
-        if(error || error.response){
+        if(error && error.response){
             return setError(error.response.data.message);
         }
 
