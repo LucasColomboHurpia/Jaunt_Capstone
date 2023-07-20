@@ -11,7 +11,6 @@ import tabActive from '../../assets/icons/tabActive';
 const MenuComponent = (props) => {
     const { state, descriptors, navigation } = props;
     const theme = useTheme();
-    console.log(state)
 
     const tabIcons = {
         home: homeIcon,

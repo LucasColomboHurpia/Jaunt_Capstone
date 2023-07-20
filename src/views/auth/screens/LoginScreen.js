@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from 'styled-components';
 import { SvgXml } from 'react-native-svg';
 
-import { API_URL } from '../../../config';
+import api from '../../../config/api';
 import Text from '../../../shared-components/Text';
 import Button from '../../../shared-components/Button';
 import { Input } from '../../../shared-components/Form';
@@ -13,7 +13,6 @@ import Spacer from '../../../shared-components/Spacer';
 import logo from '../../../assets/icons/logo';
 import googleIcon from '../../../assets/icons/googleIcon';
 import { Container } from '../../../shared-components/Container';
-
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('obikaForPresident2022@gmail.com');
@@ -56,15 +55,14 @@ const LoginScreen = ({ navigation }) => {
   }
 
   const submitForm = async () => {
-
-/*     try {
+    try {
         setIsLoading(true);
         const loginData = {
             email,
             password
         }
         
-        const response = await axios.post(`${API_URL}/auth/login`, loginData);
+        const response = await api.post(`/auth/login`, loginData);
         
         if(response.status === 200) {
             if(response.data.status === 'success') {
@@ -80,10 +78,7 @@ const LoginScreen = ({ navigation }) => {
         }
 
         return setError('Something went wrong, please try again later!');
-    } */
-
-    navigation.navigate('App');
-
+    }
   }
 
   const register = () => {
