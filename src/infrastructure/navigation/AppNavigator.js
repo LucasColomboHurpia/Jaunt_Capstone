@@ -34,7 +34,7 @@ const AppNavigator = () => {
             const token = await AsyncStorage.getItem('auth_token');
             const socket = io(DEV_API_URL, {
                 extraHeaders: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YTRjN2JkYTQ0YmMzMjUwMjgxMjkzZCIsImlhdCI6MTY4OTgwMzM4MSwiZXhwIjoxNjk3NTc5MzgxfQ.4eKB3rQQPWxbhNJE_8f_2oK11Q19lqnwzmNzFa6YyM8`
+                    Authorization: `Bearer ${token}`
                 }
             })
             setSocket(socket)
