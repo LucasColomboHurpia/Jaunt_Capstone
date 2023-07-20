@@ -15,18 +15,30 @@ const AddActivityButton = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   roundButton: {
-    height: 110,
-    width: 110,
+    height: 115,
+    width: 115,
     borderRadius: 150,
-    backgroundColor: 'gray',
+    backgroundColor: '#F35F4B',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute', 
     right: 10, 
     bottom: 20,
+
+    // iOS shadow properties
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    // Android elevation
+    elevation: 7,
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 35,
     color: 'white',
   },
 });

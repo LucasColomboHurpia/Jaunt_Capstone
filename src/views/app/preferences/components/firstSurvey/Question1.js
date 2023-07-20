@@ -1,21 +1,23 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 
-import {VegetableIcon, VeganIcon, FishIcon, ChickenIcon} from '../../../../../assets/icons/Icon'
+import { VegetableIcon, VeganIcon, FishIcon, ChickenIcon } from '../../../../../assets/icons/Icon'
 
 const answerOptions = ['Vegetarian', 'Vegan', 'Pescatarian', 'None'];
 
-const Question1 = ({ onAnswer, onGoBack  }) => {
+const Question1 = ({ onAnswer, onGoBack }) => {
   const getIcon = (item) => {
     switch (item) {
       case 'Vegetarian':
-        return <VegetableIcon size={105}/>;
+        return <VegetableIcon size={135} />;
       case 'Vegan':
-        return <VeganIcon size={105}/>;
+        return <VeganIcon size={135} />;
       case 'Pescatarian':
-        return <FishIcon  size={105}/>;
+        return <View style={styles.fishFix}>
+          <FishIcon size={85} />
+        </View>;
       case 'None':
-        return <ChickenIcon size={105} />;
+        return <ChickenIcon size={135} />;
       default:
         return null;
     }
@@ -25,9 +27,9 @@ const Question1 = ({ onAnswer, onGoBack  }) => {
     return (
       <TouchableOpacity
         style={styles.answerOption}
-        onPress={() => onAnswer(item,'Diet')}
+        onPress={() => onAnswer(item, 'Diet')}
       >
-        <Text>{item}</Text>
+        <Text style={styles.answerText}>{item}</Text>
         {getIcon(item)}
       </TouchableOpacity>
     );
@@ -64,9 +66,9 @@ const styles = StyleSheet.create({
   },
   questionText: {
     fontStyle: 'normal',
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     fontSize: 18,
-    marginBottom: 20,
+    marginBottom: 30,
     textAlign: 'center',
   },
   answerOptionsContainer: {
@@ -74,13 +76,23 @@ const styles = StyleSheet.create({
   },
   answerOption: {
     width: 150,
-    height: 150,
-    backgroundColor: 'white',
+    height: 200,
+    backgroundColor: '#F3F3F3',
     borderRadius: 10,
     margin: 10,
     alignItems: 'center',
     justifyContent: 'center',
+    fontWeight: 'bold',
   },
+
+  answerText:{
+    fontWeight: 'bold',
+  },
+
+
+  fishFix: {
+    marginTop: 30,
+  }
 });
 
 export default Question1;

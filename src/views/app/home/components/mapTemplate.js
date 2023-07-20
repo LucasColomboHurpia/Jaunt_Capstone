@@ -99,7 +99,7 @@ export default function createMap(centerCoordinates, placeName) {
     <div id='route-buttons'>
         <div class='route-button pedestrian'>Walk</div>
         <div class='route-button bicycle'>Bike</div>
-        <div class='route-button publicTransport'>Public</div>
+        <div class='route-button publicTransport'>Bus</div>
         <div class='route-button car'>Car</div>
     </div>
     

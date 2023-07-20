@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Button, TextInput } from 'react-native';
 
-const answerOptions = ['Shellfish', 'Tree nuts', 'Dairy', 'Glutten','Others'];
+import { BackIcon, CheckIcon } from '../../../../../assets/icons/Icon'
+
+
+const answerOptions = ['Shellfish', 'Tree nuts', 'Dairy', 'Glutten', 'Others'];
 
 const Question2 = ({ onAnswer, onGoBack }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -25,14 +28,16 @@ const Question2 = ({ onAnswer, onGoBack }) => {
       <TouchableOpacity
         style={[
           styles.answerOption,
-          { backgroundColor: isSelected ? 'gray' : 'white' },
+          { backgroundColor: isSelected ? '#19445A' : '#F3F3F3' },
         ]}
         onPress={() => handleAnswerOptionClick(item)}
       >
-        <Text>{item}</Text>
+        {isSelected && <CheckIcon size={24} color='white' />}
+        <Text style={isSelected ? styles.optionTextSelected : styles.optionText}>{item}</Text>
       </TouchableOpacity>
     );
   };
+
 
   const handleSubmit = () => {
     const finalAnswers = customAnswer ? [...selectedOptions, customAnswer] : selectedOptions;
@@ -57,24 +62,19 @@ const Question2 = ({ onAnswer, onGoBack }) => {
         renderItem={renderAnswerOption}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={styles.answerOptionsContainer}
-        numColumns={2} 
+        numColumns={2}
       />
-<View style={styles.buttonContainer}>
-  <View style={styles.buttonBack}>
-    <Button
-      color="gray" 
-      title="<"
-      onPress={onGoBack}
-    />
-  </View>
-  <View style={styles.buttonNext}>
-    <Button
-      color="gray" 
-      title="Next Step"
-      onPress={handleSubmit}
-    />
-  </View>
-</View>
+
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonBack} onPress={onGoBack}>
+          <View style={styles.backIconContainer}>
+            <BackIcon size={24} color='black' />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonNext} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Next Step</Text>
+        </TouchableOpacity>
+      </View>
 
     </View>
   );
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     fontSize: 18,
     marginBottom: 20,
-    marginTop: 30,
+    marginTop: 20,
     textAlign: 'center',
   },
   input: {
@@ -104,30 +104,68 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   answerOptionsContainer: {
-  //  flexDirection: 'row',
-  //  flexWrap: 'wrap',
+    //  flexDirection: 'row',
+    //  flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+
+  optionTextSelected: {
+    marginLeft: 10,
+    color: 'white',
+  },
+
+  optionText: {
+    color: 'black',
+  },
+
+  
+  backIconContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   answerOption: {
+    flexDirection: 'row',
     paddingVertical: 20,
     paddingHorizontal: 30,
     fontSize: 20,
-    backgroundColor: 'white',
-    borderRadius: 25,
+    borderRadius: 15,
     margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  buttonContainer:{
+
+
+  buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    //width: '80%',
-     //   paddingHorizontal: 12, 
+    width: '100%',
+    paddingHorizontal: 12,
+  },
+
+  buttonBack: {
+    flex: 1,
+    justifyContent: 'flex-start',
   },
 
   buttonNext: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: '#F35F4B',
+    borderRadius: 15,
+    fontWeight: 'bold',
+    margin: 10,
+    padding: 20,
+    width: '45%',
+    alignItems: 'center'
+  },
+
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
 
   }
 });
