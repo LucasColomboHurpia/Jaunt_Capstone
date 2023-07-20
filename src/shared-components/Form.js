@@ -13,6 +13,7 @@ export const Label = styled(Text)`
 
 const InputStyle = styled(TextInput)`
     background-color: transparent;
+    width: 100%;
     font-size: ${props => props.theme.fontSizes.body}px;
     padding-horizontal: ${RFValue(16)}px;
     padding-vertical: ${RFValue(11)}px;

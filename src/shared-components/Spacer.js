@@ -22,6 +22,5 @@ const getVariant = (type, position, customSize) => {
 
 export default Spacer = ({ type, position, customSize, children }) => {
   const variant = getVariant(type, position, customSize);
-  console.log(variant)
   return <View style={variant}>{children}</View>;
 };
