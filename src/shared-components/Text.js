@@ -40,6 +40,11 @@ const labelBg = (theme) => `
     font-size: ${theme.fontSizes.labelBg}px;
 `;
 
+const labelMd = (theme) => `
+    font-weight: ${theme.fontWeights.bold};
+    font-size: ${theme.fontSizes.labelMd}px;
+`;
+
 const labelSm = (theme) => `
     font-weight: ${theme.fontWeights.regular};
     font-size: ${theme.fontSizes.labelSm}px;
@@ -51,6 +56,7 @@ const variants = {
     body,
     bodyBold,
     labelBg,
+    labelMd,
     labelSm
 };
 

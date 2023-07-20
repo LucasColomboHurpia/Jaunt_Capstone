@@ -5,6 +5,7 @@ import SurveyContext from '../../../../context/SurveyContext';
 import uuid from 'react-native-uuid';
 import { useIsFocused } from "@react-navigation/native";
 import { CommonActions } from '@react-navigation/native';
+import SocketContext from '../../../../context/SocketContext';
 
 const HeaderSection = () => {
   return (
@@ -64,7 +65,8 @@ const CreateActivity = () => {
   const [hour, setHour] = useState(formattedTime.slice(0, 2));
   const [minute, setMinute] = useState(formattedTime.slice(3));
 
-  const { surveyData, setSurveyData } = useContext(SurveyContext);
+  const { surveyData, setSurveyData, invitedContacts, setInvitedContacts } = useContext(SurveyContext);
+  const { socket } = useContext(SocketContext);
 
   const navigation = useNavigation();
 
@@ -72,6 +74,11 @@ const CreateActivity = () => {
   useEffect(() => {
     console.log('Survey Data: ', surveyData);
   }, []);
+
+  useEffect(() => {
+    console.log('create activity screen');
+    console.log(invitedContacts);
+  }, [invitedContacts]);
 
   useEffect(() => {
     console.log('Updated Activities: ', surveyData.activityParameters)
@@ -104,6 +111,18 @@ const CreateActivity = () => {
 
     
      navigation.navigate('ActivityDashboard', { activityId: newActivity.id });
+
+     const notification = {
+        type: "invite",
+        resourceId: "6494772f2c740f035fe3f039",
+        recipients: invitedContacts,
+        text: "Zarah sent you a new invite",
+        sender: "64a4c7bda44bc3250281293d"
+    }
+
+    setInvitedContacts([])
+
+    socket.emit('notification:send', notification)
   };
 
   return (

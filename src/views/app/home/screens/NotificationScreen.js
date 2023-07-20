@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Aligner from "../../../../shared-components/Aligner";
+import SocketContext from '../../../../context/SocketContext';
 
 const NotificationScreen = () => {
   const [invitationRequests, setInvitationRequests] = useState([]);
+
+  const { socket } = useContext(SocketContext)
 
   useEffect(() => {
     const fetchInvitationRequests = async () => {
