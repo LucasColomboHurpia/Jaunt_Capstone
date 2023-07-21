@@ -59,6 +59,8 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     padding: 20,
     alignItems: 'center',
+    backgroundColor: 'white',
+
   },
 
   title: {
@@ -82,8 +84,8 @@ const styles = StyleSheet.create({
   backgroundBox: {
     width: 355,
     height: 345,
-    backgroundColor: '#D3D3D3',
-    position: 'absolute',
+    backgroundColor: 'white',
+        position: 'absolute',
     top: 130,
     marginTop: 57,
     zIndex: -1,

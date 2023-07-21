@@ -18,26 +18,26 @@ const ActivityQuestion1 = ({ onAnswer }) => {
 
   return (
     <View style={styles.container}>
-    <Text variant="heading1">New Activity</Text>
-    <WeatherComponent />
-    <View style={styles.subtitleWrapper}>
+      <Text variant="heading1">New Activity</Text>
+      <WeatherComponent />
+      <View style={styles.subtitleWrapper}>
         <Text style={styles.subtitle}>What do you wanna do?</Text>
-      </View>    
-      <View style={styles.optionsContainerWrapper}>
-      <View style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.optionDo} onPress={() => handleAnswer("Do Something", 'UserWouldLikeTo')}>
-          <Text style={styles.optionText}>Do Something</Text>
-          <DoIcon color = "#000000" size = {150}/>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionEat} onPress={() => handleAnswer("Eat Something", 'UserWouldLikeTo')}>
-          <Text style={styles.optionText}>Eat Something</Text>
-          <EatIcon color = "#000000" size = {150}/>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.optionBoth} onPress={() => handleAnswer("Both", 'UserWouldLikeTo')}>
-          <Text style={styles.optionText}>Both</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+      <View style={styles.optionsContainerWrapper}>
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity style={styles.optionDo} onPress={() => handleAnswer("Do Something", 'UserWouldLikeTo')}>
+            <Text style={styles.optionText}>Do Something</Text>
+            <DoIcon color="#000000" size={150} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionEat} onPress={() => handleAnswer("Eat Something", 'UserWouldLikeTo')}>
+            <Text style={styles.optionText}>Eat Something</Text>
+            <EatIcon color="#000000" size={150} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionBoth} onPress={() => handleAnswer("Both", 'UserWouldLikeTo')}>
+            <Text style={styles.optionText}>Both</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
 
       <View style={styles.buttonContainer}>
@@ -48,10 +48,10 @@ const ActivityQuestion1 = ({ onAnswer }) => {
           <Text style={styles.buttonText}>I dont Know</Text>
         </TouchableOpacity>
       </View>
-      </View>
+    </View>
     // </View>
 
-    
+
   );
 };
 
@@ -65,19 +65,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     padding: 20,
+    backgroundColor: 'white',
+
   },
   title: {
     fontSize: 20,
     marginBottom: 5,
     textAlign: 'center',
+    backgroundColor: 'white',
+
   },
   subtitleWrapper: {
     position: 'absolute',
-    bottom: height * 0.7, // Adjust this value to bring up the subtitle
+    bottom: height * 0.7, 
     width: '100%',
     alignItems: 'center',
+    backgroundColor: 'white',
+
   },
-  subtitle: {
+  subtitle: {   
+    backgroundColor: 'white',
     fontSize: 16,
   },
   optionsContainer: {
@@ -86,41 +93,46 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     overflow: 'hidden',
-    alignContent:"center",
+    alignContent: "center",
+    backgroundColor: 'white',
+
     justifyContent: "center",
   },
   optionsContainerWrapper: {
     position: 'absolute',
-    bottom: height * 0.25, 
+    bottom: height * 0.25,
     width: '100%',
     alignItems: 'center',
+    backgroundColor: 'white',
+
   },
   optionDo: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EAEAEA',
-    margin:4,
-    borderRadius:10,
+    margin: 4,
+    borderRadius: 10,
   },
   optionEat: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#EAEAEA',
-    margin:4,
-    borderRadius:10,
+    margin: 4,
+    borderRadius: 10,
 
   },
   optionBoth: {
     position: 'absolute',
     bottom: 0,
     height: 60,
+    marginTop: 20,
     width: "100%",
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#EAEAEA',
-    borderRadius:10,
+    backgroundColor: '#969696',
+    borderRadius: 10,
   },
   optionText: {
     fontSize: 18,
@@ -145,7 +157,8 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     justifyContent: 'center',
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: 'white'
   },
   buttonNext: {
     flex: 1,

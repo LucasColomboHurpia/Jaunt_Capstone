@@ -10,6 +10,10 @@ import { theme } from './src/infrastructure/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 const App = () => {
     const [token, setToken] = useState({});
     const [surveyData, setSurveyData] = useState({});
