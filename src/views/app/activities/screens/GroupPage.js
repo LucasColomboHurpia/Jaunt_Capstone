@@ -101,6 +101,32 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "gray",
   },
+  activityContainer: {
+    backgroundColor: '#ffffff',
+    borderColor: '#c0c0c0',
+    borderWidth: 1,
+    padding: 15,
+    borderRadius: 20,
+    marginBottom: 5,
+    width: Dimensions.get("window").width - 40,
+  },
+  activityHeader: {
+    flexDirection: "column",
+    marginBottom: 5,
+  },
+  activityTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+    marginLeft: 10,
+    textAlign: "left",
+  },
+  activityDetails: {
+    textAlign: "left",
+    fontSize: 15,
+    marginLeft: 10,
+    marginBottom: 10,
+  },
 });
 
 export default GroupPage;
