@@ -36,6 +36,12 @@ const AppNavigator = () => {
         }
     }, [socket])
 
+    useEffect(() => {
+        console.log('showAlert')
+        console.log(showAlert)
+    }, [showAlert])
+    
+
     const initializeSocket = async () => {
         try {
             const token = await AsyncStorage.getItem('auth_token');
