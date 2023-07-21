@@ -18,5 +18,5 @@ Aligner.defaultProps = {
     justify: "center",
     align: "center",
     direction: "row",
-    wrap: "nowrap"
+    wrap: "nowrap",
 }

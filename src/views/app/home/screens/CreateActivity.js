@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, StyleSheet, TextInput, SafeAreaView, StatusBar, Button } from 'react-native';
+import { View, StyleSheet, TextInput, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SurveyContext from '../../../../context/SurveyContext';
 import uuid from 'react-native-uuid';
@@ -10,6 +10,7 @@ import { colors } from "../../../../infrastructure/theme/colors";
 import Button from "../../../../shared-components/Button";
 import Text from "../../../../shared-components/Text";
 import { GroupProfileIcon } from "../../../../assets/icons/Icon";
+import AuthContext from '../../../../context/AuthContext';
 
 const HeaderSection = () => {
   return (
@@ -115,6 +116,7 @@ const CreateActivity = () => {
 
   const { surveyData, setSurveyData, invitedContacts, setInvitedContacts } = useContext(SurveyContext);
   const { socket } = useContext(SocketContext);
+  const { authUser } = useContext(AuthContext);
 
   const navigation = useNavigation();
 
@@ -156,17 +158,13 @@ const CreateActivity = () => {
 
     setSurveyData(updatedSurveyData);
 
-    console.log(surveyData);
-
-    
      navigation.navigate('ActivityDashboard', { activityId: newActivity.id });
 
      const notification = {
         type: "invite",
         resourceId: "6494772f2c740f035fe3f039",
         recipients: invitedContacts,
-        text: "Zarah sent you a new invite",
-        sender: "64a4c7bda44bc3250281293d"
+        senderId: authUser.id
     }
 
     setInvitedContacts([])

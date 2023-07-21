@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -44,10 +44,12 @@ const SurveyPage = ({ navigation }) => {
   };
   
 
-  if (isSurveyComplete) {
-    console.log('BottomTab')
-    navigation.navigate('BottomTab');
-  }
+  useEffect(() => {
+    if (isSurveyComplete) {
+        console.log('BottomTab')
+        navigation.navigate('BottomTab');
+      }
+  }, [isSurveyComplete])
 
   const CurrentQuestionComponent = questionsComponents[currentQuestion];
 
