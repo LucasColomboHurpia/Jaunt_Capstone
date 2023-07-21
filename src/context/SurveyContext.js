@@ -8,6 +8,8 @@ export const SurveyProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [currentActivityId, setCurrentActivityId] = useState(null);
   const [invitedContacts, setInvitedContacts] = useState([]);
+  const [registeredContacts, setRegisteredContacts] = useState([]);
+  const [users, setUsers] = useState([]);
 
   return (
     <SurveyContext.Provider value={{ 
@@ -20,7 +22,11 @@ export const SurveyProvider = ({ children }) => {
         currentActivityId,
         setCurrentActivityId,
         invitedContacts,
-        setInvitedContacts
+        setInvitedContacts,
+        registeredContacts,
+        setRegisteredContacts,
+        users, 
+        setUsers
     }}>
       {children}
     </SurveyContext.Provider>

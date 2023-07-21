@@ -15,6 +15,9 @@ const AppNavigator = () => {
     const [activityParameters, setActivityParameters] = useState([]);
     const [currentActivityId, setCurrentActivityId] = useState([]);
     const [invitedContacts, setInvitedContacts] = useState([]);
+    const [registeredContacts, setRegisteredContacts] = useState([]);
+    const [users, setUsers] = useState([]);
+    
 
     const [preferenceStatus, setPreferenceStatus] = useState(null);
     const [socket, setSocket] = useState(null);
@@ -31,7 +34,7 @@ const AppNavigator = () => {
             socket.on('notification:send', data => {
                 setShowAlert(true)
                 setAlertMessage(data.text)
-                setNotifications([...notifications, data])
+                // setNotifications([...notifications, data])
             });
         }
     }, [socket])
@@ -67,7 +70,7 @@ const AppNavigator = () => {
     }, [])
 
     return (
-        <SurveyContext.Provider value={{ surveyData, setSurveyData, activityParameters, setActivityParameters,  currentActivityId, setCurrentActivityId, invitedContacts, setInvitedContacts }}>
+        <SurveyContext.Provider value={{ surveyData, setSurveyData, activityParameters, setActivityParameters,  currentActivityId, setCurrentActivityId, invitedContacts, setInvitedContacts, registeredContacts, setRegisteredContacts, users, setUsers }}>
             <SocketContext.Provider value={{ socket, setSocket}}>
                 <NotificationContext.Provider value={{ alertMessage, setAlertMessage, showAlert, setShowAlert, notifications, setNotifications}}>
                     {showAlert && <Alert />}

@@ -46,14 +46,14 @@ const Alert = (props) => {
         }).start()
 
         setShowAlert(false)
-    }, 2000)
+    }, 5000)
 
     return(
             <Animated.View style={{
                 position: "absolute",
                 top: top,
                 width: "100%",
-                backgroundColor: theme.colors.white,
+                backgroundColor: theme.colors.secondary.default,
 
                 height: 58,
                 justifyContent: "center",
@@ -62,7 +62,7 @@ const Alert = (props) => {
                 opacity: opacity
             }}>
                 <View style={{
-                    backgroundColor: theme.colors.white,
+                    backgroundColor: theme.colors.secondary.default,
                     elevation: 5,
                     opacity: 1,
                 }}>
@@ -71,7 +71,7 @@ const Alert = (props) => {
                             <View style={{ position: "relative", width: "100%", height: "100%", justifyContent: "space-between", alignItems: "center" }}>
                             
                                 <View style={{width: "100%", justifyContent: "center", alignItems: "center", flexDirection: "row", flex: 1 }}>
-                                    <Text>{alertMessage}</Text>
+                                    <Text options={{ color: theme.colors.white }}>{alertMessage}</Text>
                                 </View>
 
                             </View>

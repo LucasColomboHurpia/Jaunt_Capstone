@@ -1,11 +1,14 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
+import AuthContext from '../../../../context/AuthContext';
 
 import { BackIcon, CameraPlusIcon } from '../../../../assets/icons/Icon'
+import { Image } from 'react-native';
 
 const Profile = ({ navigation }) => {
   const surveyData = useContext(SurveyContext);
+  const { authUser } = useContext(AuthContext);
 
   const diet = surveyData.surveyData?.Diet || "None";
   const likes = surveyData.surveyData?.DoLike?.join(", ") || "None";
@@ -23,11 +26,11 @@ const Profile = ({ navigation }) => {
 
     <View style={styles.userSection}>
       <View style={styles.avatar}>
-        <CameraPlusIcon size={70}/> 
+        <Image style={{ width: 100, height: 100, borderRadius: 100 }} source={{ uri: `${authUser?.picture}`}} />
       </View>
       <View style={styles.userInfo}>
-        <Text style={styles.userName}>Obika</Text>
-        <Text style={styles.userDetails}>obikaForPresident2022@gmail.com</Text>
+        <Text style={styles.userName}>{authUser?.name}</Text>
+        <Text style={styles.userDetails}>{authUser?.email}</Text>
       </View>
     </View>
 

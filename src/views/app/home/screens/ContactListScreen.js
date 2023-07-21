@@ -20,15 +20,17 @@ import Aligner from "../../../../shared-components/Aligner";
 import Spacer from '../../../../shared-components/Spacer';
 import api from "../../../../config/api";
 import SurveyContext from '../../../../context/SurveyContext';
+import { useTheme } from "styled-components";
+import { Image } from "react-native";
 
 const ContactListScreen = () => {
   const navigation = useNavigation();
-  const {invitedContacts, setInvitedContacts} = useContext(SurveyContext);
-
-  const [registeredContacts, setRegisteredContacts] = useState([]);
+  const {users, setUsers, invitedContacts, setInvitedContacts, registeredContacts, setRegisteredContacts} = useContext(SurveyContext);
+//   const [registeredContacts, setRegisteredContacts] = useState([]);
   const [unregisteredContacts, setUnregisteredContacts] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const theme = useTheme()
 
   useEffect(() => {
     (async () => {
@@ -43,10 +45,9 @@ const ContactListScreen = () => {
                     }
                 })
 
-                console.log(result)
-
                 const r = await api.post(`users/verifyContacts`, {contacts: result})
                 const { users } = r.data;
+                setUsers(users)
 
                 const unregisteredContacts = [];
                 const registeredContacts = [];
@@ -54,8 +55,8 @@ const ContactListScreen = () => {
                 data.forEach(contact => {
                     if (contact.hasOwnProperty("phoneNumbers")) {
                         contactPhoneNumber = contact.phoneNumbers[0].number.replace(/\D+/g, "");
-
-                        if(contactPhoneNumber === users[contactPhoneNumber]?.phoneNumber) {
+                        const currentUser = users[contactPhoneNumber];
+                        if(contactPhoneNumber === currentUser?.phoneNumber) {
                             registeredContacts.push(contact)
                         }
                         else {
@@ -113,24 +114,22 @@ const ContactListScreen = () => {
     if (registeredContacts && registeredContacts.length !== 0) {
       return registeredContacts.map((contact, index) => {
         if (contact.hasOwnProperty("phoneNumbers")) {
+            const contactPhoneNumber = contact.phoneNumbers[0].number.replace(/\D+/g, "");
+            const picture = users[contactPhoneNumber]?.picture
           return (
-            <View key={contact.phoneNumbers[0].number.replace(/\D+/g, "")} style={styles.contactItem}>
-              <SingleProfileIcon
-                name="person"
-                size={24}
-                style={styles.profileIcon}
-              />
-              <Text style={styles.contactName}>
+            <View key={contactPhoneNumber} style={styles.contactItem}>
+              <Image style={{ width: 40, height: 40, borderRadius: 100}} source={{ uri: `${picture}`}} />
+              <Text variant="heading2">
                 {contact.firstName} {contact.lastName}
               </Text>
               <TouchableOpacity
                 style={[
                   styles.inviteButton,
-                  isContactInvited(contact.phoneNumbers[0].number.replace(/\D+/g, "")) && styles.invitedButton,
+                  isContactInvited(contactPhoneNumber) && styles.invitedButton,
                 ]}
-                onPress={() => handleInvite(contact.phoneNumbers[0].number.replace(/\D+/g, ""))}
+                onPress={() => handleInvite(contactPhoneNumber)}
               >
-                {isContactInvited(contact.phoneNumbers[0].number.replace(/\D+/g, "")) ? (
+                {isContactInvited(contactPhoneNumber) ? (
                   <CheckIcon name="check" />
                 ) : (
                   <Text style={styles.inviteButtonText}>Invite</Text>
@@ -176,12 +175,6 @@ const ContactListScreen = () => {
                 }
         });
     }
-
-    return (
-      <View>
-        <Text>Syncing Contacts....</Text>
-      </View>
-    );
   };
 
   return (
@@ -214,14 +207,16 @@ const ContactListScreen = () => {
       </View>
       <View style={styles.contentContainer}>
         <ScrollView contentContainerStyle={styles.contactList}>
-          {displayRegisteredContacts()}
+            {displayRegisteredContacts()}
+
+            <Spacer type="margin" position="bottom" customSize={20} />
+          
+                {/* <Text variant="heading2" options={{ color: theme.colors.primary.default}}>Invite to Jaunt</Text>
+
+                <Spacer type="margin" position="bottom" customSize={40} />
+
+                {displayUnregisteredContacts()} */}
         </ScrollView>
-
-        {/* <Text>Invite to Jaunt</Text>
-        <ScrollView contentContainerStyle={styles.contactList}>
-
-        {displayUnregisteredContacts()}
-        </ScrollView> */}
       </View>
       <Spacer type="margin" position="bottom" customSize={5}>
         <Aligner>
@@ -288,7 +283,6 @@ const styles = StyleSheet.create({
   },
   contactName: {
     fontSize: 18,
-    alignSelf: "flex-start",
   },
   inviteButton: {
     paddingHorizontal: 12,

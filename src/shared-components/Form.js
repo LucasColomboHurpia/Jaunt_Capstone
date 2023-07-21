@@ -4,6 +4,7 @@ import { SvgXml } from 'react-native-svg';
 // import { checkmarkSvg } from '../../assets/icons'
 import { RFValue } from 'react-native-responsive-fontsize';
 import close from '../assets/icons/close';
+import edit from '../assets/icons/edit';
 import { Dimensions } from 'react-native';
 
 export const Label = styled(Text)`
@@ -38,9 +39,9 @@ export const Input = (props) => {
             />
             <SvgXml style={{ 
                 position: 'absolute',
-                right: 6,
-                top: 10
-            }} xml={close()} />
+                right: 15,
+                top: 15
+            }} xml={props.type !== "password" ? close() : edit()} />
         </InputContainer>
     )
 }
