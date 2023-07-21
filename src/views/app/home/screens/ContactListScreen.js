@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+
 import Text from "../../../../shared-components/Text";
 import { useNavigation } from "@react-navigation/native";
 import * as Contacts from "expo-contacts";
@@ -17,21 +18,60 @@ import {
 } from "../../../../assets/icons/Icon";
 import Aligner from "../../../../shared-components/Aligner";
 import Spacer from '../../../../shared-components/Spacer';
+import api from "../../../../config/api";
+import SurveyContext from '../../../../context/SurveyContext';
 
 const ContactListScreen = () => {
   const navigation = useNavigation();
+  const {invitedContacts, setInvitedContacts} = useContext(SurveyContext);
 
-  const [invitedContacts, setInvitedContacts] = useState([]);
-  const [contacts, setContacts] = useState([]);
+  const [registeredContacts, setRegisteredContacts] = useState([]);
+  const [unregisteredContacts, setUnregisteredContacts] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     (async () => {
-      const { status } = await Contacts.requestPermissionsAsync();
-      if (status === "granted") {
-        const { data } = await Contacts.getContactsAsync();
-        setContacts(data);
+        try { 
+            const { status } = await Contacts.requestPermissionsAsync();
+            if (status === "granted") {
+                const { data } = await Contacts.getContactsAsync();
+                const result = [];
+                data.forEach((contact, index) => {
+                    if (contact.hasOwnProperty("phoneNumbers")) {
+                        result.push(contact.phoneNumbers[0].number.replace(/\D+/g, ""))
+                    }
+                })
+
+                console.log(result)
+
+                const r = await api.post(`users/verifyContacts`, {contacts: result})
+                const { users } = r.data;
+
+                const unregisteredContacts = [];
+                const registeredContacts = [];
+
+                data.forEach(contact => {
+                    if (contact.hasOwnProperty("phoneNumbers")) {
+                        contactPhoneNumber = contact.phoneNumbers[0].number.replace(/\D+/g, "");
+
+                        if(contactPhoneNumber === users[contactPhoneNumber]?.phoneNumber) {
+                            registeredContacts.push(contact)
+                        }
+                        else {
+                            unregisteredContacts.push(contact)
+                        }
+                    }
+                    else {
+                        unregisteredContacts.push(contact)
+                    }
+                })
+
+                setRegisteredContacts(registeredContacts);
+                setUnregisteredContacts(unregisteredContacts);
+            }
+      } catch (error) {
+        console.log(error)
       }
     })();
   }, []);
@@ -49,6 +89,7 @@ const ContactListScreen = () => {
   };
 
   const handleNext = () => {
+    console.log(invitedContacts)
     navigation.navigate("CreateActivity");
   };
 
@@ -61,19 +102,19 @@ const ContactListScreen = () => {
   };
 
   const handleSearch = () => {
-    const filteredContacts = contacts.filter((contact) => {
+    const filteredContacts = registeredContacts.filter((contact) => {
       const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
       return fullName.includes(searchQuery.toLowerCase());
     });
-    setContacts(filteredContacts);
+    setRegisteredContacts(filteredContacts);
   };
 
-  const displayContacts = () => {
-    if (contacts && contacts.length !== 0) {
-      return contacts.map((contact, index) => {
+  const displayRegisteredContacts = () => {
+    if (registeredContacts && registeredContacts.length !== 0) {
+      return registeredContacts.map((contact, index) => {
         if (contact.hasOwnProperty("phoneNumbers")) {
           return (
-            <View key={contact.lookupKey} style={styles.contactItem}>
+            <View key={contact.phoneNumbers[0].number.replace(/\D+/g, "")} style={styles.contactItem}>
               <SingleProfileIcon
                 name="person"
                 size={24}
@@ -85,11 +126,11 @@ const ContactListScreen = () => {
               <TouchableOpacity
                 style={[
                   styles.inviteButton,
-                  isContactInvited(contact.lookupKey) && styles.invitedButton,
+                  isContactInvited(contact.phoneNumbers[0].number.replace(/\D+/g, "")) && styles.invitedButton,
                 ]}
-                onPress={() => handleInvite(contact.lookupKey)}
+                onPress={() => handleInvite(contact.phoneNumbers[0].number.replace(/\D+/g, ""))}
               >
-                {isContactInvited(contact.lookupKey) ? (
+                {isContactInvited(contact.phoneNumbers[0].number.replace(/\D+/g, "")) ? (
                   <CheckIcon name="check" />
                 ) : (
                   <Text style={styles.inviteButtonText}>Invite</Text>
@@ -99,6 +140,41 @@ const ContactListScreen = () => {
           );
         }
       });
+    }
+
+    return (
+      <View>
+        <Text>Syncing Contacts....</Text>
+      </View>
+    );
+  };
+
+  const displayUnregisteredContacts = () => {
+    if (unregisteredContacts && unregisteredContacts.length !== 0) {
+        return unregisteredContacts.map((contact, index) => {
+        if (contact.hasOwnProperty("phoneNumbers")) {
+            return (
+                <View key={contact.id} style={styles.contactItem}>
+                <SingleProfileIcon
+                    name="person"
+                    size={24}
+                    style={styles.profileIcon}
+                />
+                <Text style={styles.contactName}>
+                    {contact.firstName} {contact.lastName}
+                </Text>
+                <TouchableOpacity
+                    style={[
+                    styles.inviteButton
+                    ]}
+                >
+                    
+                    <Text style={styles.inviteButtonText}>SMS</Text>
+                </TouchableOpacity>
+                </View>
+            );
+                }
+        });
     }
 
     return (
@@ -138,8 +214,14 @@ const ContactListScreen = () => {
       </View>
       <View style={styles.contentContainer}>
         <ScrollView contentContainerStyle={styles.contactList}>
-          {displayContacts()}
+          {displayRegisteredContacts()}
         </ScrollView>
+
+        {/* <Text>Invite to Jaunt</Text>
+        <ScrollView contentContainerStyle={styles.contactList}>
+
+        {displayUnregisteredContacts()}
+        </ScrollView> */}
       </View>
       <Spacer type="margin" position="bottom" customSize={5}>
         <Aligner>

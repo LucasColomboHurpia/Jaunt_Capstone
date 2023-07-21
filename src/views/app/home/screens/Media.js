@@ -1,12 +1,44 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Image, TouchableOpacity, Alert } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, StyleSheet, Image, TouchableOpacity, Alert, Linking } from "react-native";
 import Text from "../../../../shared-components/Text";
 import * as ImagePicker from "expo-image-picker";
+import SurveyContext from "../../../../context/SurveyContext";
 import Button from "../../../../shared-components/Button";
 import { CameraPlusIcon, BackIcon } from "../../../../assets/icons/Icon";
 
-const MediaScreen = ({ navigation }) => {
+const MediaScreen = ({ route, navigation }) => {
   const [selectedImages, setSelectedImages] = useState([]);
+  const { surveyData, setSurveyData } = useContext(SurveyContext)
+
+  const activityId = route.params.activityId;
+
+  const item = surveyData?.activityParameters?.find(
+    (activity) => activity.id === activityId
+  );
+
+  console.log(item)
+
+  useEffect(() => {
+    if(selectedImages.length > 0) {
+        const updatedActivityParameters = surveyData?.activityParameters?.map((activity) => {
+            if(activity.id === activityId) {
+                activity.images = selectedImages
+            }
+            return activity
+        });
+
+        const updatedSurveyData = {
+            ...surveyData,
+            activityParameters: updatedActivityParameters,
+          };
+
+        console.log('newData')
+        console.log('=======================')
+        console.log(updatedActivityParameters)
+
+        setSurveyData(updatedSurveyData)
+    }
+  }, [selectedImages])
 
   const pickFromGallery = async () => {
     try {
@@ -71,6 +103,9 @@ const MediaScreen = ({ navigation }) => {
       { cancelable: true }
     );
   };
+
+
+
   // const handleDownload = async (uri) => {
   //   try {
   //     const supported = await Linking.canOpenURL(uri);
@@ -102,14 +137,15 @@ const MediaScreen = ({ navigation }) => {
         </View>
       </TouchableOpacity>
       <View style={styles.imageContainer}>
-        {selectedImages.map((uri, index) => (
-          <View key={index} style={styles.imageWrapper}>
+        {selectedImages.map((uri, index) => {
+            console.log(uri)
+          return (<View key={index} style={styles.imageWrapper}>
             <Image source={{ uri }} style={styles.image} />
             <TouchableOpacity style={styles.removeButton} onPress={() => removeImage(index)}>
               <Text style={styles.removeButtonText}>X</Text>
             </TouchableOpacity>
-          </View>
-        ))}
+          </View>)
+        })}
       </View>
     </View>
   );

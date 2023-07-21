@@ -22,4 +22,5 @@ export const fontSizes = {
     body: RFValue(16),
     labelBg: RFValue(18),
     labelSm: RFValue(12),
+    labelMd: RFValue(14),
 };

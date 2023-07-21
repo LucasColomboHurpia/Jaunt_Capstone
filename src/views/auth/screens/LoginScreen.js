@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useTheme } from 'react-navigation';
+import { useTheme } from 'styled-components';
 import { SvgXml } from 'react-native-svg';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 
-import { API_URL } from '../../../config';
+import api from '../../../config/api';
 import Text from '../../../shared-components/Text';
 import Button from '../../../shared-components/Button';
 import { Input } from '../../../shared-components/Form';
 import Spacer from '../../../shared-components/Spacer';
 import logo from '../../../assets/icons/logo';
 import googleIcon from '../../../assets/icons/googleIcon';
+import { Container } from '../../../shared-components/Container';
 
+WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('obikaForPresident2022@gmail.com');
@@ -23,6 +27,13 @@ const LoginScreen = ({ navigation }) => {
   const [loginBtnText, setLoginBtnText] = useState("Sign in");  
   
   const theme = useTheme();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: '291519119551-6vsdvantt8h3gpcieuua468aj9jqifft.apps.googleusercontent.com',
+    androidClientId: '291519119551-qgs2kutlbf7bkdnqk7vveelqbpb8mv8c.apps.googleusercontent.com',
+  },{
+    projectNameForProxy: "@obikakelvin/jaunt"
+  })
   
     useEffect(() => {
         if(isLoading){
@@ -44,6 +55,10 @@ const LoginScreen = ({ navigation }) => {
         }
     }, [email, password])
 
+    useEffect(() => {
+        handleGoogleSignIn(response?.authentication?.accessToken)
+    }, [response])
+
   const onChangeEmail = text => {
     setError('');
     setEmail(text);
@@ -54,35 +69,59 @@ const LoginScreen = ({ navigation }) => {
     setPassword(text);
   }
 
-  const submitForm = async () => {
+  const handleSignInSuccess = async (response) => {
+    if(response.status === 200) {
+        if(response.data.status === 'success') {
+            const { token } = response.data;
+            await AsyncStorage.setItem('auth_token', token);
+            navigation.navigate('App');
+        }
+    }
+}
 
-/*     try {
+  const submitForm = async () => {
+    const loginData = {
+        email,
+        password
+    }
+
+    try {
         setIsLoading(true);
-        const loginData = {
-            email,
-            password
-        }
+        const response = await api.post(`/auth/login`, loginData);
+        handleSignInSuccess(response);
         
-        const response = await axios.post(`${API_URL}/auth/login`, loginData);
-        
-        if(response.status === 200) {
-            if(response.data.status === 'success') {
-                const { token } = response.data;
-                await AsyncStorage.setItem('auth_token', token);
-                navigation.navigate('App');
-            }
-        }
     } catch (error) {
         setIsLoading(false);
-        if(error || error.response){
+        if(error && error.response){
             return setError(error.response.data.message);
         }
 
         return setError('Something went wrong, please try again later!');
-    } */
+    }
+  }
 
-    navigation.navigate('App');
+  const handleGoogleSignIn = async (token) => {
+    if(response?.type === "success") {
+        const response = await axios.get("https://www.googleapis.com/userinfo/v2/me", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
+        const googleUser = response.data;
+
+        const r = await api.post('auth/signInWithGoogle', {
+            googleUser
+        })
+
+        handleSignInSuccess(r);
+    }
+    
+    // const data = user.email
+  }
+
+  const signIn = async (data) => {
+    
   }
 
   const register = () => {
@@ -90,9 +129,7 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-
-
+    <Container>
         <Spacer type="margin" position="bottom" customSize={20} >
             <Aligner>
                 <SvgXml xml={logo()} />
@@ -105,12 +142,12 @@ const LoginScreen = ({ navigation }) => {
         </Aligner>
       </Spacer>
 
-      <TouchableOpacity style={styles.header}>
+      <TouchableOpacity style={styles.header} onPress={() => promptAsync({projectNameForProxy: "@obikakelvin/jaunt"})}>
         <Spacer type="margin" position="right" customSize={20} >
             <SvgXml xml={googleIcon()} />
         </Spacer>
         
-        <Text>Sign in with Google</Text>
+        <Text variant="labelMd" options={{ color: theme.colors.greys.g2 }}>Sign in with Google</Text>
       </TouchableOpacity>
 
       <Spacer>
@@ -162,7 +199,7 @@ const LoginScreen = ({ navigation }) => {
             <Text variant="body" options={{ textDecoration: "underline" }}>No account yet? Sign up here</Text>
         </TouchableOpacity>
       </Aligner>
-    </View>
+    </Container>
   );
 };
 

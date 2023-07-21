@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity
-} from "react-native";
+import React, { useState, useEffect, useContext } from 'react';
+import { View, StyleSheet, TextInput, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import SurveyContext from '../../../../context/SurveyContext';
+import uuid from 'react-native-uuid';
+import { useIsFocused } from "@react-navigation/native";
+import { CommonActions } from '@react-navigation/native';
+import SocketContext from '../../../../context/SocketContext';
 import { colors } from "../../../../infrastructure/theme/colors";
-import { useNavigation } from "@react-navigation/native";
-import SurveyContext from "../../../../context/SurveyContext";
-import uuid from "react-native-uuid";
 import Button from "../../../../shared-components/Button";
 import Text from "../../../../shared-components/Text";
 import { GroupProfileIcon } from "../../../../assets/icons/Icon";
+import AuthContext from '../../../../context/AuthContext';
 
 const HeaderSection = () => {
   return (
@@ -117,7 +114,9 @@ const CreateActivity = () => {
   const [hour, setHour] = useState(formattedTime.slice(0, 2));
   const [minute, setMinute] = useState(formattedTime.slice(3));
 
-  const { surveyData, setSurveyData } = useContext(SurveyContext);
+  const { surveyData, setSurveyData, invitedContacts, setInvitedContacts } = useContext(SurveyContext);
+  const { socket } = useContext(SocketContext);
+  const { authUser } = useContext(AuthContext);
 
   const navigation = useNavigation();
 
@@ -126,7 +125,12 @@ const CreateActivity = () => {
   }, []);
 
   useEffect(() => {
-    console.log("Updated Activities: ", surveyData.activityParameters);
+    console.log('create activity screen');
+    console.log(invitedContacts);
+  }, [invitedContacts]);
+
+  useEffect(() => {
+    console.log('Updated Activities: ', surveyData.activityParameters)
   }, [surveyData.activityParameters]);
 
   const handleCreate = () => {
@@ -154,9 +158,18 @@ const CreateActivity = () => {
 
     setSurveyData(updatedSurveyData);
 
-    console.log(surveyData);
+     navigation.navigate('ActivityDashboard', { activityId: newActivity.id });
 
-    navigation.navigate("ActivityDashboard", { activityId: newActivity.id });
+     const notification = {
+        type: "invite",
+        resourceId: "6494772f2c740f035fe3f039",
+        recipients: invitedContacts,
+        senderId: authUser?.id
+    }
+
+    setInvitedContacts([])
+
+    socket.emit('notification:send', notification)
   };
 
   return (

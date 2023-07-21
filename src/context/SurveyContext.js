@@ -6,10 +6,22 @@ export const SurveyProvider = ({ children }) => {
   const [surveyData, setSurveyData] = useState({});
   const [activityParameters, setActivityParameters] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [currentActivityId, setCurrentActivityId] = useState(null); 
+  const [currentActivityId, setCurrentActivityId] = useState(null);
+  const [invitedContacts, setInvitedContacts] = useState([]);
 
   return (
-    <SurveyContext.Provider value={{ surveyData, setSurveyData, activityParameters, setActivityParameters, loading, setLoading, currentActivityId, setCurrentActivityId }}>
+    <SurveyContext.Provider value={{ 
+        surveyData, 
+        setSurveyData, 
+        activityParameters, 
+        setActivityParameters, 
+        loading, 
+        setLoading, 
+        currentActivityId,
+        setCurrentActivityId,
+        invitedContacts,
+        setInvitedContacts
+    }}>
       {children}
     </SurveyContext.Provider>
   );

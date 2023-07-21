@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, Dimensions } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
+import { Image } from 'react-native';
 import { CameraPlusIcon, Calender, TimeIcon, MapPinIcon, PizzaWhite } from '../../../../assets/icons/Icon';
 
 import { BeefIcon, SushiWhite, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerWhite, PizzaBlack, OrientalIcon, MexicanIcon, VegetablesIcon } from '../../../../assets/icons/Icon'
@@ -201,7 +202,7 @@ const ActivityDashboard = ({ route, navigation }) => {
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Media</Text>
               <View style={styles.rectangleContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate("Media")}>
+                <TouchableOpacity onPress={() => navigation.navigate("Media", { activityId })}>
                   <View style={styles.mediaContainer}>
                     <CameraPlusIcon />
                   </View>
@@ -246,6 +247,13 @@ const ActivityDashboard = ({ route, navigation }) => {
             </View>
 
           )}
+
+            {item && item?.images?.map((uri, index) => {
+                console.log(uri)
+                return (<View key={index} style={styles.imageWrapper}>
+                    <Image source={{ uri }} style={styles.image} />
+                </View>)
+            })}
 
         </View>
 
@@ -413,6 +421,36 @@ const styles = StyleSheet.create({
   mediaContainer: {
     flexDirection: "column",
     alignItems: "center",
+  },
+
+  imageContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+  imageWrapper: {
+    position: "relative",
+    margin: 10,
+  },
+  image: {
+    width: 100,
+    height: 100,
+  },
+  removeButton: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+    backgroundColor: "black",
+    borderRadius: 10,
+    width: 20,
+    height: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  removeButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 14,
   },
 
 });
