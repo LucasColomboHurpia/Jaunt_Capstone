@@ -59,8 +59,16 @@ const ActivitySurvey = ({ route, navigation }) => {
     }
   
     // Move to the next question
-    setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+    setCurrentQuestion((prevQuestion, index) => {
+            return prevQuestion + 1
+    });
   };
+
+  useEffect(() => {
+    if(currentQuestion > 3) {
+        handleSummaryNavigation();
+    }
+  }, [currentQuestion])
   
 
 
@@ -86,6 +94,7 @@ const ActivitySurvey = ({ route, navigation }) => {
     console.log('///----------------------------////')
   
     if (activityId) {
+        console.log("keiks is here")
       navigation.navigate('ActivitySummary', { activityId });
     } else {
       // Handle the case when activity is not found
@@ -99,7 +108,6 @@ const ActivitySurvey = ({ route, navigation }) => {
       {currentQuestion === 1 && <ActivityQuestion1 onAnswer={handleAnswer} />}
       {currentQuestion === 2 && <ActivityQuestion2 onAnswer={handleAnswer} onGoBack={handleGoBack} />}
       {currentQuestion === 3 && <ActivityQuestion3 onAnswer={handleAnswer} onGoBack={handleGoBack} />}
-      {currentQuestion > 3 && handleSummaryNavigation()}
     </SafeAreaView>
   );
 };
