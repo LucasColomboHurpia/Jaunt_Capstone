@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 12,
+
+    backgroundColor: 'white',
+
   },
   activity: {
     fontSize: 24,

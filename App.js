@@ -10,6 +10,9 @@ import AuthNavigator from './src/infrastructure/navigation/AuthNavigator';
 import AppNavigator from './src/infrastructure/navigation/AppNavigator';
 import AuthContext from './src/context/AuthContext';
 import api from './src/config/api';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const App = () => {
     const [token, setToken] = useState({});
