@@ -8,7 +8,7 @@ const answerOptions = [
   { text: 'Fancy Places', styles: { top: '10%', right: '0%' }, radius: 75, icon: <FancyGlassBlack size={90} />, iconSelected: <FancyGlassWhite size={90} /> },
   { text: 'Sushi', styles: { top: '45%', left: '5%' }, radius: 80, icon: <SushiBlack size={90} />, iconSelected: <SushiWhite size={90} /> },
   { text: 'Parties', styles: { top: '37%', right: '-5%' }, radius: 55, icon: <SpinningGlobeBlack size={90} />, iconSelected: <SpinningGlobeWhite size={90} /> },
-  { text: 'Bar', styles: { bottom: '80%', left: '10%' }, radius: 55, icon: <BreadIcon size={100} />, iconSelected: <BreadIcon size={100} /> },
+  { text: 'Bar', styles: { bottom: '80%', left: '10%' }, radius: 55, icon: <BreadIcon size={100} color = "#000000"/>, iconSelected: <BreadIcon size={100} /> },
   { text: 'Beer', styles: { bottom: '10%', right: '-20%' }, radius: 60, icon: <BeerBlack size={90} />, iconSelected: <BeerWhite size={90} /> },
   { text: 'Burguers', styles: { bottom: '22%', right: '8%' }, radius: 70, icon: <BurguerBlack size={90} />, iconSelected: <BurguerWhite size={90} /> },
 ];
