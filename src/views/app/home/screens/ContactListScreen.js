@@ -38,12 +38,9 @@ const ContactListScreen = () => {
                 const { data } = await Contacts.getContactsAsync();
                 const result = [];
                 data.forEach((contact, index) => {
-                    if(index > 440) {
-                        if (contact.hasOwnProperty("phoneNumbers")) {
-                            result.push(contact.phoneNumbers[0].number.replace(/\D+/g, ""))
-                        }
+                    if (contact.hasOwnProperty("phoneNumbers")) {
+                        result.push(contact.phoneNumbers[0].number.replace(/\D+/g, ""))
                     }
-                    
                 })
 
                 console.log(result)
