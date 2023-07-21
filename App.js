@@ -8,14 +8,12 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import AuthNavigator from './src/infrastructure/navigation/AuthNavigator';
 import AppNavigator from './src/infrastructure/navigation/AppNavigator';
-import SurveyContext from './src/context/SurveyContext';
+import AuthContext from './src/context/AuthContext';
+import api from './src/config/api';
 
 const App = () => {
     const [token, setToken] = useState({});
-    const [surveyData, setSurveyData] = useState({});
-    const [activityParameters, setActivityParameters] = useState([]);
-    const [currentActivityId, setCurrentActivityId] = useState([]);
-    const [invitedContacts, setInvitedContacts] = useState([]);
+    const [authUser, setAuthUser] = useState(null);
     
     const getToken = async () => {
         const result = await AsyncStorage.getItem('auth_token');
@@ -26,6 +24,20 @@ const App = () => {
         getToken()
     }, [])
 
+    useEffect(() => {
+        (async () => {
+            if(token) {
+                try {
+                    const response = await api.get('users/me');
+                    const { user } = response.data;
+                    setAuthUser(user);
+                } catch (error) {
+                    console.log(error)
+                }
+            }
+        })()
+    }, [token])
+
     const [loaded] = useFonts({
         'Neuzeit-Grotesk': require('./src/assets/fonts/NeuzeitSBook.ttf'),
     });
@@ -35,14 +47,14 @@ const App = () => {
     }
 
   return (
-    <SurveyContext.Provider value={{ surveyData, setSurveyData, activityParameters, setActivityParameters,  currentActivityId, setCurrentActivityId, invitedContacts, setInvitedContacts }}>
+    <AuthContext.Provider value={{ authUser, setAuthUser }}>
         <ThemeProvider theme={theme}>
             <NavigationContainer>
                 {token ? <AppNavigator /> : <AuthNavigator /> }
                 {/* <AuthNavigator /> */}
             </NavigationContainer>
         </ThemeProvider>
-    </SurveyContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
