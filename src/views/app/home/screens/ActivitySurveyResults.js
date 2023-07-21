@@ -43,7 +43,7 @@ const DoSomethingIcons = [
 ]
 
 ///-------------------------------------------------------------------------
-const API_KEY = "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"
+const API_KEY = ""
 /////-----------------------------------------------------------------------
 
 
@@ -57,10 +57,8 @@ const object1234 = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a
   "DoLike": ["Fish", "Wine", "Bread"],
   "ChanceOfEnjoyingDrinking": 6.625 }`;
 
-const exampleAPIresponse = ` [{"address":"800 Robson St, Vancouver, BC V6Z 3B7, Canada","coordinates":{"lat":49.2816,"lng":-123.121},"name":"Robson Street","description":"Popular shopping street with a wide variety of stores, restaurants, and cafes! 👗🛍️","Tips":["Indulge in some retail therapy at 
-the various clothing stores","Try the famous Japadog for a unique fusion of hot dog and Japanese flavors","Visit the Vancouver Art Gallery located on Robson Street"],"tags":["shopping","food","trendy"],"matchIcon":"Bowling"},
-{"address":"900 Burrard St, Vancouver, BC V6Z 3B6, Canada","coordinates":{"lat":49.2824,"lng":-123.123},"name":"Vancouver Art Gallery","description":"Explore a vast collection of contemporary art and historical exhibitions at the Vancouver Art Gallery! 🎨","Tips":["Don't forget to check out the outdoor sculpture plaza","Attend one of the gallery's special events or workshops","Enjoy a coffee or a snack at the Gallery Café"],"tags":["art","museum"],"matchIcon":"Museum"},
-{"address":"200-3102 Main St, Vancouver, BC V5T 3G7, Canada","coordinates":{"lat":49.2539,"lng":-123.098},"name":"Queen Elizabeth Park","description":"Take a leisurely stroll through beautiful gardens, enjoy panoramic views of the city, and visit the Bloedel Conservatory at Queen Elizabeth Park! 🌺🌿","Tips":["Bring a picnic and enjoy a meal on the grassy fields","Visit the Quarry Gardens and admire the stunning rock formations","Take a photo at the iconic Love Locks sculpture"],"tags":["park","nature"],"matchIcon":"Park"}]`
+const exampleAPIresponse = ` [{"address":"1269 Hamilton St, Vancouver, BC V6B 6K3, Canada","coordinates":{"lat":49.275399,"lng":-123.122460},"name":"Pizzeria Ludica","description":"Board game themed pizzeria 🍕🎲","Tips":["Enjoy a delicious slice of pizza while playing one of the many board games available","Try their 'Game of Thrones' specialty pizza","Take a walk to Yaletown Park afterwards"],"tags":["Pizza"],"matchIcon":"Pizza"},{"address":"345 Robson St, Vancouver, BC V6B 2B1, Canada","coordinates":{"lat":49.279702,"lng":-123.117227},"name":"Art Gallery","description":"Contemporary art gallery 🖼️","Tips":["Explore the diverse collection of contemporary art","Visit during one of the free admission days","Grab a bite to eat at a nearby restaurant"],"tags":["Art Gallery"],"matchIcon":"Gallery"},{"address":"1000 Mainland St, Vancouver, BC 
+V6B 2T4, Canada","coordinates":{"lat":49.276001,"lng":-123.119292},"name":"Sushi Maro","description":"Sushi restaurant with a modern twist 🍣","Tips":["Try their specialty rolls like the 'Dragon Roll' or 'Volcano Roll'","Sit at the sushi bar for a more interactive dining experience","Take a stroll around David Lam Park afterwards"],"tags":["Sushi"],"matchIcon":"Sushi"}]`
 
 const systemMessage = {
   "role": "system",
@@ -159,7 +157,9 @@ const SurveyResults = ({ route, navigation }) => {
       setIsLoading(true);
       console.log('no API key')
       setTimeout(() => {
-        setData(JSON.parse(exampleAPIresponse));
+        const sanitized = exampleAPIresponse.replace(/[\u0000-\u001f]/g, '');
+        const parsed = JSON.parse(sanitized);
+        setData(parsed);
         setIsLoading(false);
       }, 7000);
     } else {
