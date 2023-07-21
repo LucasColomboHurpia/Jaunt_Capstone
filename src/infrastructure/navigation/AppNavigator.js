@@ -7,7 +7,7 @@ import PreferencesNavigator from './PreferencesNavigator';
 import SocketContext from '../../context/SocketContext';
 import NotificationContext from '../../context/NotificationContext';
 import SurveyContext from '../../context/SurveyContext';
-import { DEV_API_URL } from '../../config/constants';
+import { API_URL } from '../../config/constants';
 import Alert from '../../shared-components/Alert';
 
 const AppNavigator = () => {
@@ -39,7 +39,7 @@ const AppNavigator = () => {
     const initializeSocket = async () => {
         try {
             const token = await AsyncStorage.getItem('auth_token');
-            const socket = io(DEV_API_URL, {
+            const socket = io(API_URL, {
                 extraHeaders: {
                     Authorization: `Bearer ${token}`
                 }

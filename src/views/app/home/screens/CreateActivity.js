@@ -164,7 +164,7 @@ const CreateActivity = () => {
         type: "invite",
         resourceId: "6494772f2c740f035fe3f039",
         recipients: invitedContacts,
-        senderId: authUser.id
+        senderId: authUser?.id
     }
 
     setInvitedContacts([])
