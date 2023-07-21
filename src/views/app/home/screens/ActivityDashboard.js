@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, Dimensions } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
-import { CameraPlusIcon } from '../../../../assets/icons/Icon';
+import { CameraPlusIcon, Calender, TimeIcon, MapPinIcon, PizzaWhite } from '../../../../assets/icons/Icon';
 
 const ActivityDashboard = ({ route, navigation }) => {
   const { activityParameters } = useContext(SurveyContext);
@@ -24,6 +24,16 @@ const ActivityDashboard = ({ route, navigation }) => {
   console.log("item", item);
 
   console.log("---------------------------------------");
+
+  console.log(item.dateTime)
+
+  let dateTimeArray = item?.dateTime?.split(' ');  // Splitting the string by the space
+
+  let date = dateTimeArray[0];  // The first element is the date
+  let time = dateTimeArray[1];  // The second element is the time
+
+  console.log('Date:', date);
+  console.log('Time:', time);
 
   let addressText = "Still figuring it out!";
 
@@ -63,14 +73,15 @@ const ActivityDashboard = ({ route, navigation }) => {
               >
                 <Text style={styles.buttonText}>Pending...</Text>
               </TouchableOpacity>
+
             </View>
           )}
 
           {/* activity created */}
           {item && item?.apiResponse?.name && (
             <View style={styles.section}>
-              <TouchableOpacity style={styles.buttonCircle}>
-                <Text style={styles.buttonText}>[icon]</Text>
+              <TouchableOpacity style={styles.buttonCircleActive}>
+                <Text style={styles.buttonText}><PizzaWhite style={{marginBottom:30}} size={90} /></Text>
                 <Text style={styles.buttonText}>{item.apiResponse.name}</Text>
               </TouchableOpacity>
             </View>
@@ -78,33 +89,51 @@ const ActivityDashboard = ({ route, navigation }) => {
 
           {item && item?.apiResponse?.coordinates && (
             <View style={styles.buttonContainer}>
+
               <TouchableOpacity
                 onPress={() => navigation.navigate("MapPage", { item })}
               >
-                <Text style={{ color: "white", textAlign: 'center', fontSize: 17 }}>See Map</Text>
+                <Text style={{ color: "white", textAlign: 'center', fontSize: 17, fontWeight: 'bold' }}>See Map</Text>
               </TouchableOpacity>
             </View>
 
           )}
 
           <View style={styles.card}>
-            <Text style={styles.cardText}>
-              Date:{" "}
-              {item
-                ? item.dateTime || "Still figuring it out!"
-                : "Activity not found"}
-            </Text>
-            <Text style={styles.cardText}>
-              Location:{" "}
-              {item
-                ? item?.apiResponse?.address || addressText
-                : "Activity not found"}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Calender size={20} />
+              <Text style={styles.cardText}>
+                {" "}
+                {item
+                  ? date || "Still figuring it out!"
+                  : "Activity not found"}
+              </Text>
+            </View>
+
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
+              <TimeIcon size={35} />
+              <Text style={styles.cardText}>
+                {" "}
+                {item
+                  ? time || addressText
+                  : "Activity not found"}
+              </Text>
+            </View>
+
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5 }}>
+              <MapPinIcon size={20} />
+              <Text style={styles.cardText}>
+                {" "}
+                {item
+                  ? item?.apiResponse?.address || addressText
+                  : "Activity not found"}
+              </Text>
+            </View>
           </View>
 
           {item && item?.apiResponse?.Tips && (
             <View style={styles.tipsSection}>
-              <Text style={styles.tipsTitle}>Tips:</Text>
+              <Text style={styles.tipsTitle}>Tips</Text>
               {item.apiResponse.Tips.map((tip, index) => (
                 <View key={index} style={styles.tipCard}>
                   <Text style={styles.tipText}>{tip}</Text>
@@ -128,7 +157,18 @@ const ActivityDashboard = ({ route, navigation }) => {
               </View>
             </View>
           )}
-
+          {/* =====================*/}
+          {!(item && item?.apiResponse) && (
+            <View style={styles.buttonContainerStart}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("ActivitySurvey", { activityId })
+                }              >
+                <Text style={{ color: "white", textAlign: 'center', fontSize: 17 }}>Start Activity</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          {/* =====================*/}
 
           {item && item?.apiResponse?.coordinates && !item.completed && (
 
@@ -165,6 +205,8 @@ const ActivityDashboard = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    backgroundColor: 'white'
+
   },
   scrollView: {
     flex: 1,
@@ -190,14 +232,22 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 20,
     borderRadius: 10,
-    borderWidth: 1,
     borderColor: 'grey',
     overflow: 'hidden',
-    backgroundColor: 'grey',
+    backgroundColor: '#F35F4B',
     width: '100%',
-
-
   },
+
+  buttonContainerStart: {
+    marginTop: 90,
+    padding: 20,
+    borderRadius: 10,
+    borderColor: 'grey',
+    overflow: 'hidden',
+    backgroundColor: '#F35F4B',
+    width: '100%',
+  },
+
   buttonContainerComplete: {
     marginTop: 50,
     marginBottom: 15,
@@ -207,18 +257,51 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'grey',
     overflow: 'hidden',
-    backgroundColor: 'grey',
-
+    backgroundColor: '#F35F4B',
   },
 
   buttonCircle: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "grey",
+    backgroundColor: "#F35F4B",
     height: 200,
     width: 200,
     borderRadius: 150,
+
+    // iOS shadow properties
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    // Android elevation
+    elevation: 7,
   },
+
+  buttonCircleActive: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#0BC9B9",
+    height: 200,
+    width: 200,
+    borderRadius: 150,
+
+    // iOS shadow properties
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    // Android elevation
+    elevation: 7,
+  },
+
   buttonText: {
     color: "white",
     textAlign: "center",
@@ -241,7 +324,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   tipsSection: {
-    marginTop: 20,
+    marginTop: 40,
     width: "90%",
   },
   tipsTitle: {
@@ -250,7 +333,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   tipCard: {
-    backgroundColor: "lightgrey",
+    backgroundColor: "#E9FFFD",
     borderRadius: 25,
     padding: 18,
     marginBottom: 10,

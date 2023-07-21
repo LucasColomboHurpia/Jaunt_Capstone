@@ -493,8 +493,8 @@ export const TimeIcon = ({color, size}) => (
   </g>
   </g>
   </svg>`}
-    width={32}
-    height={32}
+    width={size}
+    height={size}
     fill="none"
   />
 );

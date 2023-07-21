@@ -92,6 +92,7 @@ const fetchWeatherData = async () => {
 ///===============================================================================
 
 
+//maybe add a limit here?
   const handleRetry = () => {
     setIsLoading(true);
     makeApiCall();
@@ -123,7 +124,7 @@ const fetchWeatherData = async () => {
       setTimeout(() => {
         setData(JSON.parse(exampleAPIresponse));
         setIsLoading(false);
-      }, 700);
+      }, 7000);
     } else {
       fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
