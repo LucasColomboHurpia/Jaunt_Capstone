@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Alert, Linking } from "react-native";
 import Text from "../../../../shared-components/Text";
 import * as ImagePicker from "expo-image-picker";
-import { CameraPlusIcon } from "../../../../assets/icons/Icon";
 import SurveyContext from "../../../../context/SurveyContext";
 import Button from "../../../../shared-components/Button";
 import { CameraPlusIcon, BackIcon } from "../../../../assets/icons/Icon";
