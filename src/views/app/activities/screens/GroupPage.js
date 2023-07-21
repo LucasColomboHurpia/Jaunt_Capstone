@@ -42,11 +42,10 @@ const GroupPage = ({ navigation }) => {
 
   const upcomingActivities = activities.filter(activity => activity.apiResponse && !activity.completed);
   const pendingActivities = activities.filter(activity => !activity.apiResponse && !activity.completed);
+  const completeActivities = activities.filter(activity => activity.apiResponse && activity.completed);
 
   console.log('-------------------------------')
-  console.log('HOME ACTIVITIES : ', activities)
-  console.log('HOME ACTIVITIES : ', activities.length)
-
+  console.log('complete',completeActivities)
   console.log('-------------------------------')
 
   return (
@@ -57,6 +56,66 @@ const GroupPage = ({ navigation }) => {
       </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.body}>
+
+        {completeActivities.length > 0 ? (
+            completeActivities.map((activity) => (
+              <TouchableOpacity
+                key={activity.id}
+                style={styles.upcomingActivityContainer}
+                onPress={() => console.log(activity.id)}
+              >
+                <View style={styles.upcomingActivityHeader}>
+                  <Text style={styles.upcomingActivityTitle}>{activity.name}</Text>
+
+                  {activity && activity?.apiResponse && (
+                    <View style={styles.completeBadge}>
+                      <Text style={styles.completeText}>COMPLETE</Text>
+                    </View>
+                  )}
+
+                </View>
+                <Text style={styles.upcomingActivityDetails}>Date: {activity.dateTime}</Text>
+                <View style={styles.upcomingInnerCardContainer}>
+                  <View style={styles.upcomingCircle}>
+                    {
+                      (() => {
+                        const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
+                        const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
+
+                        let IconComponent = DoIcon;  // Using DoIcon as default
+                        if (eatIconObject) {
+                          IconComponent = eatIconObject.icon;
+                        } else if (doIconObject) {
+                          IconComponent = doIconObject.icon;
+                        }
+
+                        const iconColor = '#FFFFFF';
+                        const iconSize = 33;
+
+                        return <IconComponent color={iconColor} size={iconSize} />;
+                      })()
+                    }
+                  </View>
+                  <View style={styles.upcomingActivityInfoContainer}>
+                    <Text style={styles.upcomingActivityDetailsName}>{activity.apiResponse?.name}</Text>
+                    <Text
+                      style={styles.upcomingActivityDetailsAddress}
+                    >
+                      {activity.apiResponse?.address}
+                    </Text>
+                  </View>
+                </View>
+                <TouchableOpacity
+                  style={styles.upcomingDetailButton}
+                  onPress={() => navigation.navigate('ActivityDashboard', { activityId: activity.id })}
+                >
+                  <Text style={styles.upcomingDetailButtonText}>More Details</Text>
+                </TouchableOpacity>
+              </TouchableOpacity>
+            ))
+          ) : null}
+
+
           {upcomingActivities.length > 0 ? (
             upcomingActivities.map((activity) => (
               <TouchableOpacity
@@ -66,6 +125,7 @@ const GroupPage = ({ navigation }) => {
               >
                 <View style={styles.upcomingActivityHeader}>
                   <Text style={styles.upcomingActivityTitle}>{activity.name}</Text>
+
                 </View>
                 <Text style={styles.upcomingActivityDetails}>Date: {activity.dateTime}</Text>
                 <View style={styles.upcomingInnerCardContainer}>
@@ -151,7 +211,7 @@ const GroupPage = ({ navigation }) => {
           {/* Conditional rendering for no activities */}
           {upcomingActivities.length === 0 && pendingActivities.length === 0 && (
             <View style={styles.noActivitiesContainer}>
-              <Text style={styles.noActivitiesText}>You have no activities at the moment</Text>
+              <Text style={styles.noActivitiesText}>You have no active activities at the moment</Text>
             </View>
           )}
         </View>
@@ -162,9 +222,9 @@ const GroupPage = ({ navigation }) => {
 
 const styles = StyleSheet.create({
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //==========================**************************L A Z Y C O D E*********************=============================
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //==========================**************************L A Z Y C O D E*********************=============================
 
   container: {
     flex: 1,
@@ -388,11 +448,11 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 14,
   },
-    //==========================**************************L A Z Y C O D E*********************=============================
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //==========================**************************L A Z Y C O D E*********************=============================
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-container: {
+  container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
@@ -485,6 +545,22 @@ container: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+  },
+
+  
+  completeBadge: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: '#F35F4B',
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+  },
+  
+  completeText: {
+    color: 'white',
+    fontSize: 14,
   },
 });
 
