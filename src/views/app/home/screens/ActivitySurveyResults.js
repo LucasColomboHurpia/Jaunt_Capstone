@@ -7,11 +7,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
 
-import { SettingsIcon, PizzaBlack, PizzaWhite } from '../../../../assets/icons/Icon'
+import { SettingsIcon, PizzaBlack, PizzaWhite, SunIcon } from '../../../../assets/icons/Icon'
 
 
 ///-------------------------------------------------------------------------
-const API_KEY = "" //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
+const API_KEY = "" 
 /////-----------------------------------------------------------------------
 
 
@@ -59,6 +59,38 @@ const SurveyResults = ({ route, navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemForTags, setSelectedItemForTags] = useState(null);
 
+///===============================================================================
+const API_KEY2 = "030a06ef3a21f98e9fad039e0133fbbe";
+
+const [weatherDesc, setweatherDesc] = useState('Loading Weather Data...');
+const [weatherTemp, setweatherTemp] = useState('');
+const [weatherTempHI, setweatherTempHI] = useState('');
+const [weatherTempLO, setweatherTempLO] = useState('');
+
+const fetchWeatherData = async () => {
+  try {
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=${API_KEY2}`
+    );
+    const data = await response.json();
+    console.log(data.main);
+
+      let currentTemperature = `${(data.main.temp - 273.15).toFixed(0)}º`;
+      let currentTemperatureHi = `Hi: ${(data.main.temp_max - 273.15).toFixed(0)}º`;
+      let currentTemperatureLo = `Lo: ${(data.main.temp_min - 273.15).toFixed(0)}º`;
+
+    setweatherDesc(data.weather[0].description);
+    setweatherTempHI(currentTemperatureHi);
+    setweatherTempLO(currentTemperatureLo);
+    setweatherTemp(currentTemperature);
+
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+  }
+};
+
+///===============================================================================
+
 
   const handleRetry = () => {
     setIsLoading(true);
@@ -69,9 +101,12 @@ const SurveyResults = ({ route, navigation }) => {
   const makeApiCall = async () => {
 
     setSelectedItem(null);
+    fetchWeatherData();
 
     console.log(`========================================`)
     console.log(`parameters are `, surveyData)
+    console.log(surveyData.activityParameters[0].name)
+    console.log(surveyData.activityParameters[0].dateTime)
     console.log(`========================================`)
 
     const apiRequestBody = {
@@ -160,8 +195,24 @@ const SurveyResults = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Everyone has spoken!</Text>
-      <Text style={styles.text}>These are the options:</Text>
+    <Text style={styles.activityName}>{surveyData.activityParameters[0].name}</Text>
+
+    <View style={styles.infoCard}>
+      <View style={styles.iconWrapperWeather}>
+        <View style={styles.iconContainerWeather}>
+          <SunIcon size={50} /> 
+        </View>
+      </View>
+      <View style={styles.infoTextWrapper}>
+        <Text style={styles.infoTextBold}>{surveyData.activityParameters[0].dateTime}</Text>
+        <Text style={styles.infoTextGrey}>{weatherDesc}, {weatherTemp}</Text>
+      </View>
+    </View>
+
+    <Text style={styles.text}>Everyone has spoken!</Text>
+    <Text style={styles.title}>These are the options:</Text>
+
+
 
       {isLoading ? (
         <ActivityIndicator size="large" color="#0000ff" />
@@ -213,42 +264,127 @@ const SurveyResults = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  // Top-level style
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 12,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
 
+  // For the activity name
+  activityName: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign:'left',
+  },
+
+  // For the "Everyone has spoken!" text
+  text: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+
+  // For the "These are the options:" text
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+
+  // For the InfoCard containing the icon and text
+  infoCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    height: 'auto',
+    width: '80%',
+    marginVertical: 10,
+    padding: 10,
+  },
+
+    // For the IconContainer inside the IconWrapper
+    iconWrapperWeather: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      backgroundColor: 'white',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: 8,
+    },
+
+
+  // For the IconContainer inside the IconWrapper
+  iconContainerWeather: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+
+
+
+    // For the IconWrapper inside the InfoCard
+    iconWrapper: {
+      flex: 1,
+      alignItems: 'center',
+    },
+  
+  // For the IconContainer inside the IconWrapper
+  iconContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 55,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 13,
+    marginTop: 13,
+  },
+
+  // For the TextWrapper inside the InfoCard
+  infoTextWrapper: {
+    flex: 3,
+  },
+
+  // For the bold line of text inside the TextWrapper
+  infoTextBold: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+
+  // For the grey line of text inside the TextWrapper
+  infoTextGrey: {
+    fontSize: 18,
+    color: '#666',
+  },
+
+  // For the ScrollView containing the options
   scrollView: {
     width: '100%',
     paddingBottom: 10,
     flex: 1,
   },
+
+  // For the wrapper of the content inside the ScrollView
   contentWrapper: {
     alignItems: 'center',
     justifyContent: 'center',
   },
 
+  // For the container of the content inside the ScrollView
   contentContainer: {
     flexGrow: 1,
     justifyContent: 'center',
   },
 
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  boldText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  text: {
-    fontSize: 18,
-  },
+  // For each option box
   optionBox: {
     backgroundColor: '#F3F3F3',
     borderRadius: 10,
@@ -257,16 +393,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     padding: 10,
   },
-  selectedOption: { // Add this style
+
+  // For the selected option box
+  selectedOption: {
     borderColor: '#F35F4B',
     borderWidth: 1,
   },
 
-  iconWrapper: {
-    alignItems: 'center',
-  },
-
-  iconContainer: {
+  // For the IconContainer inside each option box
+  itemIconContainer: {
     width: 70,
     height: 70,
     borderRadius: 25,
@@ -277,11 +412,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
+  // For the name of each item
   itemName: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
   },
+
+  // For the address of each item
   itemText: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -289,12 +427,16 @@ const styles = StyleSheet.create({
     marginTop: 5,
     textAlign: 'center',
   },
+
+  // For the description of each item
   itemDescription: {
     fontSize: 18,
     color: '#666',
     marginTop: 7,
     marginBottom: 10,
   },
+
+  // For the tags of each item
   itemTags: {
     fontSize: 12,
     color: '#999',
@@ -304,6 +446,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 
+  // For the retry button
   retryButton: {
     backgroundColor: '#F35F4B',
     borderRadius: 15,
@@ -313,11 +456,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: '100%',
   },
+
+  // For the text inside the retry button
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
   },
 });
+
 
 export default SurveyResults;
