@@ -5,7 +5,7 @@ import createMap from '../components/mapTemplate';
 import { CommonActions, useIsFocused } from "@react-navigation/native";
 
 
-import {BackIcon} from '../../../../assets/icons/Icon'
+import {BackIcon, WalkIcon, BikeIcon, BusIcon, CarIcon} from '../../../../assets/icons/Icon'
 
 export default function MapPage({ route, navigation }) {
 
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor: 'white',
   },
   titleContainer: {
     flexDirection: 'row',

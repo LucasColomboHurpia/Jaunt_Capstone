@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image, TouchableOpacity, Alert, Linking } from "react-native";
 import Text from "../../../../shared-components/Text";
 import * as ImagePicker from "expo-image-picker";
-import Button from "../../../../shared-components/Button";
 import { CameraPlusIcon } from "../../../../assets/icons/Icon";
 import SurveyContext from "../../../../context/SurveyContext";
+import Button from "../../../../shared-components/Button";
+import { CameraPlusIcon, BackIcon } from "../../../../assets/icons/Icon";
 
 const MediaScreen = ({ route, navigation }) => {
   const [selectedImages, setSelectedImages] = useState([]);
@@ -122,17 +123,20 @@ const MediaScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text variant="heading1">Media</Text>
-      </View>
-        <TouchableOpacity onPress={handleUploadButtonPress}>
-          <View style={styles.rectangleContainer}>
-            <View style={styles.mediaContainer}>
-              <CameraPlusIcon
-              />
-              <Text>Upload/Take a photo</Text>
-            </View>
-          </View>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{flex: 1}}>
+          <BackIcon />
         </TouchableOpacity>
+        <Text variant="heading1" style={{flex: 1, textAlign: 'center'}}>Media</Text>
+        <View style={{flex: 1}} /> 
+      </View>
+      <TouchableOpacity onPress={handleUploadButtonPress}>
+        <View style={styles.rectangleContainer}>
+          <View style={styles.mediaContainer}>
+            <CameraPlusIcon />
+            <Text>Upload/Take a photo</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
       <View style={styles.imageContainer}>
         {selectedImages.map((uri, index) => {
             console.log(uri)
@@ -148,9 +152,11 @@ const MediaScreen = ({ route, navigation }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   header: {
     flexDirection: "row",
@@ -160,11 +166,20 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 10,
     backgroundColor: "white",
+    shadowColor: "#000", // adding shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    color: "white", // changing color of text to white
   },
   imageContainer: {
     flexDirection: "row",
@@ -196,16 +211,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   rectangleContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#0BC9B9',
     padding: 16,
     marginLeft: 30,
     marginRight: 30,
-    borderRadius: 10,
+    borderRadius: 10, // rounding borders
     marginTop: 10,
+    shadowColor: "#000", // adding shadow
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   mediaContainer: {
     flexDirection: "column",
     alignItems: "center",
+    color:'white'
   },
 });
 

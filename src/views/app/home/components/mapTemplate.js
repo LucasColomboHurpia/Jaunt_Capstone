@@ -45,7 +45,7 @@ export default function createMap(centerCoordinates, placeName) {
         display: inline-block;
         padding: 10px 30px;
         margin: 0 10px;
-        background-color: grey;
+        background-color: #0BC9B9;
         color: white;
         font-size: 50px;
         text-align: center;

@@ -7,12 +7,46 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TouchableOpacity } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
 
-import { SettingsIcon, PizzaBlack, PizzaWhite, SunIcon } from '../../../../assets/icons/Icon'
+import { CommonActions, useIsFocused } from "@react-navigation/native";
 
+import { SettingsIcon, PizzaWhite, SunIcon, } from '../../../../assets/icons/Icon'
+
+import { BeefIcon, SushiBlack, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerBlack, PizzaBlack, OrientalIcon, MexicanIcon, VegetablesIcon } from '../../../../assets/icons/Icon'
+import { DoIcon, BowlingIcon, PopcornIcon, BeachIcon, BridgeIcon, HikingIcon, SpinningGlobeBlack, BeerBlack, MuseumIcon, GalleryIcon, AmusementParkIcon, KarokeIcon, ArcadeIcon, BoulderingIcon } from '../../../../assets/icons/Icon'
+
+const EatSomethingIcons = [
+  { keyword: 'Steakhouse', icon: BeefIcon },
+  { keyword: 'Sushi', icon: SushiBlack },
+  { keyword: 'Italian', icon: ItalianIcon },
+  { keyword: 'Picnic', icon: PicnicIcon },
+  { keyword: 'Seafood', icon: SeafoodIcon },
+  { keyword: 'Fast Foot', icon: BurguerBlack },
+  { keyword: 'Pizza', icon: PizzaBlack },
+  { keyword: 'Oriental', icon: OrientalIcon },
+  { keyword: 'Mexican', icon: MexicanIcon },
+  { keyword: 'Vegetarian', icon: VegetablesIcon }
+]
+
+const DoSomethingIcons = [
+  { keyword: 'Bowling', icon: BowlingIcon },
+  { keyword: 'MovieTheater', icon: PopcornIcon },
+  { keyword: 'Beach', icon: BeachIcon },
+  { keyword: 'Park', icon: BridgeIcon },
+  { keyword: 'Hiking', icon: HikingIcon },
+  { keyword: 'Nightclub', icon: SpinningGlobeBlack },
+  { keyword: 'Bar', icon: BeerBlack },
+  { keyword: 'Museum', icon: MuseumIcon },
+  { keyword: 'Gallery', icon: GalleryIcon },
+  { keyword: 'AmusementPark', icon: AmusementParkIcon },
+  { keyword: 'Karaoke', icon: KarokeIcon },
+  { keyword: 'Arcade', icon: ArcadeIcon }
+]
 
 ///-------------------------------------------------------------------------
-const API_KEY = "" 
+const API_KEY = ""
 /////-----------------------------------------------------------------------
+
+
 
 
 const object1234 = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
@@ -23,32 +57,33 @@ const object1234 = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a
   "DoLike": ["Fish", "Wine", "Bread"],
   "ChanceOfEnjoyingDrinking": 6.625 }`;
 
-const exampleAPIresponse = `[{"address":"100 W Hastings St, Vancouver, BC V6B 1G8, Canada", 
-"coordinates": {"lat":49.2812,"lng":-123.108}, 
-"name": "Gastown", 
-"description":"Explore the cobblestone streets and take a picture of the famous steam clock! ⏰", 
-"Tips": ["Walk around and admire the beautiful architecture", "Check out the trendy boutiques and shops", "Try the local craft beer at one of the breweries in the area"], 
-"tags": ["historic", "unique", "hipster"]}, 
-
-{"address":"Granville Island, Vancouver, BC V6H 3S3, Canada", 
-"coordinates": {"lat":49.2718,"lng":-123.133}, 
-"name": "Granville Island", 
-"description":"Vibrant public market with fresh produce. Try the fresh seafood or enjoy a picnic by the water! 🐟🧺", 
-"Tips": ["Visit the Granville Island Public Market for fresh fruits and vegetables", "Take a walk along the seawall for stunning views of the city", "Try the famous smoked salmon from one of the local vendors"], 
-"tags": ["market", "fresh", "scenic"]}, 
-
-{"address":"800 Robson St, Vancouver, BC V6Z 3B7, Canada", 
-"coordinates": {"lat":49.2816,"lng":-123.121}, 
-"name": "Robson Street", 
-"description":"Popular shopping street with a wide variety of stores, restaurants, and cafes! 👗🛍️", 
-"Tips": ["Indulge in some retail therapy at the various clothing stores", "Try the famous Japadog for a unique fusion of hot dog and Japanese flavors", "Visit the Vancouver Art Gallery located on Robson Street"], 
-"tags": ["shopping", "food", "trendy"]}]`
+const exampleAPIresponse = ` [{"address":"1269 Hamilton St, Vancouver, BC V6B 6K3, Canada","coordinates":{"lat":49.275399,"lng":-123.122460},"name":"Pizzeria Ludica","description":"Board game themed pizzeria 🍕🎲","Tips":["Enjoy a delicious slice of pizza while playing one of the many board games available","Try their 'Game of Thrones' specialty pizza","Take a walk to Yaletown Park afterwards"],"tags":["Pizza"],"matchIcon":"Pizza"},{"address":"345 Robson St, Vancouver, BC V6B 2B1, Canada","coordinates":{"lat":49.279702,"lng":-123.117227},"name":"Art Gallery","description":"Contemporary art gallery 🖼️","Tips":["Explore the diverse collection of contemporary art","Visit during one of the free admission days","Grab a bite to eat at a nearby restaurant"],"tags":["Art Gallery"],"matchIcon":"Gallery"},{"address":"1000 Mainland St, Vancouver, BC 
+V6B 2T4, Canada","coordinates":{"lat":49.276001,"lng":-123.119292},"name":"Sushi Maro","description":"Sushi restaurant with a modern twist 🍣","Tips":["Try their specialty rolls like the 'Dragon Roll' or 'Volcano Roll'","Sit at the sushi bar for a more interactive dining experience","Take a stroll around David Lam Park afterwards"],"tags":["Sushi"],"matchIcon":"Sushi"}]`
 
 const systemMessage = {
   "role": "system",
   "content": `You are a helpful assistant that suggests activities and real places to go in Vancouver based on the given parameters. you are not allowed to show places tha are not real business. if the 'UserWouldLikeTo' is 'Do Something', if the 'UserWouldLikeTo' is 'Eat Something', suggest a real place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(never use these example values, always use real place values, do not invent places, prioritize business): '[{address:' add the address here', coordinates: {lat:123,lng:123}, name: 'name of place', description: 'briefly describe the place, a short phrase, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy'], matchIcon:'Category'},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. if UserWouldLikeTo is "eat something", the "matchIcon" field must be one of these categories, matching as much as possible to the suggestion: "Steakhouse, Sushi, Italian, Picnic, Seafood, Fast Foot, Pizza, Oriental, Mexican, Vegetarian", and if it is "DoSomething" match the suggestion with one of these: "Bowling, MovieTheater, Beach, Park, Hiking, Bightclub, Bar, Museum, Gallery, AmusementPark, Karaoke, Arcade, Bouldering". keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'`
 };
 const SurveyResults = ({ route, navigation }) => {
+  ///==============Hide menu bar=================================================================
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (navigation) {
+      navigation.getParent().dispatch(state => {
+        return CommonActions.reset({
+          ...state,
+          hidden: true,
+        });
+      })
+      return () => navigation.getParent().dispatch(state => {
+        return CommonActions.reset({
+          ...state,
+          hidden: false,
+        });
+      });
+    }
+  }, [isFocused]);
+  ///===============================================================================
   const { surveyData, setSurveyData } = useContext(SurveyContext);
   const activityId = route.params.activityId;
 
@@ -59,39 +94,40 @@ const SurveyResults = ({ route, navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [selectedItemForTags, setSelectedItemForTags] = useState(null);
 
-///===============================================================================
-const API_KEY2 = "030a06ef3a21f98e9fad039e0133fbbe";
+  ///===============================================================================
+  const API_KEY2 = "030a06ef3a21f98e9fad039e0133fbbe";
 
-const [weatherDesc, setweatherDesc] = useState('Loading Weather Data...');
-const [weatherTemp, setweatherTemp] = useState('');
-const [weatherTempHI, setweatherTempHI] = useState('');
-const [weatherTempLO, setweatherTempLO] = useState('');
+  const [weatherDesc, setweatherDesc] = useState('Loading Weather Data...');
+  const [weatherTemp, setweatherTemp] = useState('');
+  const [weatherTempHI, setweatherTempHI] = useState('');
+  const [weatherTempLO, setweatherTempLO] = useState('');
 
-const fetchWeatherData = async () => {
-  try {
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=${API_KEY2}`
-    );
-    const data = await response.json();
-    console.log(data.main);
+  const fetchWeatherData = async () => {
+    try {
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=${API_KEY2}`
+      );
+      const data = await response.json();
+      console.log(data.main);
 
       let currentTemperature = `${(data.main.temp - 273.15).toFixed(0)}º`;
       let currentTemperatureHi = `Hi: ${(data.main.temp_max - 273.15).toFixed(0)}º`;
       let currentTemperatureLo = `Lo: ${(data.main.temp_min - 273.15).toFixed(0)}º`;
 
-    setweatherDesc(data.weather[0].description);
-    setweatherTempHI(currentTemperatureHi);
-    setweatherTempLO(currentTemperatureLo);
-    setweatherTemp(currentTemperature);
+      setweatherDesc(data.weather[0].description);
+      setweatherTempHI(currentTemperatureHi);
+      setweatherTempLO(currentTemperatureLo);
+      setweatherTemp(currentTemperature);
 
-  } catch (error) {
-    console.error("Error fetching weather data:", error);
-  }
-};
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  };
 
-///===============================================================================
+  ///===============================================================================
 
 
+  //maybe add a limit here?
   const handleRetry = () => {
     setIsLoading(true);
     makeApiCall();
@@ -121,9 +157,11 @@ const fetchWeatherData = async () => {
       setIsLoading(true);
       console.log('no API key')
       setTimeout(() => {
-        setData(JSON.parse(exampleAPIresponse));
+        const sanitized = exampleAPIresponse.replace(/[\u0000-\u001f]/g, '');
+        const parsed = JSON.parse(sanitized);
+        setData(parsed);
         setIsLoading(false);
-      }, 700);
+      }, 7000);
     } else {
       fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -195,22 +233,22 @@ const fetchWeatherData = async () => {
 
   return (
     <View style={styles.container}>
-    <Text style={styles.activityName}>{surveyData.activityParameters[0].name}</Text>
+      <Text style={styles.activityName}>{surveyData.activityParameters[0].name}</Text>
 
-    <View style={styles.infoCard}>
-      <View style={styles.iconWrapperWeather}>
-        <View style={styles.iconContainerWeather}>
-          <SunIcon size={50} /> 
+      <View style={styles.infoCard}>
+        <View style={styles.iconWrapperWeather}>
+          <View style={styles.iconContainerWeather}>
+            <SunIcon size={50} />
+          </View>
+        </View>
+        <View style={styles.infoTextWrapper}>
+          <Text style={styles.infoTextBold}>{surveyData.activityParameters[0].dateTime}</Text>
+          <Text style={styles.infoTextGrey}>{weatherDesc}, {weatherTemp}</Text>
         </View>
       </View>
-      <View style={styles.infoTextWrapper}>
-        <Text style={styles.infoTextBold}>{surveyData.activityParameters[0].dateTime}</Text>
-        <Text style={styles.infoTextGrey}>{weatherDesc}, {weatherTemp}</Text>
-      </View>
-    </View>
 
-    <Text style={styles.text}>Everyone has spoken!</Text>
-    <Text style={styles.title}>These are the options:</Text>
+      <Text style={styles.text}>Everyone has spoken!</Text>
+      <Text style={styles.title}>These are the options:</Text>
 
 
 
@@ -219,35 +257,54 @@ const fetchWeatherData = async () => {
       ) : (
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.contentContainer} 
+          contentContainerStyle={styles.contentContainer}
         >
           <View style={styles.contentWrapper}>
-            {data.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => handleOptionClick(item, index)}
-              >
-                <View style={[
-                  styles.optionBox,
-                  selectedItem === index && styles.selectedOption
-                ]}>
-                  <View style={styles.iconWrapper}>
-                    <View style={styles.iconContainer}>
-                      <PizzaBlack size={70} />
-                    </View>
-                  </View>
-                  <Text style={styles.itemName}>{item.name}</Text>
-                  <Text style={styles.itemText}>{item.address}</Text>
-                  {selectedItem === index && (
-                    <>
-                      <Text style={styles.itemDescription}>{item.description}</Text>
-                      <Text style={styles.itemTags}>Tags: {item.tags.join(', ')}</Text>
-                    </>
-                  )}
-                </View>
-              </TouchableOpacity>
+            {data.map((item, index) => {
+              // Search for the icon in both arrays
+              const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === item.matchIcon);
+              const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === item.matchIcon);
 
-            ))}
+              // If an icon was found in the eat array, use it. If not, check the do array. If still not found, use a default icon.
+              let IconComponent = DoIcon;
+              if (eatIconObject) {
+                IconComponent = eatIconObject.icon;
+              } else if (doIconObject) {
+                IconComponent = doIconObject.icon;
+              }
+
+              // Define the color and size for the icon
+              const iconColor = '#19445a';  // Replace with your preferred color
+              const iconSize = 70;  // Replace with your preferred size
+
+              return (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleOptionClick(item, index)}
+                >
+                  <View style={[
+                    styles.optionBox,
+                    selectedItem === index && styles.selectedOption
+                  ]}>
+                    <View style={styles.iconWrapper}>
+                      <View style={styles.iconContainer}>
+                        <IconComponent color={iconColor} size={iconSize} />
+                      </View>
+                    </View>
+                    <Text style={styles.itemName}>{item.name}</Text>
+                    <Text style={styles.itemText}>{item.address}</Text>
+                    {selectedItem === index && (
+                      <>
+                        <Text style={styles.itemDescription}>{item.description}</Text>
+                        <Text style={styles.itemTags}>Tags: {item.tags.join(', ')}</Text>
+                      </>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            })
+
+            }
             {!isLoading && data.length > 0 && (
               <TouchableOpacity
                 style={styles.retryButton}
@@ -278,7 +335,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 10,
-    textAlign:'left',
+    textAlign: 'left',
   },
 
   // For the "Everyone has spoken!" text
@@ -306,16 +363,16 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 
-    // For the IconContainer inside the IconWrapper
-    iconWrapperWeather: {
-      width: 50,
-      height: 50,
-      borderRadius: 25,
-      backgroundColor: 'white',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginRight: 8,
-    },
+  // For the IconContainer inside the IconWrapper
+  iconWrapperWeather: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
 
 
   // For the IconContainer inside the IconWrapper
@@ -331,12 +388,12 @@ const styles = StyleSheet.create({
 
 
 
-    // For the IconWrapper inside the InfoCard
-    iconWrapper: {
-      flex: 1,
-      alignItems: 'center',
-    },
-  
+  // For the IconWrapper inside the InfoCard
+  iconWrapper: {
+    flex: 1,
+    alignItems: 'center',
+  },
+
   // For the IconContainer inside the IconWrapper
   iconContainer: {
     width: 50,

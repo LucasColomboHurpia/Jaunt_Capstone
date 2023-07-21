@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import Text from "../../../../shared-components/Text";
+import { SunIcon } from "../../../../assets/icons/Icon";
 
 const WeatherComponent = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -47,7 +49,7 @@ const WeatherComponent = () => {
           <Text
             style={styles.weatherText}
           >{`${dayName} ${formattedTime}`}</Text>
-          <Text style={styles.weatherText}>
+          <Text variant = "body" style={styles.weatherText}>
             {weather[0].main} {`${temperatureCelsius.toFixed(0)}°`}{" "}
             {`H: ${(main.temp_max - 273.15).toFixed(0)}°  L: ${(
               main.temp_min - 273.15
@@ -63,18 +65,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
   },
   weatherBox: {
-    backgroundColor: "#ffffff",
-    padding: 20,
-    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
   },
   weatherText: {
-    fontSize: 18,
-    marginBottom: 10,
+    fontSize: 16,
   },
   loadingText: {
     fontSize: 18,

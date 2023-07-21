@@ -26,7 +26,7 @@ const MemberSection = () => {
     <View style={styles.memberSection}>
       <Text variant="labelBg">Members</Text>
       <View style={styles.memberContent}>
-        <GroupProfileIcon style = {styles.profileIcon} stroke = "#0BC9B9"/>
+        <GroupProfileIcon style = {styles.profileIcon} color = "#0BC9B9"/>
         <Text variant = "labelBg" style = {styles.inviteText}>Invite:</Text>
         <TouchableOpacity
           style={styles.addButton}

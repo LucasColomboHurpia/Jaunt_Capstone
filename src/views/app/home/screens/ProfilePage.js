@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
 
-import { BackIcon } from '../../../../assets/icons/Icon'
+import { BackIcon, CameraPlusIcon } from '../../../../assets/icons/Icon'
 
 const Profile = ({ navigation }) => {
   const surveyData = useContext(SurveyContext);
@@ -14,20 +14,22 @@ const Profile = ({ navigation }) => {
   return (
     <View style={styles.container}>
 
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <BackIcon />
-        </TouchableOpacity>
-        <Text style={styles.title}>Profile</Text>
-      </View>
+    <View style={styles.header}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <BackIcon />
+      </TouchableOpacity>
+      <Text style={styles.title}>Profile</Text>
+    </View>
 
-      <View style={styles.userSection}>
-        <View style={styles.avatar}></View>
-        <View style={styles.userInfo}>
-          <Text style={styles.userName}>Obika</Text>
-          <Text style={styles.userDetails}>obikaForPresident2022@gmail.com</Text>
-        </View>
+    <View style={styles.userSection}>
+      <View style={styles.avatar}>
+        <CameraPlusIcon size={70}/> 
       </View>
+      <View style={styles.userInfo}>
+        <Text style={styles.userName}>Obika</Text>
+        <Text style={styles.userDetails}>obikaForPresident2022@gmail.com</Text>
+      </View>
+    </View>
 
       <Text style={styles.subTitle}>Preferences</Text>
 
@@ -97,9 +99,20 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 125,
-    backgroundColor: 'grey',
+    backgroundColor: '#E5E4E2',
     marginRight: 20,
   },
+
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60, 
+    backgroundColor: '#E5E4E2',
+    marginRight: 20,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+  },
+
   userInfo: {
     flexDirection: 'column',
   },
@@ -135,7 +148,7 @@ const styles = StyleSheet.create({
 
   button: {
     alignItems: 'center',
-    backgroundColor: 'grey',
+    backgroundColor: '#F35F4B',
     padding: 10,
     marginTop: 20,
     borderRadius: 5,
@@ -154,7 +167,7 @@ const styles = StyleSheet.create({
 
   button: {
     alignItems: 'center',
-    backgroundColor: 'grey',
+    backgroundColor: '#F35F4B',
     padding: 10,
     marginTop: 20,
     borderRadius: 5,
