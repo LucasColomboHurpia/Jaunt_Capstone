@@ -44,11 +44,9 @@ const Alert = (props) => {
             easing: Easing.in,
             useNativeDriver: false,
         }).start()
-    }, 2000)
 
-    useEffect(() => {
-        return () => setShowAlert(false)
-    }, [])
+        setShowAlert(false)
+    }, 2000)
 
     return(
             <Animated.View style={{
