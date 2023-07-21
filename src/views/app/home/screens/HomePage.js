@@ -2,9 +2,41 @@ import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import AddActivityButton from '../../../../shared-components/addActivityButton';
 
-import { SettingsIcon, PizzaBlack, PizzaWhite } from '../../../../assets/icons/Icon'
+import { SettingsIcon, PizzaWhite } from '../../../../assets/icons/Icon'
 
 import SurveyContext from '../../../../context/SurveyContext';
+
+import { BeefIcon, SushiWhite, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerWhite, PizzaBlack, OrientalIcon, MexicanIcon, VegetablesIcon } from '../../../../assets/icons/Icon'
+import { DoIcon, BowlingIcon, PopcornIcon, BeachIcon, BridgeIcon, HikingIcon, SpinningGlobeWhite, BeerBlack, MuseumIcon, GalleryIcon, AmusementParkIcon, KarokeIcon, ArcadeIcon, BoulderingIcon } from '../../../../assets/icons/Icon'
+
+const EatSomethingIcons = [
+  { keyword: 'Steakhouse', icon: BeefIcon },
+  { keyword: 'Sushi', icon: SushiWhite },
+  { keyword: 'Italian', icon: ItalianIcon },
+  { keyword: 'Picnic', icon: PicnicIcon },
+  { keyword: 'Seafood', icon: SeafoodIcon },
+  { keyword: 'Fast Foot', icon: BurguerWhite },
+  { keyword: 'Pizza', icon: PizzaWhite },
+  { keyword: 'Oriental', icon: OrientalIcon },
+  { keyword: 'Mexican', icon: MexicanIcon },
+  { keyword: 'Vegetarian', icon: VegetablesIcon }
+]
+
+const DoSomethingIcons = [
+  { keyword: 'Bowling', icon: BowlingIcon },
+  { keyword: 'MovieTheater', icon: PopcornIcon },
+  { keyword: 'Beach', icon: BeachIcon },
+  { keyword: 'Park', icon: BridgeIcon },
+  { keyword: 'Hiking', icon: HikingIcon },
+  { keyword: 'Nightclub', icon: SpinningGlobeWhite },
+  { keyword: 'Bar', icon: BeerBlack },
+  { keyword: 'Museum', icon: MuseumIcon },
+  { keyword: 'Gallery', icon: GalleryIcon },
+  { keyword: 'AmusementPark', icon: AmusementParkIcon },
+  { keyword: 'Karaoke', icon: KarokeIcon },
+  { keyword: 'Arcade', icon: ArcadeIcon }
+]
+
 
 const HomePage = ({ navigation }) => {
   const { surveyData } = useContext(SurveyContext);
@@ -46,7 +78,24 @@ const HomePage = ({ navigation }) => {
                 <Text style={styles.upcomingActivityDetails}>Date: {activity.dateTime}</Text>
                 <View style={styles.upcomingInnerCardContainer}>
                   <View style={styles.upcomingCircle}>
-                    <PizzaWhite size={33}/>
+                    {
+                      (() => {
+                        const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
+                        const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
+
+                        let IconComponent = DoIcon;  // Using DoIcon as default
+                        if (eatIconObject) {
+                          IconComponent = eatIconObject.icon;
+                        } else if (doIconObject) {
+                          IconComponent = doIconObject.icon;
+                        }
+
+                        const iconColor = '#FFFFFF';  
+                        const iconSize = 33;  
+
+                        return <IconComponent color={iconColor} size={iconSize} />;
+                      })()
+                    }
                   </View>
                   <View style={styles.upcomingActivityInfoContainer}>
                     <Text style={styles.upcomingActivityDetailsName}>{activity.apiResponse?.name}</Text>
@@ -66,6 +115,7 @@ const HomePage = ({ navigation }) => {
               </TouchableOpacity>
             ))
           ) : null}
+
 
           {pendingActivities.length > 0 ? (
             <>
@@ -215,7 +265,7 @@ const styles = StyleSheet.create({
   /// upcoming ==========================================
   upcomingActivityContainer: {
     backgroundColor: 'white',
-    marginBottom:5,
+    marginBottom: 5,
     marginTop: 5,
     padding: 15,
     borderRadius: 10,
@@ -225,12 +275,12 @@ const styles = StyleSheet.create({
   },
 
   upcomingActivityHeader: {
-    flexDirection: 'column', 
+    flexDirection: 'column',
     justifyContent: 'space-between',
   },
 
   upcomingActivityTitle: {
-    fontSize: 24, 
+    fontSize: 24,
     fontWeight: 'bold',
   },
 
@@ -251,28 +301,28 @@ const styles = StyleSheet.create({
   },
 
   upcomingCircle: {
-    width: 50, 
+    width: 50,
     height: 50,
     borderRadius: 25,
     backgroundColor: '#FB6049',
     marginRight: 10,
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   upcomingActivityInfoContainer: {
     justifyContent: 'space-around',
-    flexWrap: 'wrap', 
-    flex: 1, 
+    flexWrap: 'wrap',
+    flex: 1,
   },
 
   upcomingActivityDetailsName: {
-    fontSize: 18, 
-    fontWeight: 'bold', 
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 
   upcomingActivityDetailsAddress: {
-    fontSize: 13, 
+    fontSize: 13,
     flexShrink: 1,
     maxWidth: '100%',
   },

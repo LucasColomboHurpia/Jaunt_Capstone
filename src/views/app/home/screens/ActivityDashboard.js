@@ -3,6 +3,37 @@ import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, Dimension
 import SurveyContext from '../../../../context/SurveyContext';
 import { CameraPlusIcon, Calender, TimeIcon, MapPinIcon, PizzaWhite } from '../../../../assets/icons/Icon';
 
+import { BeefIcon, SushiWhite, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerWhite, PizzaBlack, OrientalIcon, MexicanIcon, VegetablesIcon } from '../../../../assets/icons/Icon'
+import { DoIcon, BowlingIcon, PopcornIcon, BeachIcon, BridgeIcon, HikingIcon, SpinningGlobeWhite, BeerBlack, MuseumIcon, GalleryIcon, AmusementParkIcon, KarokeIcon, ArcadeIcon, BoulderingIcon } from '../../../../assets/icons/Icon'
+
+const EatSomethingIcons = [
+  { keyword: 'Steakhouse', icon: BeefIcon },
+  { keyword: 'Sushi', icon: SushiWhite },
+  { keyword: 'Italian', icon: ItalianIcon },
+  { keyword: 'Picnic', icon: PicnicIcon },
+  { keyword: 'Seafood', icon: SeafoodIcon },
+  { keyword: 'Fast Foot', icon: BurguerWhite },
+  { keyword: 'Pizza', icon: PizzaWhite },
+  { keyword: 'Oriental', icon: OrientalIcon },
+  { keyword: 'Mexican', icon: MexicanIcon },
+  { keyword: 'Vegetarian', icon: VegetablesIcon }
+]
+
+const DoSomethingIcons = [
+  { keyword: 'Bowling', icon: BowlingIcon },
+  { keyword: 'MovieTheater', icon: PopcornIcon },
+  { keyword: 'Beach', icon: BeachIcon },
+  { keyword: 'Park', icon: BridgeIcon },
+  { keyword: 'Hiking', icon: HikingIcon },
+  { keyword: 'Nightclub', icon: SpinningGlobeWhite },
+  { keyword: 'Bar', icon: BeerBlack },
+  { keyword: 'Museum', icon: MuseumIcon },
+  { keyword: 'Gallery', icon: GalleryIcon },
+  { keyword: 'AmusementPark', icon: AmusementParkIcon },
+  { keyword: 'Karaoke', icon: KarokeIcon },
+  { keyword: 'Arcade', icon: ArcadeIcon }
+]
+
 const ActivityDashboard = ({ route, navigation }) => {
   const { activityParameters } = useContext(SurveyContext);
   const { setSurveyData, surveyData } = useContext(SurveyContext);
@@ -81,11 +112,33 @@ const ActivityDashboard = ({ route, navigation }) => {
           {item && item?.apiResponse?.name && (
             <View style={styles.section}>
               <TouchableOpacity style={styles.buttonCircleActive}>
-                <Text style={styles.buttonText}><PizzaWhite style={{marginBottom:30}} size={90} /></Text>
+                <Text style={styles.buttonText}>
+                  {
+                    (() => {
+                      const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === item.apiResponse.matchIcon);
+                      const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === item.apiResponse.matchIcon);
+
+                      console.log(item.apiResponse.matchIcon)
+
+                      let IconComponent = DoIcon;  // Using DoIcon as default
+                      if (eatIconObject) {
+                        IconComponent = eatIconObject.icon;
+                      } else if (doIconObject) {
+                        IconComponent = doIconObject.icon;
+                      }
+
+                      const iconColor = '#FFFFFF';  
+                      const iconSize = 90;  
+
+                      return <IconComponent color={iconColor} size={iconSize} />;
+                    })()
+                  }
+                </Text>
                 <Text style={styles.buttonText}>{item.apiResponse.name}</Text>
               </TouchableOpacity>
             </View>
           )}
+
 
           {item && item?.apiResponse?.coordinates && (
             <View style={styles.buttonContainer}>

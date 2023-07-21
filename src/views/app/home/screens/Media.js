@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
   mediaContainer: {
     flexDirection: "column",
     alignItems: "center",
+    color:'white'
   },
 });
 
