@@ -1,39 +1,54 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Aligner from "../../../../shared-components/Aligner";
 import SocketContext from '../../../../context/SocketContext';
+import api from "../../../../config/api";
+import NotificationContext from "../../../../context/NotificationContext";
+import { Image } from "react-native";
+import Spacer from "../../../../shared-components/Spacer";
+import Text from "../../../../shared-components/Text";
 
 const NotificationScreen = () => {
-  const [invitationRequests, setInvitationRequests] = useState([]);
-
-  const { socket } = useContext(SocketContext)
+  const { notifications, setNotifications } = useContext(NotificationContext)
 
   useEffect(() => {
-    const fetchInvitationRequests = async () => {
+    (async () => {
       try {
-        const response = await fetch("API_URL");
-        const data = await response.json();
-
-        setInvitationRequests(data);
+        const response = await api("notifications");
+        const { data } = response;
+        console.log(data)
+        setNotifications(data.notifications);
       } catch (error) {
         console.log("Error fetching invitation requests: ", error);
       }
-    };
+    })()
 
-    fetchInvitationRequests();
   }, []);
 
   return (
     <View style={styles.container}>
-        <Text style={styles.heading} >
-          Notifications
-        </Text>
-      <Text style={styles.title}>Invitations</Text>
-      {invitationRequests.length > 0 ? (
-        invitationRequests.map((request, index) => (
-          <View key={index} style={styles.requestContainer}>
-            <Text>{request.senderName}</Text>
-          </View>
+        <Spacer type="margin" position="top" customSize={40} />
+        
+        <Text variant="heading1" >Notifications</Text>
+        
+        <Spacer type="margin" position="bottom" customSize={20} />
+      
+      <Text variant="heading2">Invitations</Text>
+
+      <Spacer type="margin" position="bottom" customSize={20} />
+
+      {notifications.length > 0 ? (
+        notifications.map((request, index) => (
+            <View key={index}>
+                <Spacer type="margin" position="bottom" key={index} customSize={20}>
+                    <Aligner justify="flex-start">
+                        {request.sender.picture && <Spacer type="margin" position="right" key={index} customSize={20}>
+                            <Image style={styles.image} source={{ uri:`${request.sender.picture}` }} />
+                        </Spacer>}
+                        <Text >{request.text}</Text>
+                    </Aligner>
+                </Spacer>
+            </View>
         ))
       ) : (
         <Text style={styles.body}>No invitation requests</Text>
@@ -46,12 +61,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-    marginTop: 35,
+    width: '100%',
   },
   heading: {
     fontSize: 32,
@@ -60,15 +70,18 @@ const styles = StyleSheet.create({
     marginTop: 81,
   },
   requestContainer: {
-    borderWidth: 1,
-    borderColor: "gray",
     padding: 10,
     marginBottom: 10,
   },
   body:
   {
     fontSize: 19,
-  }
+  },
+  image: { 
+    width: 40,
+    height: 40,
+    borderRadius: 100
+    }
 });
 
 export default NotificationScreen;
