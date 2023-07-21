@@ -53,8 +53,8 @@ const App = () => {
     <AuthContext.Provider value={{ authUser, setAuthUser }}>
         <ThemeProvider theme={theme}>
             <NavigationContainer>
-                {token ? <AppNavigator /> : <AuthNavigator /> }
-                {/* <AuthNavigator /> */}
+                {/* {token ? <AppNavigator /> : <AuthNavigator /> } */}
+                <AuthNavigator />
             </NavigationContainer>
         </ThemeProvider>
     </AuthContext.Provider>
