@@ -39,16 +39,14 @@ const NotificationScreen = () => {
 
       {notifications.length > 0 ? (
         notifications.map((request, index) => (
-            <View key={index}>
-                <Spacer type="margin" position="bottom" key={index} customSize={20}>
-                    <Aligner justify="flex-start">
+            <Spacer type="margin" position="bottom" key={index} customSize={20}>
+            <Aligner justify="flex-start">
                         {request.sender.picture && <Spacer type="margin" position="right" key={index} customSize={20}>
                             <Image style={styles.image} source={{ uri:`${request.sender.picture}` }} />
                         </Spacer>}
                         <Text >{request.text}</Text>
-                    </Aligner>
+                </Aligner>
                 </Spacer>
-            </View>
         ))
       ) : (
         <Text style={styles.body}>No invitation requests</Text>

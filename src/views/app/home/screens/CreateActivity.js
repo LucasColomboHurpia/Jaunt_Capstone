@@ -11,6 +11,7 @@ import Button from "../../../../shared-components/Button";
 import Text from "../../../../shared-components/Text";
 import { GroupProfileIcon } from "../../../../assets/icons/Icon";
 import AuthContext from '../../../../context/AuthContext';
+import { Image } from 'react-native';
 
 const HeaderSection = () => {
   return (
@@ -22,18 +23,46 @@ const HeaderSection = () => {
 
 const MemberSection = () => {
   const navigation = useNavigation();
+  const { invitedContacts, registeredContacts, users } = useContext(SurveyContext);
+  
+  const displayInvitedContacts = () => {    
+    if(invitedContacts) {
+        return invitedContacts.map(contact => {
+        console.log(users[contact])
+        return <Image style={{ 
+                width: 40, 
+                height: 40,
+                borderRadius: 100,
+                marginLeft: -20,
+                zIndex: 2,
+                position: 'relative'
+            }} source={{uri: `${users[contact]?.picture}`}} />;
+        })
+    }
+  }
+  
   return (
     <View style={styles.memberSection}>
       <Text variant="labelBg">Members</Text>
       <View style={styles.memberContent}>
         <GroupProfileIcon style = {styles.profileIcon} color = "#0BC9B9"/>
+    
         <Text variant = "labelBg" style = {styles.inviteText}>Invite:</Text>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => navigation.navigate("ContactListScreen")}
-        > 
-          <Text style={styles.addButtonIcon}>+</Text>
-        </TouchableOpacity>
+    
+        <View style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: 'center'
+        }}>
+            <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.navigate("ContactListScreen")}
+            > 
+            <Text style={styles.addButtonIcon}>+</Text>
+            </TouchableOpacity>
+
+            {displayInvitedContacts()}
+        </View>
       </View>
     </View>
   );
@@ -114,7 +143,7 @@ const CreateActivity = () => {
   const [hour, setHour] = useState(formattedTime.slice(0, 2));
   const [minute, setMinute] = useState(formattedTime.slice(3));
 
-  const { surveyData, setSurveyData, invitedContacts, setInvitedContacts } = useContext(SurveyContext);
+  const { surveyData, setSurveyData, invitedContacts, setInvitedContacts, registeredContacts, setRegisteredContacts } = useContext(SurveyContext);
   const { socket } = useContext(SocketContext);
   const { authUser } = useContext(AuthContext);
 
@@ -259,11 +288,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#F35F4B",
     marginLeft: 122,
+    position: 'relative',
+    zIndex: 20,
   },
   addButtonIcon: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#fff"
   },
   profileIcon: {
     marginLeft: 36,

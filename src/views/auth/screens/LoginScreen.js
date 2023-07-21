@@ -164,6 +164,7 @@ const LoginScreen = ({ navigation }) => {
             <Input
                 onChangeText={onChangeEmail}
                 value={email}
+                type="email"
                 placeholder="email@gmail.com"
                 autoCapitalize="none"
             />
@@ -177,6 +178,7 @@ const LoginScreen = ({ navigation }) => {
             <Input
                 onChangeText={onChangePassword}
                 value={password}
+                type="password"
                 placeholder="Enter your password here"
                 secureTextEntry
                 autoCapitalize="none"

@@ -197,7 +197,7 @@ const ActivityDashboard = ({ route, navigation }) => {
           )}
 
 
-          {item && item?.apiResponse && (
+          {item && item?.apiResponse && !item?.images &&(
 
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Media</Text>
@@ -211,6 +211,17 @@ const ActivityDashboard = ({ route, navigation }) => {
               </View>
             </View>
           )}
+
+            {item && item?.images?.map((uri, index) => {
+                return (
+                    <View>
+                        <View key={index} style={styles.imageWrapper}>
+                            <Image source={{ uri }} style={styles.image} />
+                        </View>
+                    </View>
+                )
+            })}
+
           {/* =====================*/}
           {!(item && item?.apiResponse) && (
             <View style={styles.buttonContainerStart}>
@@ -247,13 +258,6 @@ const ActivityDashboard = ({ route, navigation }) => {
             </View>
 
           )}
-
-            {item && item?.images?.map((uri, index) => {
-                console.log(uri)
-                return (<View key={index} style={styles.imageWrapper}>
-                    <Image source={{ uri }} style={styles.image} />
-                </View>)
-            })}
 
         </View>
 

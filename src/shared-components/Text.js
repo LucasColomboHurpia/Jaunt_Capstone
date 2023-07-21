@@ -23,7 +23,7 @@ const heading1 = (theme) => `
 `;
 
 const heading2 = (theme) => `
-    font-weight: ${theme.fontWeights.extraBold};
+    font-weight: 700;
     font-size: ${theme.fontSizes.heading2}px;
 `;
 

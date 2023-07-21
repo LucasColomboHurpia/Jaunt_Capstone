@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { View, StyleSheet, Button, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import AddActivityButton from '../../../../shared-components/addActivityButton';
+import Text from '../../../../shared-components/Text';
 
 import { SettingsIcon, PizzaWhite } from '../../../../assets/icons/Icon'
 
@@ -8,6 +9,8 @@ import SurveyContext from '../../../../context/SurveyContext';
 
 import { BeefIcon, SushiWhite, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerWhite, PizzaBlack, OrientalIcon, MexicanIcon, VegetablesIcon } from '../../../../assets/icons/Icon'
 import { DoIcon, BowlingIcon, PopcornIcon, BeachIcon, BridgeIcon, HikingIcon, SpinningGlobeWhite, BeerBlack, MuseumIcon, GalleryIcon, AmusementParkIcon, KarokeIcon, ArcadeIcon, BoulderingIcon } from '../../../../assets/icons/Icon'
+import AuthContext from '../../../../context/AuthContext';
+import { useTheme } from 'styled-components';
 
 const EatSomethingIcons = [
   { keyword: 'Steakhouse', icon: BeefIcon },
@@ -40,6 +43,7 @@ const DoSomethingIcons = [
 
 const HomePage = ({ navigation }) => {
   const { surveyData } = useContext(SurveyContext);
+  const { authUser } = useContext(AuthContext);
 
   const activities = surveyData.activityParameters || [];
 
@@ -52,13 +56,15 @@ const HomePage = ({ navigation }) => {
 
   console.log('-------------------------------')
 
+  const theme = useTheme();
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => { console.log('profile icon clicked'); navigation.navigate('Profile') }} style={styles.settingsIcon}>
         <SettingsIcon />
       </TouchableOpacity>
       <View style={styles.header}>
-        <Text style={styles.greeting}>Hello there!</Text>
+        <Text variant="heading1" options={{ color: theme.colors.primary.default}}>Hello {authUser?.name.split(' ')[0]}!</Text>
         <Text style={[styles.subText, { marginTop: 20 }]}>
           These are your upcoming activities, ready for adventure?
         </Text>
