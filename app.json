@@ -15,24 +15,37 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSContactsUsageDescription": "Allow Jaunt to access your contacts."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.READ_CONTACTS",
+        "android.permission.WRITE_CONTACTS"
+      ],
+      "package": "com.obikakelvin.jaunt"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-        [
-          "expo-contacts",
-          {
-            "contactsPermission": "Allow Jaunt to access your contacts."
-          }
-        ]
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow Jaunt to access your contacts."
+        }
       ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "bf014c43-fda8-4b46-bebc-3f9745ba4c4d"
+      }
+    }
   }
 }
