@@ -46,6 +46,8 @@ const ContactListScreen = () => {
                     
                 })
 
+                console.log(result)
+
                 const r = await api.post(`users/verifyContacts`, {contacts: result})
                 const { users } = r.data;
 
@@ -218,11 +220,11 @@ const ContactListScreen = () => {
           {displayRegisteredContacts()}
         </ScrollView>
 
-        <Text>Invite to Jaunt</Text>
+        {/* <Text>Invite to Jaunt</Text>
         <ScrollView contentContainerStyle={styles.contactList}>
 
         {displayUnregisteredContacts()}
-        </ScrollView>
+        </ScrollView> */}
       </View>
       <Spacer type="margin" position="bottom" customSize={5}>
         <Aligner>
