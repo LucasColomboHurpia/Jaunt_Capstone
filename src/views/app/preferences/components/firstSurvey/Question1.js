@@ -9,15 +9,15 @@ const Question1 = ({ onAnswer, onGoBack }) => {
   const getIcon = (item) => {
     switch (item) {
       case 'Vegetarian':
-        return <VegetableIcon size={135} />;
+        return <VegetableIcon size={135} color="#000000" />;
       case 'Vegan':
-        return <VeganIcon size={135} />;
+        return <VeganIcon size={135} color = "#000000"/>;
       case 'Pescatarian':
         return <View style={styles.fishFix}>
           <FishIcon size={85} />
         </View>;
       case 'None':
-        return <ChickenIcon size={135} />;
+        return <ChickenIcon color = "#000000" size={135} />;
       default:
         return null;
     }

@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "gray",
     textAlign: "left",
+    marginBottom: 15,
   },
   description: {
     fontSize: 16,
@@ -214,6 +215,8 @@ const styles = StyleSheet.create({
   /// upcoming ==========================================
   upcomingActivityContainer: {
     backgroundColor: 'white',
+    marginBottom:5,
+    marginTop: 5,
     padding: 15,
     borderRadius: 10,
     borderWidth: 2,
