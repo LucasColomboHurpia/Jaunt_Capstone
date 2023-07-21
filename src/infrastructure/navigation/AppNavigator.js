@@ -6,13 +6,20 @@ import { io } from 'socket.io-client';
 import PreferencesNavigator from './PreferencesNavigator';
 import SocketContext from '../../context/SocketContext';
 import NotificationContext from '../../context/NotificationContext';
+import SurveyContext from '../../context/SurveyContext';
 import { DEV_API_URL } from '../../config/constants';
 import Alert from '../../shared-components/Alert';
 
 const AppNavigator = () => {
+    const [surveyData, setSurveyData] = useState({});
+    const [activityParameters, setActivityParameters] = useState([]);
+    const [currentActivityId, setCurrentActivityId] = useState([]);
+    const [invitedContacts, setInvitedContacts] = useState([]);
+
     const [preferenceStatus, setPreferenceStatus] = useState(null);
     const [socket, setSocket] = useState(null);
     const [alertMessage, setAlertMessage] = useState('');
+    const [notifications, setNotifications] = useState('');
     const [showAlert, setShowAlert ] = useState(false);
     const stack = createStackNavigator();
 
@@ -24,8 +31,8 @@ const AppNavigator = () => {
             socket.on('notification:send', data => {
                 setShowAlert(true)
                 setAlertMessage(data.text)
-                console.log(data)
-            })
+                setNotifications([...notifications, data])
+            });
         }
     }, [socket])
 
@@ -54,27 +61,29 @@ const AppNavigator = () => {
     }, [])
 
     return (
-        <SocketContext.Provider value={{ socket, setSocket}}>
-            <NotificationContext.Provider value={{ alertMessage, setAlertMessage, showAlert, setShowAlert}}>
-                {showAlert && <Alert />}
-                
-                <stack.Navigator 
-                    screenOptions={{
-                        headerShown: false,
-                    }}
-                    backBehavior="history"
-                >
-                    {/* { preferenceStatus ? 
-                        <stack.Screen name="BottomTab" component={BottomTabNavigator} />
-                    : 
+        <SurveyContext.Provider value={{ surveyData, setSurveyData, activityParameters, setActivityParameters,  currentActivityId, setCurrentActivityId, invitedContacts, setInvitedContacts }}>
+            <SocketContext.Provider value={{ socket, setSocket}}>
+                <NotificationContext.Provider value={{ alertMessage, setAlertMessage, showAlert, setShowAlert, notifications, setNotifications}}>
+                    {showAlert && <Alert />}
+                    
+                    <stack.Navigator 
+                        screenOptions={{
+                            headerShown: false,
+                        }}
+                        backBehavior="history"
+                    >
+                        {/* { preferenceStatus ? 
+                            <stack.Screen name="BottomTab" component={BottomTabNavigator} />
+                        : 
+                            <stack.Screen name="PreferencesNav" component={PreferencesNavigator} />
+                        } */}
+
                         <stack.Screen name="PreferencesNav" component={PreferencesNavigator} />
-                    } */}
 
-                    <stack.Screen name="PreferencesNav" component={PreferencesNavigator} />
-
-                </stack.Navigator>
-            </NotificationContext.Provider>
-        </SocketContext.Provider>
+                    </stack.Navigator>
+                </NotificationContext.Provider>
+            </SocketContext.Provider>
+        </SurveyContext.Provider>
     )
 }
 
