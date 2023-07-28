@@ -55,7 +55,7 @@ const HomePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => { console.log('profile icon clicked'); navigation.navigate('Profile') }} style={styles.settingsIcon}>
-        <SettingsIcon />
+        <SettingsIcon color="#000000"/>
       </TouchableOpacity>
       <View style={styles.header}>
         <Text style={styles.greeting}>Hello there!</Text>
