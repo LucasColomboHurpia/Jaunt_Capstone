@@ -51,7 +51,7 @@ onValueChange={(value) => setSliderValue(value)}
 <Text style={styles.buttonText}>Next Step</Text>
 </TouchableOpacity>
 <TouchableOpacity style={styles.buttonSkip}>
-<Text style={styles.buttonText}>I don't Know</Text>
+<Text style={styles.buttonText}>I Don't Know!</Text>
 </TouchableOpacity>
 </View>
 </View>

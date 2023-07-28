@@ -45,7 +45,7 @@ const ActivityQuestion1 = ({ onAnswer }) => {
           <Text style={styles.buttonText}>Next Step</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonSkip} >
-          <Text style={styles.buttonText}>I dont Know</Text>
+          <Text style={styles.buttonText}>I Don't Know!</Text>
         </TouchableOpacity>
       </View>
     </View>
