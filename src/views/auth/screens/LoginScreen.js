@@ -110,9 +110,14 @@ const LoginScreen = ({ navigation }) => {
 
         const googleUser = response.data;
 
+        console.log(`googleUser`, googleUser)
+
+
         const r = await api.post('auth/signInWithGoogle', {
             googleUser
         })
+
+        console.log(`r`, r.data)
 
         handleSignInSuccess(r);
     }

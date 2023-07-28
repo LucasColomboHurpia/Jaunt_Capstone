@@ -43,7 +43,7 @@ const DoSomethingIcons = [
 ]
 
 ///-------------------------------------------------------------------------
-const API_KEY = "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"
+const API_KEY = ""
 /////-----------------------------------------------------------------------
 
 
@@ -57,8 +57,38 @@ const object1234 = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a
   "DoLike": ["Fish", "Wine", "Bread"],
   "ChanceOfEnjoyingDrinking": 6.625 }`;
 
-const exampleAPIresponse = ` [{"address":"1269 Hamilton St, Vancouver, BC V6B 6K3, Canada","coordinates":{"lat":49.275399,"lng":-123.122460},"name":"Pizzeria Ludica","description":"Board game themed pizzeria 🍕🎲","Tips":["Enjoy a delicious slice of pizza while playing one of the many board games available","Try their 'Game of Thrones' specialty pizza","Take a walk to Yaletown Park afterwards"],"tags":["Pizza"],"matchIcon":"Pizza"},{"address":"345 Robson St, Vancouver, BC V6B 2B1, Canada","coordinates":{"lat":49.279702,"lng":-123.117227},"name":"Art Gallery","description":"Contemporary art gallery 🖼️","Tips":["Explore the diverse collection of contemporary art","Visit during one of the free admission days","Grab a bite to eat at a nearby restaurant"],"tags":["Art Gallery"],"matchIcon":"Gallery"},{"address":"1000 Mainland St, Vancouver, BC 
-V6B 2T4, Canada","coordinates":{"lat":49.276001,"lng":-123.119292},"name":"Sushi Maro","description":"Sushi restaurant with a modern twist 🍣","Tips":["Try their specialty rolls like the 'Dragon Roll' or 'Volcano Roll'","Sit at the sushi bar for a more interactive dining experience","Take a stroll around David Lam Park afterwards"],"tags":["Sushi"],"matchIcon":"Sushi"}]`
+const exampleAPIresponse = ` [
+  {
+    "address": "1011 Mainland St, Vancouver, BC V6B 5P9, Canada",
+    "coordinates": { "lat": 49.277680, "lng": -123.118818 },
+    "name": "The Flying Pig Yaletown",
+    "description": "Modern comfort food with a fantastic selection of wines 🍷🍲",
+    "Tips": ["Explore the chic Yaletown neighbourhood.", "Visit David Lam Park nearby.", "Check out the Roundhouse Community Arts and Recreation Centre."],
+    "tags": ["Comfort Food", "Wine", "Modern"],
+    "matchIcon": "Fast Foot"
+  },
+  {
+    "address": "375 Water St, Vancouver, BC V6B 5C6, Canada",
+    "coordinates": { "lat": 49.283253, "lng": -123.105857 },
+    "name": "The Sardine Can",
+    "description": "Small Spanish tapas bar offering delicious small plates 🍷🍽️",
+    "Tips": ["Explore the historic Gastown district.", "Visit the famous Gastown Steam Clock.", "Check out the nearby Dr. Sun Yat-Sen Classical Chinese Garden."],
+    "tags": ["Tapas", "Spanish", "Wine"],
+    "matchIcon": "Seafood"
+  },
+  {
+    "address": "2270 Commercial Dr, Vancouver, BC V5N 4B5, Canada",
+    "coordinates": { "lat": 49.264680, "lng": -123.069941 },
+    "name": "Bandidas Taqueria",
+    "description": "A locally-owned restaurant with plant-based Mexican-inspired cuisine 🌯🥗",
+    "Tips": ["Stroll down Commercial Drive, known for its cultural diversity.", "Visit the nearby Trout Lake.", "Check out the Vancouver Farmers Market."],
+    "tags": ["Mexican", "Vegetarian", "Local"],
+    "matchIcon": "Mexican"
+  }
+]
+
+
+  `
 
 const systemMessage = {
   "role": "system",

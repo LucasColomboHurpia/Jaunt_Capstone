@@ -44,6 +44,7 @@ const DoSomethingIcons = [
 const HomePage = ({ navigation }) => {
   const { surveyData } = useContext(SurveyContext);
   const { authUser } = useContext(AuthContext);
+  console.log(authUser)
 
   const activities = surveyData.activityParameters || [];
 

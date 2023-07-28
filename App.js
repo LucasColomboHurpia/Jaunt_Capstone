@@ -33,6 +33,7 @@ const App = () => {
                 try {
                     const response = await api.get('users/me');
                     const { user } = response.data;
+                    console.log(response.data)
                     setAuthUser(user);
                 } catch (error) {
                     console.log(error)
