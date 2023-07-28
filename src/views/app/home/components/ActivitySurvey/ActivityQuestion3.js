@@ -100,10 +100,10 @@ alignContent:"center",
     color: "#19445A",
   },
   backgroundBox: {
-
     backgroundColor: "white",
     position: "absolute",
     top: 130,
+    marginTop: 20,
     justifyContent: "center",
     alignContent: "center",
     borderRadius: 10,
