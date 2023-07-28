@@ -22,7 +22,7 @@ export const BackIcon = ({ color, size }) => (
   <SvgXml
     xml={`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g id="Back Icon">
-  <path id="Vector" d="M15 6L9 12L15 18" stroke="#19445A" stroke-linecap="round" stroke-linejoin="round"/>
+  <path id="Vector" d="M15 6L9 12L15 18" stroke="${color}" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
   </svg>`}
     width={32}
@@ -145,16 +145,16 @@ export const CarIcon = ({ color, size }) => (
   />
 );
 
-export const CheckIcon = (color) => (
+export const CheckIcon = ({ color, size }) => (
     <SvgXml
       xml={`<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g id="check">
-    <path id="Vector" d="M4.16667 9.99998L8.33333 14.1666L16.6667 5.83331" stroke="#19445A" stroke-linecap="round" stroke-linejoin="round"/>
+    <path id="Vector" d="M4.16667 9.99998L8.33333 14.1666L16.6667 5.83331" stroke="${color}" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
     </svg>
     `}
-      width={35}
-      height={35}
+      width={size}
+      height={size}
       fill="none"
     />
   );
