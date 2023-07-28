@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     paddingHorizontal: 12,
-    marginBottom: 10,
+    marginBottom: 16,
   },
 
   buttonBack: {
