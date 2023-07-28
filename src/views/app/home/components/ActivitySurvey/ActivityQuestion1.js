@@ -149,8 +149,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-  },
-  buttonContainer: {
     position: "absolute",
     bottom: 0,
     flexDirection: "column",
