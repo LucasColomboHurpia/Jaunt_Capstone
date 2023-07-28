@@ -32,7 +32,7 @@ const Question2 = ({ onAnswer, onGoBack }) => {
         ]}
         onPress={() => handleAnswerOptionClick(item)}
       >
-        {isSelected && <CheckIcon size={24} color='white' />}
+        {isSelected && <CheckIcon size={20} color='#FFFFFF' />}
         <Text style={isSelected ? styles.optionTextSelected : styles.optionText}>{item}</Text>
       </TouchableOpacity>
     );
@@ -68,7 +68,7 @@ const Question2 = ({ onAnswer, onGoBack }) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.buttonBack} onPress={onGoBack}>
           <View style={styles.backIconContainer}>
-            <BackIcon size={24} color='black' />
+            <BackIcon size={24} color='#000000' />
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonNext} onPress={handleSubmit}>
@@ -97,22 +97,18 @@ const styles = StyleSheet.create({
   input: {
     height: 60,
     borderRadius: 15,
-
     width: 320,
     margin: 12,
     borderWidth: 0.5,
     padding: 15,
   },
   answerOptionsContainer: {
-    //  flexDirection: 'row',
-    //  flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-
   },
 
   optionTextSelected: {
-    marginLeft: 10,
+    marginLeft: 9,
     color: 'white',
   },
 
@@ -135,6 +131,7 @@ const styles = StyleSheet.create({
     margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
+    width: 150,
   },
 
 
