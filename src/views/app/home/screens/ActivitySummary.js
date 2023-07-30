@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { View, ScrollView, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { SvgXml } from 'react-native-svg';
-
+import Text from '../../../../shared-components/Text';
 import Button from '../../../../shared-components/Button';
 import Spacer from '../../../../shared-components/Spacer';
 import Aligner from '../../../../shared-components/Aligner';
@@ -31,18 +31,19 @@ const ActivitySummary = ({ route, navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.activity}>{currentActivity.name}</Text>
-        <Text style={styles.title}>Thank you</Text>
-        <Text style={styles.subtitle}>You are close to setting your plan...</Text>
-        
-        <View style={styles.yayCard}>
+        <Text variant="heading1" style={styles.activity}>{currentActivity.name}</Text>
+        <Spacer type="margin" position="bottom" customSize={30} />
+
+        <View>
             <Aligner direction="column">
                 <SvgXml xml={yay()} />
-                <Text style={styles.yayText}>Yay!!</Text>
+                <Spacer type="margin" position="bottom" customSize={30} />
+                <Text variant="heading1" style={styles.yayText}>Yay!</Text>
             </Aligner>
+            <Text style={styles.subtitle}>You are closer to setting your plan!</Text>
         </View>
 
-        <Spacer type="margin" position="bottom" customSize={20} />
+        <Spacer type="margin" position="bottom" customSize={50} />
 
         <Button
             variant="sm"
@@ -50,9 +51,6 @@ const ActivitySummary = ({ route, navigation }) => {
             type="primary"
             onPress={() => navigation.navigate('ActivitySurveyResults', {activityId})}
         />
-
-        <Spacer type="margin" position="bottom" customSize={20} />
-
         <Button
             variant="sm"
             text="Back to Group"
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 12,
-
+    flex: 1,
     backgroundColor: 'white',
 
   },
@@ -86,6 +84,8 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
     marginBottom: 20,
+    textAlign: 'center',
+    flexWrap: "wrap",
   },
   data: {
     fontSize: 14,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   yayText: {
     fontSize: 40,
-    color: 'white'
+    color: '#0BC9B9'
   }
 });
 

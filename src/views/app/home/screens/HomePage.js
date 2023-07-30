@@ -61,7 +61,7 @@ const HomePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => { console.log('profile icon clicked'); navigation.navigate('Profile') }} style={styles.settingsIcon}>
-        <SettingsIcon />
+        <SettingsIcon color="#000000"/>
       </TouchableOpacity>
       <View style={styles.header}>
         <Text variant="heading1" options={{ color: theme.colors.primary.default}}>Hello {authUser?.name.split(' ')[0]}!</Text>

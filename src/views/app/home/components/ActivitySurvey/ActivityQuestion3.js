@@ -6,165 +6,199 @@ import Slider from '@react-native-community/slider';
 import { BackIcon } from '../../../../../assets/icons/Icon';
 import { WeatherComponent } from '../WeatherComponent';
 
+
 const ActivityQuestion3 = ({ onAnswer, onGoBack }) => {
   const [sliderValue, setSliderValue] = useState(5);
 
   const handleNextStep = () => {
     onAnswer(sliderValue, 'Budget');
   };
+return (
+  <View style={styles.container}>
+    <Text variant="heading1" style={styles.title}>New Activity</Text>
+    <Text style={styles.titleText}>How much do you plan to spend?</Text>
+    <View style={styles.backgroundBox}>
+      <View style={styles.squareBackground}>
+      {/* <Text style={styles.valueText}>${sliderValue} CAD</Text> */}
+      <View style={styles.cost}>
+      <Text style={styles.dollar}>$</Text>
+      <Text style= {styles.valueText}>{sliderValue}</Text>
+      <Text style= {styles.currency}>CAD</Text>
+      </View>
+        <View style={styles.sliderContainer}>
+          <Text style={styles.labelText}>$5</Text>
+          <View style={styles.sliderShadow}>
+<Slider
+style={styles.slider}
+minimumValue={5}
+maximumValue={150}
+minimumTrackTintColor="#808080"
+maximumTrackTintColor="#808080"
+thumbTintColor="#F35F4B"
+thumbStyle={{ height: 50, width: 50, borderRadius: 15 }}
+step={1}
+value={sliderValue}
+onValueChange={(value) => setSliderValue(value)}
+/>
+</View>
+<Text style={styles.labelText}>$150</Text>
+</View>
+</View>
+</View>
 
-  return (
-    <View style={styles.container}>
-      <Text variant = "heading1" style= {styles.title}>New Activity</Text>
-      <Text style={styles.titleText}>How much do you plan to spend?</Text>
-      <View style = {styles.backgroundBox}>
-      <Text style={styles.valueText}>${sliderValue} CAD</Text>
-      <View style={styles.sliderContainer}>
-        <Text style={styles.labelText}>$5</Text>
-        <View style={styles.sliderShadow}>
-          <Slider
-            style={styles.slider}
-            minimumValue={5}
-            maximumValue={150}
-            minimumTrackTintColor="#808080"
-            maximumTrackTintColor="#808080"
-            thumbTintColor="#F35F4B"
-            thumbStyle={{ height: 50, width: 50, borderRadius: 15 }}
-            step={1}
-            value={sliderValue}
-            onValueChange={(value) => setSliderValue(value)}
-          />
-        </View>
-        <Text style={styles.labelText}>$150</Text>
-      </View>
-      </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttonBack} onPress={onGoBack}>
-          <View style={styles.backIconContainer}>
-            <BackIcon size={24} color='black' />
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonNext} onPress={handleNextStep}>
-          <Text style={styles.buttonText}>Next Step</Text>
-        </TouchableOpacity>
-      </View>
-      </View>
-  );
+<View style={styles.buttonContainer}>
+<TouchableOpacity style={styles.buttonNext} onPress={handleNextStep}>
+<Text style={styles.buttonText}>Next Step</Text>
+</TouchableOpacity>
+<TouchableOpacity style={styles.buttonSkip}>
+<Text style={styles.buttonText}>I Don't Know!</Text>
+</TouchableOpacity>
+</View>
+</View>
+);
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
     padding: 20,
-    alignItems: 'center',
-    backgroundColor: 'white',
-
+    alignItems: "center",
+    backgroundColor: "white",
   },
 
   title: {
-    marginTop: 35, 
+    marginTop: 35,
     marginBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   titleText: {
     fontSize: 18,
-    marginBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
+  },
+  cost: {
+    display: 'flex',
+    flexDirection: 'row',
   },
   valueText: {
-    fontSize: 70,
-    fontWeight: 'bold',
+    fontSize: 150,
+    fontWeight: "bold",
     marginBottom: 30,
-    textAlign: 'center', 
+    textAlign: "center",
     color: "#19445A",
-    fontStyle: "normal"   
+    fontStyle: "normal",
+  },
+  currency: {
+    fontSize: 26,
+    // lineHeight: 120,
+    alignContent:"center",
+    color: "#19445A",
+  },
+  dollar:
+  {
+    fontSize: 26,
+alignContent:"center",
+    color: "#19445A",
   },
   backgroundBox: {
-    width: 355,
-    height: 345,
-    backgroundColor: 'white',
-        position: 'absolute',
+    backgroundColor: "white",
+    position: "absolute",
     top: 130,
-    marginTop: 57,
-    zIndex: -1,
-    justifyContent: 'center',
+    marginTop: 20,
+    justifyContent: "center",
     alignContent: "center",
     borderRadius: 10,
   },
-  sliderContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    // justifyContent: 'space-between',
-    width: '100%',
+  squareBackground: {
+    backgroundColor: "#F7F7F7",
+    width: 355,
+    height: 295,
+    borderRadius: 10,
+    padding: 17,
     justifyContent: "center",
-    alignSelf: "center"
+    alignItems: "center",
+  },
+  sliderContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "center",
+    alignSelf: "center",
   },
   sliderShadow: {
     flex: 1,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
     marginHorizontal: 10,
   },
   slider: {
-    width: '100%',
+    width: "100%",
     height: 40,
     backgroundColor: "#F35F4B)",
   },
   labelText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonContainer: {
     marginTop: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  buttonContainer: {
-    position: "absolute",
-    bottom: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    padding: 10,
+    position: "absolute",
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
   },
   backIconContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   buttonBack: {
     flex: 1,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
   },
 
   buttonNext: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: '#F35F4B',
+    backgroundColor: "#F35F4B",
     borderRadius: 15,
-    fontWeight: 'bold',
-    margin: 10,
-    padding: 20,
-    width: '45%',
-    alignItems: 'center'
+    fontWeight: "bold",
+    margin: 5,
+    padding: 15,
+    width: "45%",
+    alignItems: "center",
   },
 
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-
+    color: "white",
+    fontWeight: "bold",
   },
+  buttonSkip: {
+    backgroundColor: "gray",
+    borderRadius: 15,
+    fontWeight: "bold",
+    margin: 5,
+    padding: 15,
+    width: "45%",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    marginTop: 50,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
+    flexDirection: "column",
+    width: "100%",
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
 });
 
 export default ActivityQuestion3;
-
-
-
-
-
