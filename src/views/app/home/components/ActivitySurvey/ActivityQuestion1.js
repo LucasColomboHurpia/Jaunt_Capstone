@@ -45,7 +45,7 @@ const ActivityQuestion1 = ({ onAnswer }) => {
           <Text style={styles.buttonText}>Next Step</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonSkip} >
-          <Text style={styles.buttonText}>I dont Know</Text>
+          <Text style={styles.buttonText}>I Don't Know!</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -149,8 +149,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-  },
-  buttonContainer: {
     position: "absolute",
     bottom: 0,
     flexDirection: "column",
