@@ -11,14 +11,14 @@ import {
 
 import { BackIcon, CheckIcon } from "../../../../../assets/icons/Icon";
 
-const answerOptions = ["Shellfish", "Tree nuts", "Dairy", "Glutten", "Others"];
+const allergyOptions = ["Shellfish", "Tree nuts", "Dairy", "Glutten", "Others"];
 
 const Question2 = ({ onAnswer, onGoBack }) => {
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [customAnswer, setCustomAnswer] = useState("");
+  const [selectedAllergies, setSelectedAllergies] = useState([]);
+  const [medicalConditions, setMedicalConditions] = useState("");
 
   const handleAnswerOptionClick = (option) => {
-    setSelectedOptions((prevOptions) => {
+    setSelectedAllergies((prevOptions) => {
       if (prevOptions.includes(option)) {
         // Option already selected, deselect it
         return prevOptions.filter((prevOption) => prevOption !== option);
@@ -30,7 +30,7 @@ const Question2 = ({ onAnswer, onGoBack }) => {
   };
 
   const renderAnswerOption = ({ item }) => {
-    const isSelected = selectedOptions.includes(item);
+    const isSelected = selectedAllergies.includes(item);
     return (
       <TouchableOpacity
         style={[
@@ -50,10 +50,8 @@ const Question2 = ({ onAnswer, onGoBack }) => {
   };
 
   const handleSubmit = () => {
-    const finalAnswers = customAnswer
-      ? [...selectedOptions, customAnswer]
-      : selectedOptions;
-    onAnswer(finalAnswers, "DoNotLike");
+    onAnswer(medicalConditions, "medicalConditions", false);
+    onAnswer(selectedAllergies, "allergies", true);
   };
 
   return (
@@ -65,18 +63,18 @@ const Question2 = ({ onAnswer, onGoBack }) => {
 
       <TextInput
         style={styles.input}
-        onChangeText={setCustomAnswer}
-        value={customAnswer}
+        onChangeText={setMedicalConditions}
+        value={medicalConditions}
         placeholder="ie. Asthma, heart condition, etc."
       />
 
       <Text style={styles.questionText}>Do you have any allergies?</Text>
 
       <FlatList
-        data={answerOptions}
+        data={allergyOptions}
         renderItem={renderAnswerOption}
         keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={styles.answerOptionsContainer}
+        contentContainerStyle={styles.allergyOptionsContainer}
         numColumns={2}
       />
 
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     padding: 15,
   },
-  answerOptionsContainer: {
+  allergyOptionsContainer: {
     justifyContent: "center",
     alignItems: "center",
   },

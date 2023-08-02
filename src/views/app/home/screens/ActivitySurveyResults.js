@@ -43,7 +43,7 @@ const DoSomethingIcons = [
 ]
 
 ///-------------------------------------------------------------------------
-const API_KEY = "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"
+const API_KEY = ""
 /////-----------------------------------------------------------------------
 
 

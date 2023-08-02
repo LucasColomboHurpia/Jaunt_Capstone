@@ -29,7 +29,7 @@ const Question3 = ({ onAnswer, onGoBack }) => {
   };
 
   const handleSubmit = () => {
-    onAnswer(selectedOptions, 'DoLike');
+    onAnswer(selectedOptions, 'foodDishes');
   };
 
   return (

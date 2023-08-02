@@ -1,21 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
 import AuthContext from '../../../../context/AuthContext';
 
 import { BackIcon, CameraPlusIcon } from '../../../../assets/icons/Icon'
 import { Image } from 'react-native';
+import api from '../../../../config/api';
+import { ScrollView } from 'react-native';
 
 const Profile = ({ navigation }) => {
-  const surveyData = useContext(SurveyContext);
+  const { preferences, setPreferences } = useContext(SurveyContext);
   const { authUser } = useContext(AuthContext);
 
-  const diet = surveyData.surveyData?.Diet || "None";
-  const likes = surveyData.surveyData?.DoLike?.join(", ") || "None";
-  const dislikes = surveyData.surveyData?.DoNotLike?.join(", ") || "None";
+  useEffect(() => {
+    (async () => {
+        const response = await api.get('/preferences');
+        if(response.status == 200) {
+            setPreferences(response.data.preference)
+        }
+    })()
+  }, [])
+
+  const diet = preferences?.dietType || "None";
+  const foodDishes = preferences?.foodDishes?.join(", ") || "None";
+  const allegies = preferences?.allergies?.join(", ") || "None";
+  const medicalConditions = preferences?.medicalConditions || "None";
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
 
     <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
@@ -39,11 +51,14 @@ const Profile = ({ navigation }) => {
       <Text style={styles.prefereceTitle}>Diet</Text>
       <Text style={styles.prefereceText}>{diet}</Text>
 
-      <Text style={styles.prefereceTitle}>Things I like</Text>
-      <Text style={styles.prefereceText}>{likes}</Text>
+      <Text style={styles.prefereceTitle}>Food Dishes</Text>
+      <Text style={styles.prefereceText}>{foodDishes}</Text>
 
-      <Text style={styles.prefereceTitle}>Alergies / Things I don't like</Text>
-      <Text style={styles.prefereceText}>{dislikes}</Text>
+      <Text style={styles.prefereceTitle}>Alergies</Text>
+      <Text style={styles.prefereceText}>{allegies}</Text>
+
+      <Text style={styles.prefereceTitle}>Medical Conditions</Text>
+      <Text style={styles.prefereceText}>{medicalConditions}</Text>
 
       <TouchableOpacity 
         style={styles.button}
@@ -65,7 +80,7 @@ const Profile = ({ navigation }) => {
       >
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
