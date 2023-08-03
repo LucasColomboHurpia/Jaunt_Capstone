@@ -86,13 +86,13 @@ const AppNavigator = () => {
                         }}
                         backBehavior="history"
                     >
-                        { preferenceStatus ? 
+                        {/* { preferenceStatus ? 
                             <stack.Screen name="BottomTab" component={BottomTabNavigator} />
                         : 
                             <stack.Screen name="PreferencesNav" component={PreferencesNavigator} />
-                        }
+                        } */}
 
-                        {/* <stack.Screen name="PreferencesNav" component={PreferencesNavigator} /> */}
+                        <stack.Screen name="PreferencesNav" component={PreferencesNavigator} />
 
                     </stack.Navigator>
                 </NotificationContext.Provider>

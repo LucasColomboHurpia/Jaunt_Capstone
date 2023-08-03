@@ -30,7 +30,7 @@ const ActivityQuestion1 = ({ onAnswer }) => {
             <Text style={styles.optionText}>Eat Something</Text>
             <EatIcon color="#000000" size={150} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionBoth} onPress={() => handleAnswer("Both", 'userWouldLikeTo')}>
+          <TouchableOpacity style={styles.optionBoth} onPress={() => handleAnswer("both", 'userWouldLikeTo')}>
             <Text style={styles.optionText}>Both</Text>
           </TouchableOpacity>
         </View>
