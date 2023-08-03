@@ -1,10 +1,6 @@
-export default function createMap(centerCoordinates, placeName) {
+export default function createMap(centerCoordinates, userCoords, placeName) {
   return `
     <div>
-
-
-
-
 
 
     <style>
@@ -159,7 +155,7 @@ export default function createMap(centerCoordinates, placeName) {
         });
 
         let marker = new tt.Marker({ width: 70, height: 70 }).setLngLat([${centerCoordinates.lng}, ${centerCoordinates.lat}]).addTo(map);
-        let marker2 = new tt.Marker({ width: 70, height: 70 }).setLngLat([-123.107508,49.224028]).addTo(map);
+        let marker2 = new tt.Marker({ width: 70, height: 70 }).setLngLat([${userCoords.lng}, ${userCoords.lat}]).addTo(map);
 
 
         var lastRouteLayer;
@@ -188,9 +184,9 @@ export default function createMap(centerCoordinates, placeName) {
         
             tt.services.calculateRoute({
               key: 'SAs8GubigOjo4UwoTk7tG4sXMPosF8uU',
-              locations: ['-123.107508,49.224028', '${centerCoordinates.lng},${centerCoordinates.lat}'],
+              locations: ['${userCoords.lng},${userCoords.lat}', '${centerCoordinates.lng},${centerCoordinates.lat}'],
               travelMode: transportMethod,
-            }).then(response => {
+                        }).then(response => {
               window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'consoleLog', data: "tt.services.calculateRoute result: " + JSON.stringify(response) }));
 
               var geojson = response.toGeoJson();
