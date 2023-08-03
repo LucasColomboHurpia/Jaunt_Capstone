@@ -5,10 +5,9 @@ import SurveyContext from '../../../../context/SurveyContext';
 import ActivityQuestion1 from '../components/ActivitySurvey/ActivityQuestion1';
 import ActivityQuestion2 from '../components/ActivitySurvey/ActivityQuestion2';
 import ActivityQuestion3 from '../components/ActivitySurvey/ActivityQuestion3'; 
-import api from '../../../../config/api';
 
 const ActivitySurvey = ({ route, navigation }) => {
-  const { currentActivity, setCurrentActivity} = useContext(SurveyContext);
+  const { currentActivity, setCurrentActivity, activities, setActivities} = useContext(SurveyContext);
 
   const [currentQuestion, setCurrentQuestion] = useState(1);
 
@@ -16,14 +15,47 @@ const ActivitySurvey = ({ route, navigation }) => {
   const handleAnswer = (answer, questionKey) => {
     // Check if there are activities
     if (currentActivity) {
+      // Merge the new answer with the existing activities
+      const updatedActivities = [ ...activities ];
+  
+      // Find the activity with a matching ID
+      const activityIndex = updatedActivities.findIndex((activity) => {
+        return activity.id === route.params?.activityId
+      });
+  
+      if (activityIndex !== -1) {
         // Update the specific activity with the new answer
-        const activity = {
-          ...currentActivity,
+        updatedActivities[activityIndex] = {
+          ...updatedActivities[activityIndex],
           [questionKey]: answer,
         };
   
         // Update the survey data in the context
-        setCurrentActivity(activity);
+        setActivities(updatedActivities);
+      } else {
+        // Activity not found, create a new activity object with the new answer
+        const newActivity = {
+          id: route.params?.activityId,
+          [questionKey]: answer,
+        };
+  
+        // Add the new activity to the existing activityParameters array
+        updatedActivities.push(newActivity);
+  
+        // Update the survey data in the context
+        setActivities(updatedActivities);
+      }
+    } else {
+      // Create a new activityParameters array with the current activity and its answer
+      const newActivityParameters = [
+        {
+          id: route.params?.activityId,
+          [questionKey]: answer,
+        },
+      ];
+  
+      // Update the survey data in the context with the new activityParameters
+      setActivities(newActivityParameters)
     }
   
     // Move to the next question
@@ -47,12 +79,14 @@ const ActivitySurvey = ({ route, navigation }) => {
   };
 
   // Handle navigation to the ActivitySummary page
-  const handleSummaryNavigation = async () => {
+  const handleSummaryNavigation = () => {
 
-    if(currentActivity) {
-        navigation.navigate('ActivitySummary', { activityId: currentActivity.id });
-    }
-    else {
+    const activityId = route.params?.activityId;
+    const activity = activities?.find((activity) => activity.id === activityId);
+  
+    if (activityId) {
+      navigation.navigate('ActivitySummary', { activityId });
+    } else {
       // Handle the case when activity is not found
       console.log('Activity not found');
     }

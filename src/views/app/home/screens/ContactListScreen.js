@@ -80,7 +80,6 @@ const ContactListScreen = () => {
   }, []);
 
   const handleNext = () => {
-    console.log(invitedContacts)
     navigation.navigate("CreateActivity");
   };
 

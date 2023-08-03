@@ -3,15 +3,13 @@ import { View, StyleSheet, TextInput, SafeAreaView, StatusBar, TouchableOpacity 
 import { useNavigation } from '@react-navigation/native';
 import SurveyContext from '../../../../context/SurveyContext';
 import uuid from 'react-native-uuid';
-import { useIsFocused } from "@react-navigation/native";
-import { CommonActions } from '@react-navigation/native';
 import SocketContext from '../../../../context/SocketContext';
-import { colors } from "../../../../infrastructure/theme/colors";
 import Button from "../../../../shared-components/Button";
 import Text from "../../../../shared-components/Text";
 import { GroupProfileIcon } from "../../../../assets/icons/Icon";
 import AuthContext from '../../../../context/AuthContext';
 import { Image } from 'react-native';
+import api from '../../../../config/api';
 
 const HeaderSection = () => {
   return (
@@ -23,12 +21,11 @@ const HeaderSection = () => {
 
 const MemberSection = () => {
   const navigation = useNavigation();
-  const { invitedContacts, registeredContacts, users } = useContext(SurveyContext);
+  const { invitedContacts, users } = useContext(SurveyContext);
   
   const displayInvitedContacts = () => {    
     if(invitedContacts) {
         return invitedContacts.map(contact => {
-        console.log(users[contact])
         return <Image style={{ 
                 width: 40, 
                 height: 40,
@@ -143,62 +140,44 @@ const CreateActivity = () => {
   const [hour, setHour] = useState(formattedTime.slice(0, 2));
   const [minute, setMinute] = useState(formattedTime.slice(3));
 
-  const { surveyData, setSurveyData, invitedContacts, setInvitedContacts, registeredContacts, setRegisteredContacts } = useContext(SurveyContext);
+  const { activities, setActivities, invitedContacts, setInvitedContacts } = useContext(SurveyContext);
   const { socket } = useContext(SocketContext);
   const { authUser } = useContext(AuthContext);
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    console.log("Survey Data: ", surveyData);
-  }, []);
-
-  useEffect(() => {
-    console.log('create activity screen');
-    console.log(invitedContacts);
-  }, [invitedContacts]);
-
-  useEffect(() => {
-    console.log('Updated Activities: ', surveyData.activityParameters)
-  }, [surveyData.activityParameters]);
-
-  const handleCreate = () => {
-    const dateTime = `${date} ${hour}:${minute}`;
+  const handleCreate = async () => {
+    const startDateTime = `${date} ${hour}:${minute}`;
     let currentDate = new Date().toLocaleString();
     if (date !== "") {
-      currentDate = dateTime;
+      currentDate = startDateTime;
     }
 
-    const newActivity = {
-      id: uuid.v4(),
-      name: activityName || "New Activity",
-      dateTime: currentDate,
-      activitySet: false,
+    const data = {
+        activityName,
+        startDateTime: currentDate,
     };
 
-    const updatedActivityParameters = surveyData.activityParameters
-      ? [...surveyData.activityParameters, newActivity]
-      : [newActivity];
+    const response = await api.post('/activities', data);
+    if(response.status === 201) {
+        const newActivity = response.data.activity
+        const updatedActivities = [...activities, newActivity];
+        setActivities(updatedActivities);
 
-    const updatedSurveyData = {
-      ...surveyData,
-      activityParameters: updatedActivityParameters,
-    };
-
-    setSurveyData(updatedSurveyData);
-
-     navigation.navigate('ActivityDashboard', { activityId: newActivity.id });
-
-     const notification = {
-        type: "invite",
-        resourceId: "6494772f2c740f035fe3f039",
-        recipients: invitedContacts,
-        senderId: authUser?.id
+        navigation.navigate('ActivityDashboard', { activityId: newActivity.id });
+   
+        const notification = {
+           type: "invite",
+           resourceId: newActivity.id,
+           recipients: invitedContacts,
+           senderId: authUser?.id
+       }
+   
+       setInvitedContacts([])
+   
+       socket.emit('notification:send', notification)
     }
 
-    setInvitedContacts([])
-
-    socket.emit('notification:send', notification)
   };
 
   return (

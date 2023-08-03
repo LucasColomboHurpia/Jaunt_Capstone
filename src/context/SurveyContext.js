@@ -4,16 +4,14 @@ const SurveyContext = createContext();
 
 export const SurveyProvider = (props) => {
     const { children,
-        surveyData,
-        setSurveyData,
         preferences,
         setPreferences,
         activities,
         setActivities,
         loading,
         setLoading,
-        currentActivityId,
-        setCurrentActivityId,
+        currentActivity,
+        setCurrentActivity,
         invitedContacts,
         setInvitedContacts,
         registeredContacts,
@@ -23,14 +21,12 @@ export const SurveyProvider = (props) => {
 
   return (
     <SurveyContext.Provider value={{ 
-        surveyData, 
-        setSurveyData, 
         activities, 
         setActivities, 
         loading, 
         setLoading, 
-        currentActivityId,
-        setCurrentActivityId,
+        currentActivity,
+        setCurrentActivity,
         invitedContacts,
         setInvitedContacts,
         registeredContacts,

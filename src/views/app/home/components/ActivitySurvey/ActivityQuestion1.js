@@ -7,10 +7,7 @@ import { DoIcon } from '../../../../../assets/icons/Icon';
 import { EatIcon } from '../../../../../assets/icons/Icon';
 
 const ActivityQuestion1 = ({ onAnswer }) => {
-  const { activityParameters } = useContext(SurveyContext);
-
-  // Check if activityParameters exists before trying to access it
-  const item = activityParameters && activityParameters.length > 0 ? activityParameters[activityParameters.length - 1] : {};
+  const { currentActivity } = useContext(SurveyContext);
 
   const handleAnswer = (answer, questionKey) => {
     onAnswer(answer, questionKey); // Directly pass answer to parent
@@ -18,22 +15,22 @@ const ActivityQuestion1 = ({ onAnswer }) => {
 
   return (
     <View style={styles.container}>
-      <Text variant="heading1">New Activity</Text>
+      <Text variant="heading1">{currentActivity?.activityName}</Text>
       <WeatherComponent />
       <View style={styles.subtitleWrapper}>
         <Text style={styles.subtitle}>What do you wanna do?</Text>
       </View>
       <View style={styles.optionsContainerWrapper}>
         <View style={styles.optionsContainer}>
-          <TouchableOpacity style={styles.optionDo} onPress={() => handleAnswer("Do Something", 'UserWouldLikeTo')}>
+          <TouchableOpacity style={styles.optionDo} onPress={() => handleAnswer("Do Something", 'userWouldLikeTo')}>
             <Text style={styles.optionText}>Do Something</Text>
             <DoIcon color="#000000" size={150} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionEat} onPress={() => handleAnswer("Eat Something", 'UserWouldLikeTo')}>
+          <TouchableOpacity style={styles.optionEat} onPress={() => handleAnswer("Eat Something", 'userWouldLikeTo')}>
             <Text style={styles.optionText}>Eat Something</Text>
             <EatIcon color="#000000" size={150} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.optionBoth} onPress={() => handleAnswer("Both", 'UserWouldLikeTo')}>
+          <TouchableOpacity style={styles.optionBoth} onPress={() => handleAnswer("Both", 'userWouldLikeTo')}>
             <Text style={styles.optionText}>Both</Text>
           </TouchableOpacity>
         </View>

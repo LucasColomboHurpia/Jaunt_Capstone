@@ -10,14 +10,14 @@ import SurveyContext from '../../context/SurveyContext';
 import { API_URL } from '../../config/constants';
 import Alert from '../../shared-components/Alert';
 import { getPreferences } from '../../services/preferences';
+import BottomTabNavigator from './BottomTabNavigator';
 
 const AppNavigator = () => {
     const [preferences, setPreferences] = useState(null);
-    const [activities, setActivities] = useState(null);
+    const [activities, setActivities] = useState([]);
 
-    const [surveyData, setSurveyData] = useState({});
     const [activityParameters, setActivityParameters] = useState([]);
-    const [currentActivityId, setCurrentActivityId] = useState([]);
+    const [currentActivity, setCurrentActivity] = useState(null);
     const [invitedContacts, setInvitedContacts] = useState([]);
     const [registeredContacts, setRegisteredContacts] = useState([]);
     const [users, setUsers] = useState([]);   
@@ -75,7 +75,7 @@ const AppNavigator = () => {
     })
 
     return (
-        <SurveyContext.Provider value={{ preferences, setPreferences, surveyData, setSurveyData, activityParameters, setActivityParameters,  currentActivityId, setCurrentActivityId, invitedContacts, setInvitedContacts, registeredContacts, setRegisteredContacts, users, setUsers }}>
+        <SurveyContext.Provider value={{ preferences, setPreferences, activities, setActivities, activityParameters, setActivityParameters,  currentActivity, setCurrentActivity, invitedContacts, setInvitedContacts, registeredContacts, setRegisteredContacts, users, setUsers }}>
             <SocketContext.Provider value={{ socket, setSocket}}>
                 <NotificationContext.Provider value={{ alertMessage, setAlertMessage, showAlert, setShowAlert, notifications, setNotifications}}>
                     {showAlert && <Alert />}
@@ -86,13 +86,13 @@ const AppNavigator = () => {
                         }}
                         backBehavior="history"
                     >
-                        {/* { preferenceStatus ? 
+                        { preferenceStatus ? 
                             <stack.Screen name="BottomTab" component={BottomTabNavigator} />
                         : 
                             <stack.Screen name="PreferencesNav" component={PreferencesNavigator} />
-                        } */}
+                        }
 
-                        <stack.Screen name="PreferencesNav" component={PreferencesNavigator} />
+                        {/* <stack.Screen name="PreferencesNav" component={PreferencesNavigator} /> */}
 
                     </stack.Navigator>
                 </NotificationContext.Provider>

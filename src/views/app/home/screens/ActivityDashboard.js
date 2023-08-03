@@ -6,6 +6,7 @@ import { CameraPlusIcon, Calender, TimeIcon, MapPinIcon, PizzaWhite } from '../.
 
 import { BeefIcon, SushiWhite, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerWhite, PizzaBlack, OrientalIcon, MexicanIcon, VegetablesIcon } from '../../../../assets/icons/Icon'
 import { DoIcon, BowlingIcon, PopcornIcon, BeachIcon, BridgeIcon, HikingIcon, SpinningGlobeWhite, BeerBlack, MuseumIcon, GalleryIcon, AmusementParkIcon, KarokeIcon, ArcadeIcon, BoulderingIcon } from '../../../../assets/icons/Icon'
+import api from '../../../../config/api';
 
 const EatSomethingIcons = [
   { keyword: 'Steakhouse', icon: BeefIcon },
@@ -36,66 +37,59 @@ const DoSomethingIcons = [
 ]
 
 const ActivityDashboard = ({ route, navigation }) => {
-  const { activityParameters } = useContext(SurveyContext);
-  const { setSurveyData, surveyData } = useContext(SurveyContext);
+  const { currentActivity, setCurrentActivity, activities, setActivities } = useContext(SurveyContext);
 
   const activityId = route.params.activityId;
 
-  const item = surveyData?.activityParameters?.find(
-    (activity) => activity.id === activityId
-  );
-
-  console.log("---------------------------------------");
-
-  console.log("---route.params", route.params);
-
-  console.log("survey", surveyData);
-
-  console.log("---activityId ", activityId);
-
-  console.log("item", item);
-
-  console.log("---------------------------------------");
-
-  console.log(item.dateTime)
-
-  let dateTimeArray = item?.dateTime?.split(' ');  // Splitting the string by the space
-
-  let date = dateTimeArray[0];  // The first element is the date
-  let time = dateTimeArray[1];  // The second element is the time
-
-  console.log('Date:', date);
-  console.log('Time:', time);
-
-  let addressText = "Still figuring it out!";
-
-
-  const handleCompleteClick = () => {
-    console.log('complete!')
-
-    const updatedSurveyData = {
-      ...surveyData,
-      activityParameters: surveyData.activityParameters.map(param => {
-        if (param.id === activityId) {
-          return { ...param, completed: true };
+  useEffect(() => {
+    (async () => {
+        const response = await api.get(`/activities/${activityId}`);
+        if(response.status === 200) {
+            setCurrentActivity(response.data.activity)
         }
-        return param;
-      })
-    };
+    })()
 
-    setSurveyData(updatedSurveyData);
-    console.log(surveyData)
+    return () => setCurrentActivity(null)
+  }, [activityId])
+
+  const handleCompleteClick = async () => {
+
+    const response = await api.patch(`/activities/${activityId}`, { status: 'completed'});
+    
+    if(response.status === 200) {
+        const { activity } = response.data;
+        setCurrentActivity(activity)
+        const updatedActivities = activities.map(item => {
+            if( item.id === activity.id) {
+                return activity;
+            }
+            return item
+        })
+
+        setActivities(updatedActivities)
+    }
+
   };
 
+  if(!currentActivity) {
+    return(<></>)
+  }
+
+  let startDateTimeArray = currentActivity?.startDateTime?.split('T');  // Splitting the string by the space
+
+  let date = startDateTimeArray[0];  // The first element is the date
+  let time = startDateTimeArray[1];  // The second element is the time
+
+  let addressText = "Still figuring it out!";
 
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
-          <Text style={styles.title}>{item ? item.name : "New Activity!"}</Text>
+          <Text style={styles.title}>{currentActivity ? currentActivity.activityName : "New Activity!"}</Text>
 
           {/* no survey yet */}
-          {!(item && item?.apiResponse) && (
+          {currentActivity.status === "pending" && (
             <View style={styles.section}>
               <TouchableOpacity
                 style={styles.buttonCircle}
@@ -110,16 +104,16 @@ const ActivityDashboard = ({ route, navigation }) => {
           )}
 
           {/* activity created */}
-          {item && item?.apiResponse?.name && (
+          {currentActivity?.eventName && (
             <View style={styles.section}>
               <TouchableOpacity style={styles.buttonCircleActive}>
                 <Text style={styles.buttonText}>
                   {
                     (() => {
-                      const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === item.apiResponse.matchIcon);
-                      const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === item.apiResponse.matchIcon);
+                      const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === currentActivity?.activityIcon);
+                      const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === currentActivity?.activityIcon);
 
-                      console.log(item.apiResponse.matchIcon)
+                      console.log(currentActivity?.activityIcon)
 
                       let IconComponent = DoIcon;  // Using DoIcon as default
                       if (eatIconObject) {
@@ -135,17 +129,17 @@ const ActivityDashboard = ({ route, navigation }) => {
                     })()
                   }
                 </Text>
-                <Text style={styles.buttonText}>{item.apiResponse.name}</Text>
+                <Text style={styles.buttonText}>{currentActivity?.eventName}</Text>
               </TouchableOpacity>
             </View>
           )}
 
 
-          {item && item?.apiResponse?.coordinates && (
+          {currentActivity?.coordinates?.length !== 0 && (
             <View style={styles.buttonContainer}>
 
               <TouchableOpacity
-                onPress={() => navigation.navigate("MapPage", { item })}
+                onPress={() => navigation.navigate("MapPage", { currentActivity })}
               >
                 <Text style={{ color: "white", textAlign: 'center', fontSize: 17, fontWeight: 'bold' }}>See Map</Text>
               </TouchableOpacity>
@@ -158,7 +152,7 @@ const ActivityDashboard = ({ route, navigation }) => {
               <Calender size={20} />
               <Text style={styles.cardText}>
                 {" "}
-                {item
+                {currentActivity
                   ? date || "Still figuring it out!"
                   : "Activity not found"}
               </Text>
@@ -168,7 +162,7 @@ const ActivityDashboard = ({ route, navigation }) => {
               <TimeIcon size={35} />
               <Text style={styles.cardText}>
                 {" "}
-                {item
+                {currentActivity
                   ? time || addressText
                   : "Activity not found"}
               </Text>
@@ -178,17 +172,17 @@ const ActivityDashboard = ({ route, navigation }) => {
               <MapPinIcon size={20} />
               <Text style={styles.cardText}>
                 {" "}
-                {item
-                  ? item?.apiResponse?.address || addressText
+                {currentActivity
+                  ? currentActivity?.address || addressText
                   : "Activity not found"}
               </Text>
             </View>
           </View>
 
-          {item && item?.apiResponse?.Tips && (
+          {currentActivity && currentActivity?.Tips && (
             <View style={styles.tipsSection}>
               <Text style={styles.tipsTitle}>Tips</Text>
-              {item.apiResponse.Tips.map((tip, index) => (
+              {currentActivity.Tips.map((tip, index) => (
                 <View key={index} style={styles.tipCard}>
                   <Text style={styles.tipText}>{tip}</Text>
                 </View>
@@ -197,7 +191,7 @@ const ActivityDashboard = ({ route, navigation }) => {
           )}
 
 
-          {item && item?.apiResponse && !item?.images &&(
+          {currentActivity && currentActivity?.apiResponse && !currentActivity?.images &&(
 
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Media</Text>
@@ -212,7 +206,7 @@ const ActivityDashboard = ({ route, navigation }) => {
             </View>
           )}
 
-            {item && item?.images?.map((uri, index) => {
+            {currentActivity && currentActivity?.images?.map((uri, index) => {
                 return (
                     <View>
                         <View key={index} style={styles.imageWrapper}>
@@ -223,7 +217,7 @@ const ActivityDashboard = ({ route, navigation }) => {
             })}
 
           {/* =====================*/}
-          {!(item && item?.apiResponse) && (
+          {currentActivity?.status === "pending" && (
             <View style={styles.buttonContainerStart}>
               <TouchableOpacity
                 onPress={() =>
@@ -235,7 +229,7 @@ const ActivityDashboard = ({ route, navigation }) => {
           )}
           {/* =====================*/}
 
-          {item && item?.apiResponse?.coordinates && !item.completed && (
+          {currentActivity.status === "upcoming" && (
 
             <View style={styles.buttonContainer}>
               <TouchableOpacity
@@ -247,7 +241,7 @@ const ActivityDashboard = ({ route, navigation }) => {
 
           )}
 
-          {item && item?.apiResponse?.coordinates && item.completed && (
+          {currentActivity && currentActivity?.coordinates && currentActivity.completed && (
 
             <View style={styles.buttonContainer}>
               <TouchableOpacity

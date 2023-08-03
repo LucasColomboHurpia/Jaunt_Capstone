@@ -30,9 +30,9 @@ const isFocused = useIsFocused();
   const webRef = useRef();
 
   const placeData = route.params?.item;
-  const centerCoordinates = placeData?.apiResponse?.coordinates || { lat: 0, lng: 0 };
+  const centerCoordinates = placeData?.coordinates || { lat: 0, lng: 0 };
 
-  const mapHtml = createMap(centerCoordinates, placeData?.name);
+  const mapHtml = createMap(centerCoordinates, placeData?.activityName);
 
   const calculateRoute = (transportMethod) => {
     webRef.current.postMessage(transportMethod);
@@ -44,7 +44,7 @@ const isFocused = useIsFocused();
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackIcon color="#000" />
         </TouchableOpacity>
-        <Text style={styles.title}>{placeData?.name}</Text>
+        <Text style={styles.title}>{placeData?.activityName}</Text>
       </View>
       <WebView
         ref={webRef}

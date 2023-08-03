@@ -26,7 +26,7 @@ const SurveyPage = ({ navigation }) => {
     if(next) setAnswers({ ...answers,...r });
 
     if (currentQuestion === questionsComponents.length - 1) {
-        // Last question, submit survey
+      // Last question, submit survey
         const newPreferences = {
             ...answers,
             [`${answerTitle}`]: answer,
@@ -34,10 +34,11 @@ const SurveyPage = ({ navigation }) => {
         setPreferences(newPreferences);
 
         const response = await api.post('/preferences', newPreferences);
-        if(response.status == 200) {
+        // console.log(response.status.toString().includes('2'))
+        // if(response.status.startsWtih('2')) {
             setSurveyComplete(true);
             await AsyncStorage.setItem('preference_status', 'true');
-        }
+        // }
     } else {
       // Move to next question
       if(!next) return
@@ -54,7 +55,6 @@ const SurveyPage = ({ navigation }) => {
 
   useEffect(() => {
     if (isSurveyComplete) {
-        console.log('BottomTab')
         navigation.navigate('BottomTab');
       }
   }, [isSurveyComplete])

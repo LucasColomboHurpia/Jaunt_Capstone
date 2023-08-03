@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Button, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { SettingsIcon } from '../../../../assets/icons/Icon'
 
@@ -6,6 +6,7 @@ import SurveyContext from '../../../../context/SurveyContext';
 
 import { BeefIcon, SushiWhite, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerWhite, PizzaWhite, OrientalIcon, MexicanIcon, VegetablesIcon } from '../../../../assets/icons/Icon'
 import { DoIcon, BowlingIcon, PopcornIcon, BeachIcon, BridgeIcon, HikingIcon, SpinningGlobeWhite, BeerBlack, MuseumIcon, GalleryIcon, AmusementParkIcon, KarokeIcon, ArcadeIcon, BoulderingIcon } from '../../../../assets/icons/Icon'
+import api from "../../../../config/api";
 
 const EatSomethingIcons = [
   { keyword: 'Steakhouse', icon: BeefIcon },
@@ -36,17 +37,20 @@ const DoSomethingIcons = [
 ]
 
 const GroupPage = ({ navigation }) => {
-  const { surveyData } = useContext(SurveyContext);
+  const { activities, setActivities } = useContext(SurveyContext);
 
-  const activities = surveyData.activityParameters || [];
+  const upcomingActivities = activities.filter(activity => activity.status === "upcoming");
+  const pendingActivities = activities.filter(activity => activity.status === "pending");
+  const completeActivities = activities.filter(activity => activity.status === "completed");
 
-  const upcomingActivities = activities.filter(activity => activity.apiResponse && !activity.completed);
-  const pendingActivities = activities.filter(activity => !activity.apiResponse && !activity.completed);
-  const completeActivities = activities.filter(activity => activity.apiResponse && activity.completed);
-
-  console.log('-------------------------------')
-  console.log('complete',completeActivities)
-  console.log('-------------------------------')
+  useEffect(() => {
+    (async () => {
+        const response = await api.get('/activities');
+        if(response.status === 200) {
+            setActivities(response.data.activities)
+        }
+    })()
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -65,22 +69,22 @@ const GroupPage = ({ navigation }) => {
                 onPress={() => console.log(activity.id)}
               >
                 <View style={styles.upcomingActivityHeader}>
-                  <Text style={styles.upcomingActivityTitle}>{activity.name}</Text>
+                  <Text style={styles.upcomingActivityTitle}>{activity.activityName}</Text>
 
-                  {activity && activity?.apiResponse && (
+                  {activity?.status === "upcoming" && (
                     <View style={styles.completeBadge}>
                       <Text style={styles.completeText}>COMPLETE</Text>
                     </View>
                   )}
 
                 </View>
-                <Text style={styles.upcomingActivityDetails}>Date: {activity.dateTime}</Text>
+                <Text style={styles.upcomingActivityDetails}>Date: {activity.startDateTime}</Text>
                 <View style={styles.upcomingInnerCardContainer}>
                   <View style={styles.upcomingCircle}>
                     {
                       (() => {
-                        const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
-                        const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
+                        const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === activity.activityIcon);
+                        const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === activity.activityIcon);
 
                         let IconComponent = DoIcon;  // Using DoIcon as default
                         if (eatIconObject) {
@@ -97,11 +101,11 @@ const GroupPage = ({ navigation }) => {
                     }
                   </View>
                   <View style={styles.upcomingActivityInfoContainer}>
-                    <Text style={styles.upcomingActivityDetailsName}>{activity.apiResponse?.name}</Text>
+                    <Text style={styles.upcomingActivityDetailsName}>{activity?.eventName}</Text>
                     <Text
                       style={styles.upcomingActivityDetailsAddress}
                     >
-                      {activity.apiResponse?.address}
+                      {activity?.address}
                     </Text>
                   </View>
                 </View>
@@ -124,16 +128,16 @@ const GroupPage = ({ navigation }) => {
                 onPress={() => console.log(activity.id)}
               >
                 <View style={styles.upcomingActivityHeader}>
-                  <Text style={styles.upcomingActivityTitle}>{activity.name}</Text>
+                  <Text style={styles.upcomingActivityTitle}>{activity.activityName}</Text>
 
                 </View>
-                <Text style={styles.upcomingActivityDetails}>Date: {activity.dateTime}</Text>
+                <Text style={styles.upcomingActivityDetails}>Date: {activity.startDateTime}</Text>
                 <View style={styles.upcomingInnerCardContainer}>
                   <View style={styles.upcomingCircle}>
                     {
                       (() => {
-                        const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
-                        const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
+                        const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === activity?.activityIcon);
+                        const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === activity?.activityIcon);
 
                         let IconComponent = DoIcon;  // Using DoIcon as default
                         if (eatIconObject) {
@@ -150,11 +154,11 @@ const GroupPage = ({ navigation }) => {
                     }
                   </View>
                   <View style={styles.upcomingActivityInfoContainer}>
-                    <Text style={styles.upcomingActivityDetailsName}>{activity.apiResponse?.name}</Text>
+                    <Text style={styles.upcomingActivityDetailsName}>{activity?.eventName}</Text>
                     <Text
                       style={styles.upcomingActivityDetailsAddress}
                     >
-                      {activity.apiResponse?.address}
+                      {activity?.address}
                     </Text>
                   </View>
                 </View>
@@ -186,14 +190,14 @@ const GroupPage = ({ navigation }) => {
                   onPress={() => console.log(activity.id)}
                 >
                   <View style={styles.activityHeader}>
-                    <Text style={styles.activityTitle}>{activity.name}</Text>
+                    <Text style={styles.activityTitle}>{activity.activityName}</Text>
                   </View>
 
                   <View style={styles.pendingBadge}>
                     <Text style={styles.pendingText}>PENDING</Text>
                   </View>
 
-                  <Text style={styles.activityDetails}>{activity.dateTime}</Text>
+                  <Text style={styles.activityDetails}>{activity.startDateTime}</Text>
 
                   <TouchableOpacity
                     style={styles.detailButton}
@@ -209,7 +213,7 @@ const GroupPage = ({ navigation }) => {
           ) : null}
 
           {/* Conditional rendering for no activities */}
-          {upcomingActivities.length === 0 && pendingActivities.length === 0 && (
+          {upcomingActivities.length === 0 && pendingActivities.length === 0 && completeActivities.length === 0 && (
             <View style={styles.noActivitiesContainer}>
               <Text style={styles.noActivitiesText}>You have no active activities at the moment</Text>
             </View>

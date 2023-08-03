@@ -8,35 +8,24 @@ import { CameraPlusIcon, BackIcon } from "../../../../assets/icons/Icon";
 
 const MediaScreen = ({ route, navigation }) => {
   const [selectedImages, setSelectedImages] = useState([]);
-  const { surveyData, setSurveyData } = useContext(SurveyContext)
+  const { activities, setActivities } = useContext(SurveyContext)
 
   const activityId = route.params.activityId;
 
-  const item = surveyData?.activityParameters?.find(
-    (activity) => activity.id === activityId
-  );
+  const item = activities?.find((activity) => activity.id === activityId);
 
   console.log(item)
 
   useEffect(() => {
     if(selectedImages.length > 0) {
-        const updatedActivityParameters = surveyData?.activityParameters?.map((activity) => {
+        const updatedActivities = activities?.map((activity) => {
             if(activity.id === activityId) {
                 activity.images = selectedImages
             }
             return activity
         });
 
-        const updatedSurveyData = {
-            ...surveyData,
-            activityParameters: updatedActivityParameters,
-          };
-
-        console.log('newData')
-        console.log('=======================')
-        console.log(updatedActivityParameters)
-
-        setSurveyData(updatedSurveyData)
+        setActivities(updatedActivities)
     }
   }, [selectedImages])
 

@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import Button from '../../../../../shared-components/Button';
 import Text from '../../../../../shared-components/Text';
 import Slider from '@react-native-community/slider';
 import { BackIcon } from '../../../../../assets/icons/Icon';
 import { WeatherComponent } from '../WeatherComponent';
+import SurveyContext from '../../../../../context/SurveyContext';
 
 
 const ActivityQuestion3 = ({ onAnswer, onGoBack }) => {
   const [sliderValue, setSliderValue] = useState(5);
+  const { currentActivity } = useContext(SurveyContext);
 
   const handleNextStep = () => {
-    onAnswer(sliderValue, 'Budget');
+    onAnswer(sliderValue, 'budget');
   };
 return (
   <View style={styles.container}>
-    <Text variant="heading1" style={styles.title}>New Activity</Text>
+    <Text variant="heading1" style={styles.title}>{currentActivity?.activityName}</Text>
     <Text style={styles.titleText}>How much do you plan to spend?</Text>
     <View style={styles.backgroundBox}>
       <View style={styles.squareBackground}>

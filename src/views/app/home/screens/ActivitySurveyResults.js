@@ -13,6 +13,7 @@ import { SettingsIcon, PizzaWhite, SunIcon, } from '../../../../assets/icons/Ico
 
 import { BeefIcon, SushiBlack, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerBlack, PizzaBlack, OrientalIcon, MexicanIcon, VegetablesIcon } from '../../../../assets/icons/Icon'
 import { DoIcon, BowlingIcon, PopcornIcon, BeachIcon, BridgeIcon, HikingIcon, SpinningGlobeBlack, BeerBlack, MuseumIcon, GalleryIcon, AmusementParkIcon, KarokeIcon, ArcadeIcon, BoulderingIcon } from '../../../../assets/icons/Icon'
+import api from '../../../../config/api';
 
 const EatSomethingIcons = [
   { keyword: 'Steakhouse', icon: BeefIcon },
@@ -49,21 +50,22 @@ const API_KEY = ""
 
 
 
-const object1234 = `{ "ActivityParameters": { "dateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
-  "UserWouldLikeTo": "Do Something",
+const object1234 = `{ "ActivityParameters": { "startDateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
+  "userWouldLikeTo": "Do Something",
   "Preferences": ["Art Gallery", "Restaurant", "Movie Theatre", "Shopping Mall", "Park", "Nightclub", "Art Gallery"],
   "Diet": "Vegetarian",
   "DoNotLike": ["Glutten", "Diary"],
   "DoLike": ["Fish", "Wine", "Bread"],
   "ChanceOfEnjoyingDrinking": 6.625 }`;
 
-const exampleAPIresponse = ` [{"address":"1269 Hamilton St, Vancouver, BC V6B 6K3, Canada","coordinates":{"lat":49.275399,"lng":-123.122460},"name":"Pizzeria Ludica","description":"Board game themed pizzeria 🍕🎲","Tips":["Enjoy a delicious slice of pizza while playing one of the many board games available","Try their 'Game of Thrones' specialty pizza","Take a walk to Yaletown Park afterwards"],"tags":["Pizza"],"matchIcon":"Pizza"},{"address":"345 Robson St, Vancouver, BC V6B 2B1, Canada","coordinates":{"lat":49.279702,"lng":-123.117227},"name":"Art Gallery","description":"Contemporary art gallery 🖼️","Tips":["Explore the diverse collection of contemporary art","Visit during one of the free admission days","Grab a bite to eat at a nearby restaurant"],"tags":["Art Gallery"],"matchIcon":"Gallery"},{"address":"1000 Mainland St, Vancouver, BC 
-V6B 2T4, Canada","coordinates":{"lat":49.276001,"lng":-123.119292},"name":"Sushi Maro","description":"Sushi restaurant with a modern twist 🍣","Tips":["Try their specialty rolls like the 'Dragon Roll' or 'Volcano Roll'","Sit at the sushi bar for a more interactive dining experience","Take a stroll around David Lam Park afterwards"],"tags":["Sushi"],"matchIcon":"Sushi"}]`
+const exampleAPIresponse = ` [{"address":"1269 Hamilton St, Vancouver, BC V6B 6K3, Canada","coordinates":{"lat":49.275399,"lng":-123.122460},"name":"Pizzeria Ludica","description":"Board game themed pizzeria 🍕🎲","Tips":["Enjoy a delicious slice of pizza while playing one of the many board games available","Try their 'Game of Thrones' specialty pizza","Take a walk to Yaletown Park afterwards"],"tags":["Pizza"],"activityIcon":"Pizza"},{"address":"345 Robson St, Vancouver, BC V6B 2B1, Canada","coordinates":{"lat":49.279702,"lng":-123.117227},"name":"Art Gallery","description":"Contemporary art gallery 🖼️","Tips":["Explore the diverse collection of contemporary art","Visit during one of the free admission days","Grab a bite to eat at a nearby restaurant"],"tags":["Art Gallery"],"activityIcon":"Gallery"},{"address":"1000 Mainland St, Vancouver, BC 
+V6B 2T4, Canada","coordinates":{"lat":49.276001,"lng":-123.119292},"name":"Sushi Maro","description":"Sushi restaurant with a modern twist 🍣","Tips":["Try their specialty rolls like the 'Dragon Roll' or 'Volcano Roll'","Sit at the sushi bar for a more interactive dining experience","Take a stroll around David Lam Park afterwards"],"tags":["Sushi"],"activityIcon":"Sushi"}]`
 
 const systemMessage = {
   "role": "system",
-  "content": `You are a helpful assistant that suggests activities and real places to go in Vancouver based on the given parameters. you are not allowed to show places tha are not real business. if the 'UserWouldLikeTo' is 'Do Something', if the 'UserWouldLikeTo' is 'Eat Something', suggest a real place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(never use these example values, always use real place values, do not invent places, prioritize business): '[{address:' add the address here', coordinates: {lat:123,lng:123}, name: 'name of place', description: 'briefly describe the place, a short phrase, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy'], matchIcon:'Category'},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'UserWouldLikeTo', 'Preferences', 'Diet', 'DoNotLike', 'DoLike', and 'ChanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. if UserWouldLikeTo is "eat something", the "matchIcon" field must be one of these categories, matching as much as possible to the suggestion: "Steakhouse, Sushi, Italian, Picnic, Seafood, Fast Foot, Pizza, Oriental, Mexican, Vegetarian", and if it is "DoSomething" match the suggestion with one of these: "Bowling, MovieTheater, Beach, Park, Hiking, Bightclub, Bar, Museum, Gallery, AmusementPark, Karaoke, Arcade, Bouldering". keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'`
+  "content": `You are a helpful assistant that suggests activities and real places to go in Vancouver based on the given parameters. you are not allowed to show places that are not real business. if the 'userWouldLikeTo' is 'do something', if the 'userWouldLikeTo' is 'eat something', suggest a real place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(never use these example values, always use real place values, do not invent places, prioritize business): '[{address:' add the address here', coordinates: {lat:123,lng:123}, name: 'name of place', description: 'briefly describe the place, a short phrase, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy'], activityIcon:'Category'},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'userWouldLikeTo', 'preferences', 'dietType', 'foodDishes', 'allergies', 'medicalConditions', and 'chanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. if userWouldLikeTo is "eat something", the "activityIcon" field must be one of these categories, matching as much as possible to the suggestion: "Steakhouse, Sushi, Italian, Picnic, Seafood, Fast Foot, Pizza, Oriental, Mexican, Vegetarian", and if it is "DoSomething" match the suggestion with one of these: "Bowling, MovieTheater, Beach, Park, Hiking, Bightclub, Bar, Museum, Gallery, AmusementPark, Karaoke, Arcade, Bouldering". keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'`
 };
+
 const SurveyResults = ({ route, navigation }) => {
   ///==============Hide menu bar=================================================================
   const isFocused = useIsFocused();
@@ -84,15 +86,13 @@ const SurveyResults = ({ route, navigation }) => {
     }
   }, [isFocused]);
   ///===============================================================================
-  const { surveyData, setSurveyData } = useContext(SurveyContext);
-  const activityId = route.params.activityId;
+  const { setCurrentActivity, currentActivity, preferences } = useContext(SurveyContext);
 
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [retryCount, setRetryCount] = useState(0);
 
   const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedItemForTags, setSelectedItemForTags] = useState(null);
 
   ///===============================================================================
   const API_KEY2 = "030a06ef3a21f98e9fad039e0133fbbe";
@@ -108,7 +108,6 @@ const SurveyResults = ({ route, navigation }) => {
         `https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=${API_KEY2}`
       );
       const data = await response.json();
-      console.log(data.main);
 
       let currentTemperature = `${(data.main.temp - 273.15).toFixed(0)}º`;
       let currentTemperatureHi = `Hi: ${(data.main.temp_max - 273.15).toFixed(0)}º`;
@@ -139,23 +138,18 @@ const SurveyResults = ({ route, navigation }) => {
     setSelectedItem(null);
     fetchWeatherData();
 
-    console.log(`========================================`)
-    console.log(`parameters are `, surveyData)
-    console.log(surveyData.activityParameters[0].name)
-    console.log(surveyData.activityParameters[0].dateTime)
-    console.log(`========================================`)
+    const data = {...preferences, currentActivity}
 
     const apiRequestBody = {
       "model": "gpt-3.5-turbo",
       "messages": [
         systemMessage,
-        { role: "user", content: JSON.stringify(surveyData) }
+        { role: "user", content: JSON.stringify(data) }
       ]
     };
 
     if (!API_KEY) {
       setIsLoading(true);
-      console.log('no API key')
       setTimeout(() => {
         const sanitized = exampleAPIresponse.replace(/[\u0000-\u001f]/g, '');
         const parsed = JSON.parse(sanitized);
@@ -173,8 +167,6 @@ const SurveyResults = ({ route, navigation }) => {
       })
         .then(response => response.json())
         .then(data => {
-          console.log("CHATGPT CALL");
-          console.log(data.choices[0].message.content);
 
           // Check if data.choices[0].message.content contains any of the specified strings
           if (
@@ -213,27 +205,25 @@ const SurveyResults = ({ route, navigation }) => {
     makeApiCall();
   }, []);
 
-  const handleOptionClick = (item, index) => {
+  const handleOptionClick = async (item, index) => {
     if (selectedItem !== index) {
       setSelectedItem(index);
     } else {
-      const updatedSurveyData = {
-        ...surveyData,
-        activityParameters: surveyData.activityParameters.map(param => {
-          if (param.id === activityId) {
-            return { ...param, apiResponse: item };
-          }
-          return param;
-        })
-      };
-      setSurveyData(updatedSurveyData);
-      navigation.navigate('ActivityDashboard', { item, activityId });
+        const updatedActivity = { ...currentActivity, ...item, eventName: item.name, status: "upcoming" };
+        const activityId = currentActivity.id; 
+        setCurrentActivity(updatedActivity);
+        const response = await api.patch(`/activities/${activityId}`, { ...updatedActivity });
+    
+        if(response.status === 200) {
+            setCurrentActivity(response.data.activity)
+            navigation.navigate('ActivityDashboard', { item, activityId });
+        }
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.activityName}>{surveyData.activityParameters[0].name}</Text>
+      <Text style={styles.activityName}>{currentActivity?.name}</Text>
 
       <View style={styles.infoCard}>
         <View style={styles.iconWrapperWeather}>
@@ -242,7 +232,7 @@ const SurveyResults = ({ route, navigation }) => {
           </View>
         </View>
         <View style={styles.infoTextWrapper}>
-          <Text style={styles.infoTextBold}>{surveyData.activityParameters[0].dateTime}</Text>
+          <Text style={styles.infoTextBold}>{currentActivity?.startDateTime}</Text>
           <Text style={styles.infoTextGrey}>{weatherDesc}, {weatherTemp}</Text>
         </View>
       </View>
@@ -262,8 +252,8 @@ const SurveyResults = ({ route, navigation }) => {
           <View style={styles.contentWrapper}>
             {data.map((item, index) => {
               // Search for the icon in both arrays
-              const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === item.matchIcon);
-              const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === item.matchIcon);
+              const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === item.activityIcon);
+              const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === item.activityIcon);
 
               // If an icon was found in the eat array, use it. If not, check the do array. If still not found, use a default icon.
               let IconComponent = DoIcon;
