@@ -52,10 +52,14 @@ export default function MapPage({ route, navigation }) {
     };
   }
 
-  const placeData = route.params?.item;
-  const centerCoordinates = placeData?.apiResponse?.coordinates || { lat: 0, lng: 0 };
+  const placeData = route.params?.currentActivity;
+  console.log('placeData')
+  console.log('================================================')
+  console.log(placeData)
+  console.log('================================================')
+  const centerCoordinates = { lat: placeData.lat, lng: placeData.long } || { lat: 0, lng: 0 };
 
-  const mapHtml = userCoords ? createMap(centerCoordinates, userCoords, placeData?.name) : '';
+  const mapHtml = userCoords ? createMap(centerCoordinates, userCoords, placeData?.activityName) : '';
 
   const calculateRoute = (transportMethod) => {
     webRef.current.postMessage(transportMethod);
@@ -67,7 +71,7 @@ export default function MapPage({ route, navigation }) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackIcon color="#000" />
         </TouchableOpacity>
-        <Text style={styles.title}>{placeData?.name}</Text>
+        <Text style={styles.title}>{placeData?.activityName}</Text>
       </View>
       {userCoords && (
         <WebView

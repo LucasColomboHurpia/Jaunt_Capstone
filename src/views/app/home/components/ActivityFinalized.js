@@ -10,23 +10,9 @@ import SurveyContext from '../../../../context/SurveyContext';
 
 const ActivitySummary = ({ route, navigation }) => {
   const { activityId } = route.params; // Get the activityId from the route params
-  const { surveyData } = useContext(SurveyContext);
-  const { activityParameters } = surveyData;
+  const { activities } = useContext(SurveyContext);
 
-  console.log('----summary---')
-  console.log(activityId)
-  console.log(surveyData)
-  console.log(activityParameters)
-  console.log('---')
-
-  let currentActivity = surveyData?.activityParameters?.find(activity => activity.id === activityId); // Get the activity with the same id
-
-  useEffect(() => {
-    console.log("Survey results:");
-    console.log(surveyData);
-    console.log("Current activity: ");
-    console.log(currentActivity);
-  }, []);
+  let currentActivity = activities?.find(activity => activity.id === activityId); // Get the activity with the same id
 
   const handleNavigateToSurveyResults = () => {
     navigation.navigate('SurveyResults', { activityId });

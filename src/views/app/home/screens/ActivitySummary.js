@@ -10,24 +10,7 @@ import SurveyContext from '../../../../context/SurveyContext';
 
 const ActivitySummary = ({ route, navigation }) => {
   const { activityId } = route.params; // Get the activityId from the route params
-  const { surveyData } = useContext(SurveyContext);
-  const { activityParameters } = surveyData;
-
-  console.log('----summary---')
-  console.log(activityId)
-  console.log(surveyData)
-  console.log(activityParameters)
-  console.log('---')
-
-  let currentActivity = surveyData?.activityParameters?.find(activity => activity.id === activityId); // Get the activity with the same id
-
-  useEffect(() => {
-    console.log("Survey results:");
-    console.log(surveyData);
-    console.log("Current activity: ");
-    console.log(currentActivity);
-  }, []);
-
+  const { currentActivity } = useContext(SurveyContext);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -49,7 +32,7 @@ const ActivitySummary = ({ route, navigation }) => {
             variant="sm"
             text="Choose Plan!"
             type="primary"
-            onPress={() => navigation.navigate('ActivitySurveyResults', {activityId})}
+            onPress={() => navigation.navigate('ActivitySurveyResults')}
         />
         <Button
             variant="sm"

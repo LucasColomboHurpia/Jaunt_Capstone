@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-
-import Text from "../../../../shared-components/Text";
 import { useNavigation } from "@react-navigation/native";
 import * as Contacts from "expo-contacts";
+
+import Text from "../../../../shared-components/Text";
 import Button from "../../../../shared-components/Button";
 import {
   SingleProfileIcon,
@@ -22,10 +22,12 @@ import api from "../../../../config/api";
 import SurveyContext from '../../../../context/SurveyContext';
 import { useTheme } from "styled-components";
 import { Image } from "react-native";
+import ContactItem from "../components/ContactItem";
+import ScrollList from "../../../../shared-components/ScrollList";
 
 const ContactListScreen = () => {
   const navigation = useNavigation();
-  const {users, setUsers, invitedContacts, setInvitedContacts, registeredContacts, setRegisteredContacts} = useContext(SurveyContext);
+  const { setUsers, invitedContacts, registeredContacts, setRegisteredContacts} = useContext(SurveyContext);
 //   const [registeredContacts, setRegisteredContacts] = useState([]);
   const [unregisteredContacts, setUnregisteredContacts] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -77,20 +79,7 @@ const ContactListScreen = () => {
     })();
   }, []);
 
-  const handleInvite = (contactId) => {
-    if (invitedContacts.includes(contactId)) {
-      setInvitedContacts(invitedContacts.filter((id) => id !== contactId));
-    } else {
-      setInvitedContacts([...invitedContacts, contactId]);
-    }
-  };
-
-  const isContactInvited = (contactId) => {
-    return invitedContacts.includes(contactId);
-  };
-
   const handleNext = () => {
-    console.log(invitedContacts)
     navigation.navigate("CreateActivity");
   };
 
@@ -110,132 +99,60 @@ const ContactListScreen = () => {
     setRegisteredContacts(filteredContacts);
   };
 
-  const displayRegisteredContacts = () => {
-    if (registeredContacts && registeredContacts.length !== 0) {
-      return registeredContacts.map((contact, index) => {
-        if (contact.hasOwnProperty("phoneNumbers")) {
-            const contactPhoneNumber = contact.phoneNumbers[0].number.replace(/\D+/g, "");
-            const picture = users[contactPhoneNumber]?.picture
-          return (
-            <View key={contactPhoneNumber} style={styles.contactItem}>
-              <Image style={{ width: 40, height: 40, borderRadius: 100}} source={{ uri: `${picture}`}} />
-              <Text variant="heading2">
-                {contact.firstName} {contact.lastName}
-              </Text>
-              <TouchableOpacity
-                style={[
-                  styles.inviteButton,
-                  isContactInvited(contactPhoneNumber) && styles.invitedButton,
-                ]}
-                onPress={() => handleInvite(contactPhoneNumber)}
-              >
-                {isContactInvited(contactPhoneNumber) ? (
-                  <CheckIcon name="check" />
-                ) : (
-                  <Text style={styles.inviteButtonText}>Invite</Text>
-                )}
-              </TouchableOpacity>
-            </View>
-          );
-        }
-      });
-    }
-
-    return (
-      <View>
-        <Text>Syncing Contacts....</Text>
-      </View>
-    );
-  };
-
-  const displayUnregisteredContacts = () => {
-    if (unregisteredContacts && unregisteredContacts.length !== 0) {
-        return unregisteredContacts.map((contact, index) => {
-        if (contact.hasOwnProperty("phoneNumbers")) {
-            return (
-                <View key={contact.id} style={styles.contactItem}>
-                <SingleProfileIcon
-                    name="person"
-                    size={24}
-                    style={styles.profileIcon}
-                />
-                <Text style={styles.contactName}>
-                    {contact.firstName} {contact.lastName}
-                </Text>
-                <TouchableOpacity
-                    style={[
-                    styles.inviteButton
-                    ]}
-                >
-                    
-                    <Text style={styles.inviteButtonText}>SMS</Text>
-                </TouchableOpacity>
-                </View>
-            );
-                }
-        });
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        {!showSearchBar && (
-          <Text variant="heading1" style={styles.title}>
-            Contact List
-          </Text>
-        )}
-        {showSearchBar && (
-          <View style={styles.searchBar}>
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search contacts"
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              onSubmitEditing={handleSearch}
+        <View style={styles.header}>
+            {!showSearchBar && (
+            <Text variant="heading1" style={styles.title}>
+                Contact List
+            </Text>
+            )}
+            {showSearchBar && (
+            <View style={styles.searchBar}>
+                <TextInput
+                style={styles.searchInput}
+                placeholder="Search contacts"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                onSubmitEditing={handleSearch}
+                />
+            </View>
+            )}
+            <TouchableOpacity onPress={handleSearchIconClick}>
+            <SearchIcon
+                name="search"
+                size={24}
+                color="black"
+                style={styles.searchIcon}
             />
-          </View>
-        )}
-        <TouchableOpacity onPress={handleSearchIconClick}>
-          <SearchIcon
-            name="search"
-            size={24}
-            color="black"
-            style={styles.searchIcon}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.contentContainer}>
-        <ScrollView contentContainerStyle={styles.contactList}>
-            {displayRegisteredContacts()}
+            </TouchableOpacity>
+        </View>
 
-            <Spacer type="margin" position="bottom" customSize={20} />
-          
-                {/* <Text variant="heading2" options={{ color: theme.colors.primary.default}}>Invite to Jaunt</Text>
+        <View style={styles.contentContainer}>
+            <ScrollList data={registeredContacts} contentContainerStyle={styles.contactList}>
+                <ContactItem />
+            </ScrollList>
+        </View>
 
-                <Spacer type="margin" position="bottom" customSize={40} />
-
-                {displayUnregisteredContacts()} */}
-        </ScrollView>
-      </View>
-      <Spacer type="margin" position="bottom" customSize={5}>
-        <Aligner>
-          <Button
-            variant="sm"
-            text="Next"
-            type="primary"
-            onPress={handleNext}
-          />
-        </Aligner>
-        <Aligner>
-          <Button
-            variant="sm"
-            text="Skip"
-            type="tertiary"
-            onPress={handleSkip}
-          />
-        </Aligner>
-      </Spacer>
+        <Spacer type="margin" position="bottom" customSize={5}>
+            <Aligner>
+                <Button
+                    variant="sm"
+                    text="Next"
+                    type="primary"
+                    onPress={handleNext}
+                />
+            </Aligner>
+            
+            <Aligner>
+                <Button
+                    variant="sm"
+                    text="Skip"
+                    type="tertiary"
+                    onPress={handleSkip}
+                />
+            </Aligner>
+        </Spacer>
     </View>
   );
 };

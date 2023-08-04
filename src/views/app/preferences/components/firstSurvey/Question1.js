@@ -27,7 +27,7 @@ const Question1 = ({ onAnswer, onGoBack }) => {
     return (
       <TouchableOpacity
         style={styles.answerOption}
-        onPress={() => onAnswer(item, 'Diet')}
+        onPress={() => onAnswer(item, 'dietType')}
       >
         <Text style={styles.answerText}>{item}</Text>
         {getIcon(item)}

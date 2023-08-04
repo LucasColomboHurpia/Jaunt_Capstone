@@ -111,7 +111,7 @@ const ActivityQuestion2 = ({ onAnswer, onGoBack }) => {
   };
   
   const handleSubmit = () => {
-    onAnswer(selectedOptions.map(option => option.name), 'Preferences');
+    onAnswer(selectedOptions.map(option => option.name), 'preferences');
   };
 
   return (

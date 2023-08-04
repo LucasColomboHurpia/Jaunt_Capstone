@@ -2,31 +2,39 @@ import React, { createContext, useState } from 'react';
 
 const SurveyContext = createContext();
 
-export const SurveyProvider = ({ children }) => {
-  const [surveyData, setSurveyData] = useState({});
-  const [activityParameters, setActivityParameters] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [currentActivityId, setCurrentActivityId] = useState(null);
-  const [invitedContacts, setInvitedContacts] = useState([]);
-  const [registeredContacts, setRegisteredContacts] = useState([]);
-  const [users, setUsers] = useState([]);
+export const SurveyProvider = (props) => {
+    const { children,
+        preferences,
+        setPreferences,
+        activities,
+        setActivities,
+        loading,
+        setLoading,
+        currentActivity,
+        setCurrentActivity,
+        invitedContacts,
+        setInvitedContacts,
+        registeredContacts,
+        setRegisteredContacts,
+        users, setUsers
+    } = props;
 
   return (
     <SurveyContext.Provider value={{ 
-        surveyData, 
-        setSurveyData, 
-        activityParameters, 
-        setActivityParameters, 
+        activities, 
+        setActivities, 
         loading, 
         setLoading, 
-        currentActivityId,
-        setCurrentActivityId,
+        currentActivity,
+        setCurrentActivity,
         invitedContacts,
         setInvitedContacts,
         registeredContacts,
         setRegisteredContacts,
         users, 
-        setUsers
+        setUsers,
+        preferences,
+        setPreferences,
     }}>
       {children}
     </SurveyContext.Provider>

@@ -72,8 +72,9 @@ const LoginScreen = ({ navigation }) => {
   const handleSignInSuccess = async (response) => {
     if(response.status === 200) {
         if(response.data.status === 'success') {
-            const { token } = response.data;
-            await AsyncStorage.setItem('auth_token', token);
+            console.log(response.data)
+            const { accessToken } = response.data;
+            await AsyncStorage.setItem('auth_token', accessToken);
             navigation.navigate('App');
         }
     }
@@ -110,14 +111,9 @@ const LoginScreen = ({ navigation }) => {
 
         const googleUser = response.data;
 
-        console.log(`googleUser`, googleUser)
-
-
         const r = await api.post('auth/signInWithGoogle', {
             googleUser
         })
-
-        console.log(`r`, r.data)
 
         handleSignInSuccess(r);
     }

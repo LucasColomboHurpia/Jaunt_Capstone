@@ -11,6 +11,7 @@ import { BeefIcon, SushiWhite, ItalianIcon, PicnicIcon, SeafoodIcon, BurguerWhit
 import { DoIcon, BowlingIcon, PopcornIcon, BeachIcon, BridgeIcon, HikingIcon, SpinningGlobeWhite, BeerBlack, MuseumIcon, GalleryIcon, AmusementParkIcon, KarokeIcon, ArcadeIcon, BoulderingIcon } from '../../../../assets/icons/Icon'
 import AuthContext from '../../../../context/AuthContext';
 import { useTheme } from 'styled-components';
+import api from '../../../../config/api';
 
 const EatSomethingIcons = [
   { keyword: 'Steakhouse', icon: BeefIcon },
@@ -42,20 +43,20 @@ const DoSomethingIcons = [
 
 
 const HomePage = ({ navigation }) => {
-  const { surveyData } = useContext(SurveyContext);
+  const { activities, setActivities } = useContext(SurveyContext);
   const { authUser } = useContext(AuthContext);
-  console.log(authUser)
 
-  const activities = surveyData.activityParameters || [];
+  const upcomingActivities = activities.filter(activity => activity.status === "upcoming");
+  const pendingActivities = activities.filter(activity => activity.status === "pending");
 
-  const upcomingActivities = activities.filter(activity => activity.apiResponse && !activity.completed);
-  const pendingActivities = activities.filter(activity => !activity.apiResponse && !activity.completed);
-
-  console.log('-------------------------------')
-  console.log('HOME ACTIVITIES : ', activities)
-  console.log('HOME ACTIVITIES : ', activities.length)
-
-  console.log('-------------------------------')
+  useEffect(() => {
+    (async () => {
+        const response = await api.get('/activities');
+        if(response.status === 200) {
+            setActivities(response.data.activities)
+        }
+    })()
+  }, [])
 
   const theme = useTheme();
 
@@ -80,15 +81,15 @@ const HomePage = ({ navigation }) => {
                 onPress={() => console.log(activity.id)}
               >
                 <View style={styles.upcomingActivityHeader}>
-                  <Text style={styles.upcomingActivityTitle}>{activity.name}</Text>
+                  <Text style={styles.upcomingActivityTitle}>{activity.activityName}</Text>
                 </View>
-                <Text style={styles.upcomingActivityDetails}>Date: {activity.dateTime}</Text>
+                <Text style={styles.upcomingActivityDetails}>Date: {activity.startDateTime}</Text>
                 <View style={styles.upcomingInnerCardContainer}>
                   <View style={styles.upcomingCircle}>
                     {
                       (() => {
-                        const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
-                        const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === activity.apiResponse.matchIcon);
+                        const eatIconObject = EatSomethingIcons.find(iconObj => iconObj.keyword === activity?.activityIcon);
+                        const doIconObject = DoSomethingIcons.find(iconObj => iconObj.keyword === activity?.activityIcon);
 
                         let IconComponent = DoIcon;  // Using DoIcon as default
                         if (eatIconObject) {
@@ -105,11 +106,11 @@ const HomePage = ({ navigation }) => {
                     }
                   </View>
                   <View style={styles.upcomingActivityInfoContainer}>
-                    <Text style={styles.upcomingActivityDetailsName}>{activity.apiResponse?.name}</Text>
+                    <Text style={styles.upcomingActivityDetailsName}>{activity?.eventName}</Text>
                     <Text
                       style={styles.upcomingActivityDetailsAddress}
                     >
-                      {activity.apiResponse?.address}
+                      {activity?.address}
                     </Text>
                   </View>
                 </View>
@@ -141,14 +142,14 @@ const HomePage = ({ navigation }) => {
                   onPress={() => console.log(activity.id)}
                 >
                   <View style={styles.activityHeader}>
-                    <Text style={styles.activityTitle}>{activity.name}</Text>
+                    <Text style={styles.activityTitle}>{activity.activityName}</Text>
                   </View>
 
                   <View style={styles.pendingBadge}>
                     <Text style={styles.pendingText}>PENDING</Text>
                   </View>
 
-                  <Text style={styles.activityDetails}>{activity.dateTime}</Text>
+                  <Text style={styles.activityDetails}>{activity.startDateTime}</Text>
 
                   <TouchableOpacity
                     style={styles.detailButton}
