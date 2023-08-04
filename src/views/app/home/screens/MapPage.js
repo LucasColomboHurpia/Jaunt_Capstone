@@ -30,7 +30,11 @@ const isFocused = useIsFocused();
   const webRef = useRef();
 
   const placeData = route.params?.currentActivity;
-  const centerCoordinates = placeData?.coordinates || { lat: 0, lng: 0 };
+  console.log('placeData')
+  console.log('================================================')
+  console.log(placeData)
+  console.log('================================================')
+  const centerCoordinates = { lat: placeData.lat, lng: placeData.long } || { lat: 0, lng: 0 };
 
   const mapHtml = createMap(centerCoordinates, placeData?.activityName);
 

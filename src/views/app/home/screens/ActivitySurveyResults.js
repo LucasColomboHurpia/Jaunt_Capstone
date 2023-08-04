@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-nat
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { OPENAI_API_KEY, OPENWEATHER_API_KEY} from "@env"
 
 import { TouchableOpacity } from 'react-native';
 import SurveyContext from '../../../../context/SurveyContext';
@@ -43,62 +44,15 @@ const DoSomethingIcons = [
   { keyword: 'Arcade', icon: ArcadeIcon }
 ]
 
-///-------------------------------------------------------------------------
-const API_KEY = ""
-/////-----------------------------------------------------------------------
-
-
-
-
-const object1234 = `{ "ActivityParameters": { "startDateTime": "2023-06-21, 3:49:34 a.m.", "name": "New Activity" },
-  "userWouldLikeTo": "Do Something",
-  "Preferences": ["Art Gallery", "Restaurant", "Movie Theatre", "Shopping Mall", "Park", "Nightclub", "Art Gallery"],
-  "Diet": "Vegetarian",
-  "DoNotLike": ["Glutten", "Diary"],
-  "DoLike": ["Fish", "Wine", "Bread"],
-  "ChanceOfEnjoyingDrinking": 6.625 }`;
-
-const exampleAPIresponse = ` [
-  {
-    "address": "1011 Mainland St, Vancouver, BC V6B 5P9, Canada",
-    "coordinates": { "lat": 49.277680, "lng": -123.118818 },
-    "name": "The Flying Pig Yaletown",
-    "description": "Modern comfort food with a fantastic selection of wines 🍷🍲",
-    "Tips": ["Explore the chic Yaletown neighbourhood.", "Visit David Lam Park nearby.", "Check out the Roundhouse Community Arts and Recreation Centre."],
-    "tags": ["Comfort Food", "Wine", "Modern"],
-    "matchIcon": "Fast Foot"
-  },
-  {
-    "address": "375 Water St, Vancouver, BC V6B 5C6, Canada",
-    "coordinates": { "lat": 49.283253, "lng": -123.105857 },
-    "name": "The Sardine Can",
-    "description": "Small Spanish tapas bar offering delicious small plates 🍷🍽️",
-    "Tips": ["Explore the historic Gastown district.", "Visit the famous Gastown Steam Clock.", "Check out the nearby Dr. Sun Yat-Sen Classical Chinese Garden."],
-    "tags": ["Tapas", "Spanish", "Wine"],
-    "matchIcon": "Seafood"
-  },
-  {
-    "address": "2270 Commercial Dr, Vancouver, BC V5N 4B5, Canada",
-    "coordinates": { "lat": 49.264680, "lng": -123.069941 },
-    "name": "Bandidas Taqueria",
-    "description": "A locally-owned restaurant with plant-based Mexican-inspired cuisine 🌯🥗",
-    "Tips": ["Stroll down Commercial Drive, known for its cultural diversity.", "Visit the nearby Trout Lake.", "Check out the Vancouver Farmers Market."],
-    "tags": ["Mexican", "Vegetarian", "Local"],
-    "matchIcon": "Mexican"
-  }
-]
-
-
-  `
-
 const systemMessage = {
   "role": "system",
-  "content": `You are a helpful assistant that suggests activities and real places to go in Vancouver based on the given parameters. you are not allowed to show places that are not real business. if the 'userWouldLikeTo' is 'do something', if the 'userWouldLikeTo' is 'eat something', suggest a real place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(never use these example values, always use real place values, do not invent places, prioritize business): '[{address:' add the address here', coordinates: {lat:123,lng:123}, name: 'name of place', description: 'briefly describe the place, a short phrase, use emojis at the end',Tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy'], activityIcon:'Category'},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'userWouldLikeTo', 'preferences', 'dietType', 'foodDishes', 'allergies', 'medicalConditions', and 'chanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. if userWouldLikeTo is "eat something", the "activityIcon" field must be one of these categories, matching as much as possible to the suggestion: "Steakhouse, Sushi, Italian, Picnic, Seafood, Fast Foot, Pizza, Oriental, Mexican, Vegetarian", and if it is "DoSomething" match the suggestion with one of these: "Bowling, MovieTheater, Beach, Park, Hiking, Bightclub, Bar, Museum, Gallery, AmusementPark, Karaoke, Arcade, Bouldering". keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'`
+  "content": `You are a helpful assistant that suggests activities and real places to go in Vancouver based on the given parameters. you are not allowed to show places that are not real business. if the 'userWouldLikeTo' is 'do something', if the 'userWouldLikeTo' is 'eat something', suggest a real place to eat. The suggestions must always be given in a specific JavaScript array of objects format. For each suggestion, use this format(never use these example values, always use real place values, do not invent places, prioritize business): '[{address:' add the address here', coordinates: {lat:123,lng:123}, name: 'name of place', description: 'briefly describe the place, a short phrase, use emojis at the end',tips:['suggestion of things to do around the area!','walk around and take a picture of this thing!','example'] ,tags:['example','expensive','healthy'], activityIcon:'Category'},]'. The 'tags' should reflect the features of the location such as 'healthy', 'expensive', 'popular', etc. The tips should always be recomendations around the main area but never related to the main location, always at least 3 tips. The suggestions should consider the user's preferences, dietary restrictions, and likelihood of enjoying certain food types. The suggestions should be based on the user's 'userWouldLikeTo', 'preferences', 'dietType', 'foodDishes', 'allergies', 'medicalConditions', and 'chanceOfEnjoyingMeat' inputs. Always return the suggestions as JavaScript array of objects, not as plain text, do not add any more words in the explanation besides the array. if userWouldLikeTo is "eat something", the "activityIcon" field must be one of these categories, matching as much as possible to the suggestion: "Steakhouse, Sushi, Italian, Picnic, Seafood, Fast Foot, Pizza, Oriental, Mexican, Vegetarian", and if it is "DoSomething" match the suggestion with one of these: "Bowling, MovieTheater, Beach, Park, Hiking, Bightclub, Bar, Museum, Gallery, AmusementPark, Karaoke, Arcade, Bouldering". keep your replies brief. generate at least 3 suggestions in one single object based on these parameters. The first characters of the message must be '[' and the last ']'`
 };
 
 const SurveyResults = ({ route, navigation }) => {
   ///==============Hide menu bar=================================================================
   const isFocused = useIsFocused();
+  console.log(OPENWEATHER_API_KEY)
   useEffect(() => {
     if (navigation) {
       navigation.getParent().dispatch(state => {
@@ -116,7 +70,7 @@ const SurveyResults = ({ route, navigation }) => {
     }
   }, [isFocused]);
   ///===============================================================================
-  const { setCurrentActivity, currentActivity, preferences } = useContext(SurveyContext);
+  const { activities, setActivities, setCurrentActivity, currentActivity, preferences } = useContext(SurveyContext);
 
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -125,8 +79,6 @@ const SurveyResults = ({ route, navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   ///===============================================================================
-  const API_KEY2 = "030a06ef3a21f98e9fad039e0133fbbe";
-
   const [weatherDesc, setweatherDesc] = useState('Loading Weather Data...');
   const [weatherTemp, setweatherTemp] = useState('');
   const [weatherTempHI, setweatherTempHI] = useState('');
@@ -135,7 +87,7 @@ const SurveyResults = ({ route, navigation }) => {
   const fetchWeatherData = async () => {
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=${API_KEY2}`
+        `https://api.openweathermap.org/data/2.5/weather?q=Vancouver&appid=${OPENWEATHER_API_KEY}`
       );
       const data = await response.json();
 
@@ -178,57 +130,48 @@ const SurveyResults = ({ route, navigation }) => {
       ]
     };
 
-    if (!API_KEY) {
-      setIsLoading(true);
-      setTimeout(() => {
-        const sanitized = exampleAPIresponse.replace(/[\u0000-\u001f]/g, '');
-        const parsed = JSON.parse(sanitized);
-        setData(parsed);
-        setIsLoading(false);
-      }, 7000);
-    } else {
+    
       fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
-          "Authorization": "Bearer " + API_KEY,
+          "Authorization": "Bearer " + OPENAI_API_KEY,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(apiRequestBody)
       })
-        .then(response => response.json())
-        .then(data => {
+    .then(response => response.json())
+    .then(data => {
 
-          // Check if data.choices[0].message.content contains any of the specified strings
-          if (
-            data.choices[0].message.content.includes("123 ") ||
-            data.choices[0].message.content.includes("456") ||
-            data.choices[0].message.content.includes("example")
-          ) {
-            // Retry the API call
-            if (retryCount < 2) {
-              setRetryCount(retryCount + 1);
-              makeApiCall();
-            } else {
-              setData([]);
-              setIsLoading(false);
-            }
-          } else {
-            setData(JSON.parse(data.choices[0].message.content));
-            setIsLoading(false);
-          }
-        })
-        .catch(error => {
-          console.error('Error on API call:', error);
-          // On catch, regardless of error type, increase retryCount and retry
-          if (retryCount < 2) {
+        // Check if data.choices[0].message.content contains any of the specified strings
+        if (
+        data.choices[0].message.content.includes("123 ") ||
+        data.choices[0].message.content.includes("456") ||
+        data.choices[0].message.content.includes("example")
+        ) {
+        // Retry the API call
+        if (retryCount < 2) {
             setRetryCount(retryCount + 1);
             makeApiCall();
-          } else {
+        } else {
             setData([]);
             setIsLoading(false);
-          }
-        });
-    }
+        }
+        } else {
+        setData(JSON.parse(data.choices[0].message.content));
+        setIsLoading(false);
+        }
+    })
+    .catch(error => {
+        console.error('Error on API call:', error);
+        // On catch, regardless of error type, increase retryCount and retry
+        if (retryCount < 2) {
+        setRetryCount(retryCount + 1);
+        makeApiCall();
+        } else {
+        setData([]);
+        setIsLoading(false);
+        }
+    });
   };
 
   useEffect(() => {
@@ -239,14 +182,29 @@ const SurveyResults = ({ route, navigation }) => {
     if (selectedItem !== index) {
       setSelectedItem(index);
     } else {
-        const updatedActivity = { ...currentActivity, ...item, eventName: item.name, status: "upcoming" };
-        const activityId = currentActivity.id; 
-        setCurrentActivity(updatedActivity);
-        const response = await api.patch(`/activities/${activityId}`, { ...updatedActivity });
-    
-        if(response.status === 200) {
-            setCurrentActivity(response.data.activity)
-            navigation.navigate('ActivityDashboard', { item, activityId });
+        try {
+            const updatedActivity = { ...currentActivity, ...item, lat: item?.coordinates?.lat, long: item?.coordinates?.lng, eventName: item.name, status: "upcoming" };
+            console.log(updatedActivity)
+            const activityId = currentActivity.id; 
+            setCurrentActivity(updatedActivity);
+            const response = await api.patch(`/activities/${activityId}`, { ...updatedActivity });
+
+            if(response.status === 200) {
+                const { activity } = response.data;
+                setCurrentActivity(activity)
+                const updatedActivities = activities.map(item => {
+                    if( item.id === activity.id) {
+                        return activity;
+                    }
+                    return item
+                })
+        
+                setActivities(updatedActivities)
+                navigation.navigate('ActivityDashboard', { item, activityId });
+            }
+        } catch (error) {
+            console.log("error?.response")
+            console.log(error?.response?.data)
         }
     }
   };

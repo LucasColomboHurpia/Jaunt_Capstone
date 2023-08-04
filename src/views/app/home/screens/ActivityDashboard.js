@@ -135,7 +135,7 @@ const ActivityDashboard = ({ route, navigation }) => {
           )}
 
 
-          {currentActivity?.coordinates?.length !== 0 && (
+          {currentActivity?.status !== 'pending' && (
             <View style={styles.buttonContainer}>
 
               <TouchableOpacity
@@ -179,10 +179,10 @@ const ActivityDashboard = ({ route, navigation }) => {
             </View>
           </View>
 
-          {currentActivity && currentActivity?.Tips && (
+          {currentActivity?.tips?.length !==0 && (
             <View style={styles.tipsSection}>
               <Text style={styles.tipsTitle}>Tips</Text>
-              {currentActivity.Tips.map((tip, index) => (
+              {currentActivity.tips.map((tip, index) => (
                 <View key={index} style={styles.tipCard}>
                   <Text style={styles.tipText}>{tip}</Text>
                 </View>

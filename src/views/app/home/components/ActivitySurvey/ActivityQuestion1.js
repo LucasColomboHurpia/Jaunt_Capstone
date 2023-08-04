@@ -22,7 +22,7 @@ const ActivityQuestion1 = ({ onAnswer }) => {
       </View>
       <View style={styles.optionsContainerWrapper}>
         <View style={styles.optionsContainer}>
-          <TouchableOpacity style={styles.optionDo} onPress={() => handleAnswer("Do Something", 'userWouldLikeTo')}>
+          <TouchableOpacity style={styles.optionDo} onPress={() => handleAnswer("do something", 'userWouldLikeTo')}>
             <Text style={styles.optionText}>Do Something</Text>
             <DoIcon color="#000000" size={150} />
           </TouchableOpacity>

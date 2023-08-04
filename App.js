@@ -13,11 +13,11 @@ import api from './src/config/api';
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
+import NotificationSounds, { playSampleSound } from  'react-native-notification-sounds';
 
 const App = () => {
     const [token, setToken] = useState({});
     const [authUser, setAuthUser] = useState(null);
-    
     const getToken = async () => {
         const result = await AsyncStorage.getItem('auth_token');
         setToken(result)
@@ -25,6 +25,18 @@ const App = () => {
 
     useEffect(() => {
         getToken()
+        NotificationSounds?.getNotifications('notification').then(soundsList  => {
+            console.log('SOUNDS', JSON.stringify(soundsList));
+            /*
+            Play the notification sound.
+            pass the complete sound object.
+            This function can be used for playing the sample sound
+            */
+            playSampleSound(soundsList[1]);
+            // if you want to stop any playing sound just call:
+            // stopSampleSound();
+        });
+    
     }, [])
 
     useEffect(() => {
