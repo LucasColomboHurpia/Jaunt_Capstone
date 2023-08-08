@@ -14,9 +14,11 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 import NotificationSounds, { playSampleSound } from  'react-native-notification-sounds';
+import { OPENAI_API_KEY, OPENWEATHER_API_KEY} from "@env"
 
 const App = () => {
-    const [token, setToken] = useState({});
+  console.log(OPENWEATHER_API_KEY)
+  const [token, setToken] = useState({});
     const [authUser, setAuthUser] = useState(null);
     const getToken = async () => {
         const result = await AsyncStorage.getItem('auth_token');
