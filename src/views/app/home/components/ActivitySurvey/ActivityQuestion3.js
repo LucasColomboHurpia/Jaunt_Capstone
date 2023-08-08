@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 35,
     marginBottom: 10,
-    textAlign: "center",
+    textAlign: "left",
   },
   titleText: {
     fontSize: 18,
@@ -91,12 +91,13 @@ const styles = StyleSheet.create({
   },
   currency: {
     fontSize: 26,
-    // lineHeight: 120,
+    lineHeight: 120,
     alignContent:"center",
     color: "#19445A",
   },
   dollar:
   {
+    lineHeight: 120,
     fontSize: 26,
 alignContent:"center",
     color: "#19445A",
@@ -105,7 +106,7 @@ alignContent:"center",
     backgroundColor: "white",
     position: "absolute",
     top: 130,
-    marginTop: 20,
+    marginTop: 50,
     justifyContent: "center",
     alignContent: "center",
     borderRadius: 10,

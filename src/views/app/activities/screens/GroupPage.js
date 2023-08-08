@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Button, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
-import { SettingsIcon } from '../../../../assets/icons/Icon'
+import { SettingsIcon, NavIconRight } from '../../../../assets/icons/Icon'
 
 import SurveyContext from '../../../../context/SurveyContext';
 
@@ -108,13 +108,12 @@ const GroupPage = ({ navigation }) => {
                       {activity?.address}
                     </Text>
                   </View>
-                </View>
-                <TouchableOpacity
-                  style={styles.upcomingDetailButton}
-                  onPress={() => navigation.navigate('ActivityDashboard', { activityId: activity.id })}
-                >
-                  <Text style={styles.upcomingDetailButtonText}>More Details</Text>
+                <TouchableOpacity>
+                  <TouchableOpacity style={styles.navIcon} onPress={() => navigation.navigate('ActivityDashboard', { activityId: activity.id })}>
+                  <NavIconRight size={20} style={styles.navIcon}></NavIconRight>
+                  </TouchableOpacity>
                 </TouchableOpacity>
+                </View>
               </TouchableOpacity>
             ))
           ) : null}
@@ -160,14 +159,14 @@ const GroupPage = ({ navigation }) => {
                     >
                       {activity?.address}
                     </Text>
-                  </View>
+                  
                 </View>
-                <TouchableOpacity
-                  style={styles.upcomingDetailButton}
-                  onPress={() => navigation.navigate('ActivityDashboard', { activityId: activity.id })}
-                >
-                  <Text style={styles.upcomingDetailButtonText}>More Details</Text>
+                <TouchableOpacity>
+                  <TouchableOpacity style={styles.navIcon} onPress={() => navigation.navigate('ActivityDashboard', { activityId: activity.id })}>
+                  <NavIconRight size={20} style={styles.navIcon}></NavIconRight>
+                  </TouchableOpacity>
                 </TouchableOpacity>
+                </View>
               </TouchableOpacity>
             ))
           ) : null}
@@ -313,6 +312,84 @@ const styles = StyleSheet.create({
 
 
   /// upcoming ==========================================
+  // upcomingActivityContainer: {
+  //   backgroundColor: 'white',
+  //   marginBottom: 5,
+  //   marginTop: 5,
+  //   padding: 15,
+  //   borderRadius: 10,
+  //   borderWidth: 2,
+  //   borderColor: '#FFECE7',
+  //   width: 370
+  // },
+
+  // upcomingActivityHeader: {
+  //   flexDirection: 'column',
+  //   justifyContent: 'space-between',
+  // },
+
+  // upcomingActivityTitle: {
+  //   fontSize: 24,
+  //   fontWeight: 'bold',
+  // },
+
+  // upcomingActivityDetails: {
+  //   marginTop: 10,
+  //   fontSize: 16,
+  //   flexShrink: 1,
+  // },
+
+  // upcomingInnerCardContainer: {
+  //   flexDirection: 'row',
+  //   marginTop: 10,
+  //   padding: 10,
+  //   backgroundColor: '#FFECE7',
+  //   borderRadius: 10,
+  //   marginTop: 20,
+
+  // },
+
+  // upcomingCircle: {
+  //   width: 50,
+  //   height: 50,
+  //   borderRadius: 25,
+  //   backgroundColor: '#FB6049',
+  //   marginRight: 10,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+
+  // upcomingActivityInfoContainer: {
+  //   justifyContent: 'space-around',
+  //   flexWrap: 'wrap',
+  //   flex: 1,
+  // },
+
+  // upcomingActivityDetailsName: {
+  //   fontSize: 18,
+  //   fontWeight: 'bold',
+  // },
+
+  // upcomingActivityDetailsAddress: {
+  //   fontSize: 13,
+  //   flexShrink: 1,
+  //   maxWidth: '100%',
+  // },
+
+  // upcomingDetailButton: {
+  //   backgroundColor: '#343434',
+  //   borderRadius: 10,
+  //   paddingVertical: 10,
+  //   width: '45%',
+  //   alignSelf: 'flex-start',
+  //   marginTop: 20,
+  // },
+
+  // upcomingDetailButtonText: {
+  //   color: 'white',
+  //   textAlign: 'center',
+  //   fontWeight: 'bold',
+  // },
   upcomingActivityContainer: {
     backgroundColor: 'white',
     marginBottom: 5,
@@ -321,9 +398,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: '#FFECE7',
-    width: 370
+    width: 370,
   },
-
   upcomingActivityHeader: {
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -339,7 +415,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flexShrink: 1,
   },
-
   upcomingInnerCardContainer: {
     flexDirection: 'row',
     marginTop: 10,
@@ -347,9 +422,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFECE7',
     borderRadius: 10,
     marginTop: 20,
-
+    alignItems: "center",
   },
-
   upcomingCircle: {
     width: 50,
     height: 50,
@@ -359,11 +433,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   upcomingActivityInfoContainer: {
-    justifyContent: 'space-around',
-    flexWrap: 'wrap',
     flex: 1,
+    flexShrink: 1,
+    marginLeft: 5,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
 
   upcomingActivityDetailsName: {
@@ -374,22 +449,9 @@ const styles = StyleSheet.create({
   upcomingActivityDetailsAddress: {
     fontSize: 13,
     flexShrink: 1,
-    maxWidth: '100%',
-  },
-
-  upcomingDetailButton: {
-    backgroundColor: '#343434',
-    borderRadius: 10,
-    paddingVertical: 10,
-    width: '45%',
-    alignSelf: 'flex-start',
-    marginTop: 20,
-  },
-
-  upcomingDetailButtonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontWeight: 'bold',
+    maxWidth:"100%",
+    fontWeight: 300,
+    lineHeight: 18,
   },
   //=======================================================
 

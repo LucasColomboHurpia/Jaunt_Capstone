@@ -46,10 +46,8 @@ const WeatherComponent = () => {
     <View style={styles.background}>
       <View style={styles.container}>
         <View style={styles.weatherBox}>
-          <Text
-            style={styles.weatherText}
-          >{`${dayName} ${formattedTime}`}</Text>
-          <Text variant = "body" style={styles.weatherText}>
+          <Text style={styles.weatherTextLeft1}>{`${dayName} ${formattedTime}`}</Text>
+          <Text variant="body" style={styles.weatherTextLeft2}>
             {weather[0].main} {`${temperatureCelsius.toFixed(0)}°`}{" "}
             {`H: ${(main.temp_max - 273.15).toFixed(0)}°  L: ${(
               main.temp_min - 273.15
@@ -60,17 +58,12 @@ const WeatherComponent = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     backgroundColor: 'white'
 
-  },
-  weatherBox: {
-    alignItems: "center",
-    justifyContent: "center",
   },
   weatherText: {
     fontSize: 16,
@@ -81,6 +74,15 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: "#f2f2f2",
+  },
+  weatherBox: {
+    alignItems: "flex-start", 
+    justifyContent: "center",
+  },
+  weatherTextLeft2: {
+    fontSize: 16,
+    textAlign: "left", 
+    fontWeight: 300,
   },
 });
 

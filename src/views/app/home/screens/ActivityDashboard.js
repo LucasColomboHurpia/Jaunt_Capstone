@@ -182,7 +182,7 @@ const ActivityDashboard = ({ route, navigation }) => {
           {currentActivity?.tips?.length !==0 && (
             <View style={styles.tipsSection}>
               <Text style={styles.tipsTitle}>Tips</Text>
-              {currentActivity.tips.map((tip, index) => (
+              {currentActivity?.tips?.map((tip, index) => (
                 <View key={index} style={styles.tipCard}>
                   <Text style={styles.tipText}>{tip}</Text>
                 </View>
